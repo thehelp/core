@@ -14,7 +14,7 @@
     "grunt": "0.4.1",
     "lodash": "2.3.0",
     "thehelp-project": "git+ssh://git@infra:thehelp-project#v1.2.0",
-    "thehelp-test": "git+ssh://git@infra:thehelp-test#v1.0.2"
+    "thehelp-test": "git+ssh://git@infra:thehelp-test#v2.0.0"
   },
 
   "scripts": {
