@@ -7,10 +7,6 @@ echo "JQuery"
 cp ${BOWER}/jquery/jquery.js ${LIB}
 cp ${BOWER}/jquery/jquery.min.js ${LIB}
 
-echo "JQuery"
-cp ${BOWER}/jquery/jquery.js ${LIB}
-cp ${BOWER}/jquery/jquery.min.js ${LIB}
-
 echo "Lodash"
 cp ${BOWER}/lodash/dist/lodash.compat.js ${LIB}/lodash.js
 cp ${BOWER}/lodash/dist/lodash.compat.min.js ${LIB}/lodash.min.js
