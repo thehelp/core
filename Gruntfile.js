@@ -25,8 +25,10 @@ module.exports = function(grunt) {
     src: ['*.js'],
     dest: 'dist/shims',
   }, {
-    'dist/tz/min.json': 'lib/vendor/tz/min.json',
-    'dist/tz/all.json': 'lib/vendor/tz/all.json'
+    expand: true,
+    cwd: 'lib/vendor/tz',
+    src: ['*'],
+    dest: 'dist/tz',
   }]);
 
   grunt.registerTask('dist', ['copy:default', 'requirejs']);
