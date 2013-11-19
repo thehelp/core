@@ -42,4 +42,7 @@ module.exports = function(grunt) {
 
   // Pulling in dependencies
   config.registerCopyFromDist(['thehelp-test']);
+
+
+  grunt.registerTask('default', ['test', 'staticanalysis', 'doc', 'dist', 'client-test']);
 };

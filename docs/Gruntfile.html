@@ -8,9 +8,7 @@
   <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GruntConfig</span><span class="p">(</span><span class="nx">grunt</span><span class="p">);</span>
 
   <span class="nx">config</span><span class="p">.</span><span class="nx">standardSetup</span><span class="p">();</span>
-  <span class="nx">config</span><span class="p">.</span><span class="nx">standardDefault</span><span class="p">();</span>
-
-  <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./src/client/config&#39;</span><span class="p">);</span>
+  <span class="nx">config</span><span class="p">.</span><span class="nx">standardDefault</span><span class="p">();</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Produce files in the dist/ folder</p></div></div><div class="code"><div class="wrapper">  <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./src/client/config&#39;</span><span class="p">);</span>
   <span class="nx">config</span><span class="p">.</span><span class="nx">registerOptimize</span><span class="p">({</span>
     <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;thehelp-core&#39;</span><span class="p">,</span>
     <span class="nx">empty</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;winston&#39;</span><span class="p">,</span> <span class="s1">&#39;util&#39;</span><span class="p">],</span>
@@ -27,35 +25,12 @@
     <span class="s1">&#39;dist/tz/all.json&#39;</span><span class="o">:</span> <span class="s1">&#39;lib/vendor/tz/all.json&#39;</span>
   <span class="p">}]);</span>
 
-  <span class="kd">var</span> <span class="nx">path</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">);</span>
-  <span class="kd">var</span> <span class="nx">_</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;lodash&#39;</span><span class="p">);</span>
-  <span class="kd">var</span> <span class="nx">copyModuleDistToLib</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">modules</span><span class="p">,</span> <span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">target</span> <span class="o">=</span> <span class="nx">target</span> <span class="o">||</span> <span class="s1">&#39;lib/vendor&#39;</span><span class="p">;</span>
-
-    <span class="nx">_</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">modules</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">module</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">grunt</span><span class="p">.</span><span class="nx">config</span><span class="p">(</span><span class="s1">&#39;copy.&#39;</span> <span class="o">+</span> <span class="nx">module</span> <span class="o">+</span> <span class="s1">&#39;-dist-to-lib&#39;</span><span class="p">,</span> <span class="p">{</span>
-        <span class="nx">files</span><span class="o">:</span> <span class="p">[{</span>
-          <span class="nx">expand</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-          <span class="nx">cwd</span><span class="o">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;node_modules&#39;</span><span class="p">,</span> <span class="nx">module</span><span class="p">,</span> <span class="s1">&#39;dist&#39;</span><span class="p">),</span>
-          <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;**/*&#39;</span><span class="p">],</span>
-          <span class="nx">dest</span><span class="o">:</span> <span class="s1">&#39;lib/vendor&#39;</span>
-        <span class="p">}]</span>
-      <span class="p">});</span>
-    <span class="p">});</span>
-  <span class="p">};</span>
-  <span class="nx">copyModuleDistToLib</span><span class="p">([</span><span class="s1">&#39;thehelp-test&#39;</span><span class="p">]);</span>
-
-  <span class="nx">config</span><span class="p">.</span><span class="nx">registerMocha</span><span class="p">([</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;dist&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;copy:default&#39;</span><span class="p">,</span> <span class="s1">&#39;requirejs&#39;</span><span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Client testing</p></div></div><div class="code"><div class="wrapper">  <span class="nx">config</span><span class="p">.</span><span class="nx">registerMocha</span><span class="p">([</span>
     <span class="s1">&#39;http://localhost:3001/test/integration/dev.html&#39;</span><span class="p">,</span>
     <span class="s1">&#39;http://localhost:3001/test/integration/dist.html&#39;</span>
   <span class="p">]);</span>
-  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;client-test&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;connect:test&#39;</span><span class="p">,</span> <span class="s1">&#39;mocha&#39;</span><span class="p">]);</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;client-test&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;connect:test&#39;</span><span class="p">,</span> <span class="s1">&#39;mocha&#39;</span><span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Pulling in dependencies</p></div></div><div class="code"><div class="wrapper">  <span class="nx">config</span><span class="p">.</span><span class="nx">registerCopyFromDist</span><span class="p">([</span><span class="s1">&#39;thehelp-test&#39;</span><span class="p">]);</span>
 
-  <span class="nx">grunt</span><span class="p">.</span><span class="nx">loadNpmTasks</span><span class="p">(</span><span class="s1">&#39;grunt-shell&#39;</span><span class="p">);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>for complete deps installation:
-npm install
-bower install
-bower_install.sh
-copy</p></div></div><div class="code"><div class="wrapper">  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;install-deps&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;shell&#39;</span><span class="p">,</span> <span class="s1">&#39;copy&#39;</span><span class="p">]);</span>
 
-  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;dist&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;copy&#39;</span><span class="p">,</span> <span class="s1">&#39;requirejs&#39;</span><span class="p">]);</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;staticanalysis&#39;</span><span class="p">,</span> <span class="s1">&#39;doc&#39;</span><span class="p">,</span> <span class="s1">&#39;dist&#39;</span><span class="p">,</span> <span class="s1">&#39;client-test&#39;</span><span class="p">]);</span>
 <span class="p">};</span></div></div></div></div></body></html>
