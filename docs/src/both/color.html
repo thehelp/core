@@ -1,0 +1,117 @@
+<!DOCTYPE html><html lang="en"><head><title>src/both/color</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="src/both/color"><meta name="groc-project-path" content="src/both/color.js"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">src/both/color.js</div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="color">color</h1>
+
+<p>This module provides a number of methods for dealing with color.</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><a href="http://requirejs.org/">RequireJS</a> boilerplate, dependencies and
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode">strict mode</a></p></div></div><div class="code"><div class="wrapper"><span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">define</span> <span class="o">!==</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">define</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;amdefine&#39;</span><span class="p">)(</span><span class="nx">module</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">define</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>parse</code> takes a string <code>color</code> and turns it into its
+components parts. An object with <code>red</code>, <code>green</code>, <code>blue</code>
+(and perhaps <code>alpha</code>) keys.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">parse</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">color</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">color</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;#&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">parseHex</span><span class="p">(</span><span class="nx">color</span><span class="p">);</span>
+      <span class="p">}</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">color</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">parseRgb</span><span class="p">(</span><span class="nx">color</span><span class="p">);</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
+    <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>parseRgb</code> parses an rgb string into its component parts.
+Like these strings, for example:</p>
+
+<ul>
+<li>"rgba(255, 0, 0, 0.5)"</li>
+<li>"rgb(255, 0, 0)"</li>
+</ul></div></div><div class="code"><div class="wrapper">    <span class="nx">parseRgb</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">rgbRegex</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">rgbRegex</span> <span class="o">=</span> <span class="sr">/rgba?\((\d+),\s?(\d+),\s?(\d+)(,\s?(0?[.\d]+))?\)/</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="kd">var</span> <span class="nx">match</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">rgbRegex</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">color</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">match</span> <span class="o">||</span> <span class="nx">match</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">else</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">digits</span> <span class="o">=</span> <span class="p">{</span>
+          <span class="nx">red</span><span class="o">:</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">match</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">10</span><span class="p">),</span>
+          <span class="nx">green</span><span class="o">:</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">match</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">10</span><span class="p">),</span>
+          <span class="nx">blue</span><span class="o">:</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">match</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="p">};</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">match</span><span class="p">[</span><span class="mi">5</span><span class="p">])</span> <span class="p">{</span>
+          <span class="nx">digits</span><span class="p">.</span><span class="nx">alpha</span> <span class="o">=</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">match</span><span class="p">[</span><span class="mi">5</span><span class="p">]);</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nx">digits</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>rgbToHex</code> turns an rgb string into its equivalent
+hex string. Any alpha channel data will be discarded.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">rgbToHex</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">rgb</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">rgb</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">===</span> <span class="s1">&#39;#&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">rgb</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="kd">var</span> <span class="nx">digits</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">parseRgb</span><span class="p">(</span><span class="nx">rgb</span><span class="p">);</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">makeHex</span><span class="p">(</span><span class="nx">digits</span><span class="p">);</span>
+    <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>parseHex</code> parses a hex string into its component parts.
+Like these strings, for example:</p>
+
+<ul>
+<li>"#FF0022"</li>
+<li>"#aa80ff"</li>
+</ul></div></div><div class="code"><div class="wrapper">    <span class="nx">parseHex</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">hex</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">hexRegex</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">hexRegex</span> <span class="o">=</span> <span class="sr">/\#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})/</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="kd">var</span> <span class="nx">match</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">hexRegex</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">hex</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">match</span> <span class="o">||</span> <span class="nx">match</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">{</span>
+          <span class="nx">red</span><span class="o">:</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">match</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">16</span><span class="p">),</span>
+          <span class="nx">green</span><span class="o">:</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">match</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="mi">16</span><span class="p">),</span>
+          <span class="nx">blue</span><span class="o">:</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">match</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span>
+        <span class="p">};</span>
+      <span class="p">}</span>
+    <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>hexToRgb</code> turns a hex string into its equivalent
+rgb string.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">hexToRgb</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">hex</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">hex</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">!==</span> <span class="s1">&#39;#&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">hex</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="kd">var</span> <span class="nx">digits</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">parseHex</span><span class="p">(</span><span class="nx">hex</span><span class="p">);</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">makeRgb</span><span class="p">(</span><span class="nx">digits</span><span class="p">);</span>
+    <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>addTransparency</code> takes a color string (either hex or rgb)
+and turns it into an rgba string with the given opacity.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">addTransparency</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">color</span><span class="p">,</span> <span class="nx">opacity</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">digits</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">color</span><span class="p">);</span>
+      <span class="nx">digits</span><span class="p">.</span><span class="nx">alpha</span> <span class="o">=</span> <span class="nx">opacity</span><span class="p">;</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">makeRgb</span><span class="p">(</span><span class="nx">digits</span><span class="p">);</span>
+    <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>removeTransparency</code> takes an rgba string and returns
+an rgb string with the opacity stripped.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">removeTransparency</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">color</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">digits</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">parseRgb</span><span class="p">(</span><span class="nx">color</span><span class="p">);</span>
+      <span class="k">delete</span> <span class="nx">digits</span><span class="p">.</span><span class="nx">alpha</span><span class="p">;</span>
+      <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">makeRgb</span><span class="p">(</span><span class="nx">digits</span><span class="p">);</span>
+    <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>makeRgb</code> is a helper function to take a digits object
+and turn it into an rgb or rgba string.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">makeRgb</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">digits</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">rgb</span> <span class="o">=</span> <span class="s1">&#39;rgb&#39;</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">digits</span><span class="p">.</span><span class="nx">alpha</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">rgb</span> <span class="o">+=</span> <span class="s1">&#39;a&#39;</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="nx">rgb</span> <span class="o">+=</span> <span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="nx">digits</span><span class="p">.</span><span class="nx">red</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span> <span class="o">+</span> <span class="nx">digits</span><span class="p">.</span><span class="nx">green</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span> <span class="o">+</span> <span class="nx">digits</span><span class="p">.</span><span class="nx">blue</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">digits</span><span class="p">.</span><span class="nx">alpha</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">rgb</span> <span class="o">+=</span> <span class="s1">&#39;, &#39;</span> <span class="o">+</span> <span class="nx">digits</span><span class="p">.</span><span class="nx">alpha</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="nx">rgb</span> <span class="o">+=</span> <span class="s1">&#39;)&#39;</span><span class="p">;</span>
+      <span class="k">return</span> <span class="nx">rgb</span><span class="p">;</span>
+    <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>makeHex</code> is a helper function to take a digits object
+and turn it into a hex string.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">makeHex</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">digits</span><span class="p">)</span> <span class="p">{</span>
+      <span class="cm">/*jslint bitwise: true */</span>
+      <span class="kd">var</span> <span class="nx">hex</span> <span class="o">=</span> <span class="nx">digits</span><span class="p">.</span><span class="nx">blue</span> <span class="o">|</span> <span class="p">(</span><span class="nx">digits</span><span class="p">.</span><span class="nx">green</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="nx">digits</span><span class="p">.</span><span class="nx">red</span> <span class="o">&lt;&lt;</span> <span class="mi">16</span><span class="p">);</span>
+      <span class="k">return</span> <span class="s1">&#39;#&#39;</span> <span class="o">+</span> <span class="nx">hex</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="mi">16</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">});</span></div></div></div></div></body></html>

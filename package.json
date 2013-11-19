@@ -3,21 +3,24 @@
   "version": "1.0.0",
   "private": true,
   "main": "src/server/index.js",
-
   "dependencies": {
-    "thehelp-project": "git+ssh://git@infra:thehelp-project#v1.0.2"
+    "amdefine": "0.1.0",
+    "moment": "2.4.0",
+    "timezone-js": "0.4.6",
+    "winston": "0.7.2"
   },
   "devDependencies": {
-    "grunt": "0.4.1"
+    "grunt": "0.4.1",
+    "lodash": "2.3.0",
+    "thehelp-project": "git+ssh://git@infra:thehelp-project#v1.2.0",
+    "thehelp-test": "git+ssh://git@infra:thehelp-test#v1.0.2"
   },
-
   "scripts": {
     "blanket": {
       "data-cover-only": "src",
       "data-cover-never": "['lib/','node_modules/','test/','src/client']"
     }
   },
-
   "author": "Scott Nonnenberg",
   "repository": {
     "type": "git",

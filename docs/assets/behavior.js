@@ -35,6 +35,517 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
       },
       "depth": 1,
       "outline": []
+    }, {
+      "type": "folder",
+      "data": {
+        "path": "src",
+        "title": "src"
+      },
+      "depth": 1,
+      "children": [
+        {
+          "type": "folder",
+          "data": {
+            "path": "src/both",
+            "title": "both"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [".js"],
+                  "pygmentsLexer": "javascript",
+                  "multiLineComment": ["/*", "*", "*/"],
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "JavaScript"
+                },
+                "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/both/color.js",
+                "projectPath": "src/both/color.js",
+                "targetPath": "src/both/color",
+                "pageTitle": "src/both/color",
+                "firstHeader": {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "color",
+                    "slug": "color",
+                    "isFileHeader": true
+                  },
+                  "depth": 1
+                },
+                "title": "color"
+              },
+              "depth": 3,
+              "outline": []
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [".js"],
+                  "pygmentsLexer": "javascript",
+                  "multiLineComment": ["/*", "*", "*/"],
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "JavaScript"
+                },
+                "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/both/general.js",
+                "projectPath": "src/both/general.js",
+                "targetPath": "src/both/general",
+                "pageTitle": "src/both/general",
+                "firstHeader": {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "general",
+                    "slug": "general",
+                    "isFileHeader": true
+                  },
+                  "depth": 1
+                },
+                "title": "general"
+              },
+              "depth": 3,
+              "outline": []
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [".js"],
+                  "pygmentsLexer": "javascript",
+                  "multiLineComment": ["/*", "*", "*/"],
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "JavaScript"
+                },
+                "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/both/string.js",
+                "projectPath": "src/both/string.js",
+                "targetPath": "src/both/string",
+                "pageTitle": "src/both/string",
+                "firstHeader": {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "string",
+                    "slug": "string",
+                    "isFileHeader": true
+                  },
+                  "depth": 1
+                },
+                "title": "string"
+              },
+              "depth": 3,
+              "outline": []
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [".js"],
+                  "pygmentsLexer": "javascript",
+                  "multiLineComment": ["/*", "*", "*/"],
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "JavaScript"
+                },
+                "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/both/time.js",
+                "projectPath": "src/both/time.js",
+                "targetPath": "src/both/time",
+                "pageTitle": "src/both/time",
+                "firstHeader": {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "time",
+                    "slug": "time",
+                    "isFileHeader": true
+                  },
+                  "depth": 1,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Setup",
+                        "slug": "setup"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Duration",
+                        "slug": "duration"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Date Formatting",
+                        "slug": "date-formatting"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Timezone Manipulation",
+                        "slug": "timezone-manipulation"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Date Manipulation",
+                        "slug": "date-manipulation"
+                      },
+                      "depth": 2
+                    }, {
+                      "type": "heading",
+                      "data": {
+                        "level": 2,
+                        "title": "Other",
+                        "slug": "other"
+                      },
+                      "depth": 2
+                    }
+                  ]
+                },
+                "title": "time"
+              },
+              "depth": 3,
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Setup",
+                    "slug": "setup"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Duration",
+                    "slug": "duration"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Date Formatting",
+                    "slug": "date-formatting"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Timezone Manipulation",
+                    "slug": "timezone-manipulation"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Date Manipulation",
+                    "slug": "date-manipulation"
+                  },
+                  "depth": 2
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Other",
+                    "slug": "other"
+                  },
+                  "depth": 2
+                }
+              ]
+            }
+          ]
+        }, {
+          "type": "folder",
+          "data": {
+            "path": "src/client",
+            "title": "client"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [".js"],
+                  "pygmentsLexer": "javascript",
+                  "multiLineComment": ["/*", "*", "*/"],
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "JavaScript"
+                },
+                "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/client/config.js",
+                "projectPath": "src/client/config.js",
+                "targetPath": "src/client/config",
+                "pageTitle": "src/client/config",
+                "firstHeader": {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "config",
+                    "slug": "config",
+                    "isFileHeader": true
+                  },
+                  "depth": 1
+                },
+                "title": "config"
+              },
+              "depth": 3,
+              "outline": []
+            }, {
+              "type": "folder",
+              "data": {
+                "path": "src/client/shims",
+                "title": "shims"
+              },
+              "depth": 3,
+              "children": [
+                {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [".js"],
+                      "pygmentsLexer": "javascript",
+                      "multiLineComment": ["/*", "*", "*/"],
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "JavaScript"
+                    },
+                    "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/client/shims/empty.js",
+                    "projectPath": "src/client/shims/empty.js",
+                    "targetPath": "src/client/shims/empty",
+                    "pageTitle": "src/client/shims/empty",
+                    "title": "empty"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [".js"],
+                      "pygmentsLexer": "javascript",
+                      "multiLineComment": ["/*", "*", "*/"],
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "JavaScript"
+                    },
+                    "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/client/shims/empty2.js",
+                    "projectPath": "src/client/shims/empty2.js",
+                    "targetPath": "src/client/shims/empty2",
+                    "pageTitle": "src/client/shims/empty2",
+                    "title": "empty2"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [".js"],
+                      "pygmentsLexer": "javascript",
+                      "multiLineComment": ["/*", "*", "*/"],
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "JavaScript"
+                    },
+                    "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/client/shims/empty3.js",
+                    "projectPath": "src/client/shims/empty3.js",
+                    "targetPath": "src/client/shims/empty3",
+                    "pageTitle": "src/client/shims/empty3",
+                    "title": "empty3"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [".js"],
+                      "pygmentsLexer": "javascript",
+                      "multiLineComment": ["/*", "*", "*/"],
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "JavaScript"
+                    },
+                    "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/client/shims/empty4.js",
+                    "projectPath": "src/client/shims/empty4.js",
+                    "targetPath": "src/client/shims/empty4",
+                    "pageTitle": "src/client/shims/empty4",
+                    "title": "empty4"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [".js"],
+                      "pygmentsLexer": "javascript",
+                      "multiLineComment": ["/*", "*", "*/"],
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "JavaScript"
+                    },
+                    "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/client/shims/empty5.js",
+                    "projectPath": "src/client/shims/empty5.js",
+                    "targetPath": "src/client/shims/empty5",
+                    "pageTitle": "src/client/shims/empty5",
+                    "title": "empty5"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [".js"],
+                      "pygmentsLexer": "javascript",
+                      "multiLineComment": ["/*", "*", "*/"],
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "JavaScript"
+                    },
+                    "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/client/shims/util_shim.js",
+                    "projectPath": "src/client/shims/util_shim.js",
+                    "targetPath": "src/client/shims/util_shim",
+                    "pageTitle": "src/client/shims/util_shim",
+                    "firstHeader": {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "util_shim",
+                        "slug": "util-shim",
+                        "isFileHeader": true
+                      },
+                      "depth": 1
+                    },
+                    "title": "util_shim"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }, {
+                  "type": "file",
+                  "data": {
+                    "language": {
+                      "nameMatchers": [".js"],
+                      "pygmentsLexer": "javascript",
+                      "multiLineComment": ["/*", "*", "*/"],
+                      "singleLineComment": ["//"],
+                      "ignorePrefix": "}",
+                      "foldPrefix": "^",
+                      "name": "JavaScript"
+                    },
+                    "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/client/shims/winston_shim.js",
+                    "projectPath": "src/client/shims/winston_shim.js",
+                    "targetPath": "src/client/shims/winston_shim",
+                    "pageTitle": "src/client/shims/winston_shim",
+                    "firstHeader": {
+                      "type": "heading",
+                      "data": {
+                        "level": 1,
+                        "title": "winston_shim",
+                        "slug": "winston-shim",
+                        "isFileHeader": true
+                      },
+                      "depth": 1
+                    },
+                    "title": "winston_shim"
+                  },
+                  "depth": 4,
+                  "outline": []
+                }
+              ]
+            }
+          ]
+        }, {
+          "type": "folder",
+          "data": {
+            "path": "src/server",
+            "title": "server"
+          },
+          "depth": 2,
+          "children": [
+            {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [".js"],
+                  "pygmentsLexer": "javascript",
+                  "multiLineComment": ["/*", "*", "*/"],
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "JavaScript"
+                },
+                "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/server/index.js",
+                "projectPath": "src/server/index.js",
+                "targetPath": "src/server/index",
+                "pageTitle": "src/server/index",
+                "title": "index"
+              },
+              "depth": 3,
+              "outline": []
+            }
+          ]
+        }
+      ]
+    }, {
+      "type": "file",
+      "data": {
+        "language": {
+          "nameMatchers": [".js"],
+          "pygmentsLexer": "javascript",
+          "multiLineComment": ["/*", "*", "*/"],
+          "singleLineComment": ["//"],
+          "ignorePrefix": "}",
+          "foldPrefix": "^",
+          "name": "JavaScript"
+        },
+        "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/thehelp-core.js",
+        "projectPath": "thehelp-core.js",
+        "targetPath": "thehelp-core",
+        "pageTitle": "thehelp-core",
+        "firstHeader": {
+          "type": "heading",
+          "data": {
+            "level": 1,
+            "title": "thehelp-core",
+            "slug": "thehelp-core",
+            "isFileHeader": true
+          },
+          "depth": 1
+        },
+        "title": "thehelp-core"
+      },
+      "depth": 1,
+      "outline": []
     }
   ];
 

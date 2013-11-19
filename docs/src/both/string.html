@@ -1,0 +1,63 @@
+<!DOCTYPE html><html lang="en"><head><title>src/both/string</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="src/both/string"><meta name="groc-project-path" content="src/both/string.js"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">src/both/string.js</div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="string">string</h1>
+
+<p>A few quick string-related utility methods.</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><a href="http://requirejs.org/">RequireJS</a> boilerplate, dependencies and
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode">strict mode</a></p></div></div><div class="code"><div class="wrapper"><span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">define</span> <span class="o">!==</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">define</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;amdefine&#39;</span><span class="p">)(</span><span class="nx">module</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">define</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>splice</code> inserts one string into another at a specified location.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">splice</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">source</span><span class="p">,</span> <span class="nx">location</span><span class="p">,</span> <span class="nx">toInsert</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">location</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="nx">location</span> <span class="o">&gt;</span> <span class="nx">source</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;location &#39;</span> <span class="o">+</span> <span class="nx">location</span> <span class="o">+</span> <span class="s1">&#39; out of range&#39;</span><span class="p">);</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="nx">source</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">location</span><span class="p">)</span> <span class="o">+</span> <span class="nx">toInsert</span> <span class="o">+</span> <span class="nx">source</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">location</span><span class="p">);</span>
+    <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>capitalize</code> takes the first character of the provided string and makes it
+uppercase.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">capitalize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">source</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">source</span><span class="p">.</span><span class="nx">charAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">toUpperCase</span><span class="p">()</span> <span class="o">+</span> <span class="nx">source</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>truncate</code> returns a string with <code>limit</code> characters or less. If the original string
+was longer than <code>limit</code> characters, it will be truncated to fit. Any truncated
+string will end with an ellipsis ("...") to signify that it's missing info.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">truncate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">limit</span><span class="p">,</span> <span class="nx">text</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">result</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">text</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="nx">limit</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">result</span> <span class="o">=</span> <span class="nx">text</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">limit</span> <span class="o">-</span> <span class="mi">3</span><span class="p">);</span>
+        <span class="nx">result</span> <span class="o">+=</span> <span class="s1">&#39;...&#39;</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="nx">text</span><span class="p">;</span>
+    <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>pluralize</code> is very simple - it takes a <code>count</code> as well as <code>singular</code>
+and <code>plural</code> strings. It then returns a string with both the count and the appropriate
+singular or plural label.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">pluralize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">count</span><span class="p">,</span> <span class="nx">singular</span><span class="p">,</span> <span class="nx">plural</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">count</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">count</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nx">singular</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="nx">count</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nx">plural</span><span class="p">;</span>
+    <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>normalizePhoneNumber</code> takes a number like '(800) 555-3333'
+and turns it into '+18005553333', which can be used with Twilio.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">normalizePhoneNumber</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">number</span> <span class="o">=</span> <span class="nx">number</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/[() +-]/gi</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">number</span><span class="p">.</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="mi">11</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">number</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span> <span class="o">+</span> <span class="nx">number</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="nx">number</span> <span class="o">=</span> <span class="s1">&#39;+&#39;</span> <span class="o">+</span> <span class="nx">number</span><span class="p">;</span>
+      <span class="k">return</span> <span class="nx">number</span><span class="p">;</span>
+    <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>formatPhoneNumber</code> takes a normalized phone number and makes it
+human-reasonable again.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">formatPhoneNumber</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">number</span><span class="p">.</span><span class="nx">length</span> <span class="o">!==</span> <span class="mi">12</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">number</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="nx">number</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">number</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39; (&#39;</span><span class="p">);</span>
+      <span class="nx">number</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">number</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="s1">&#39;) &#39;</span><span class="p">);</span>
+      <span class="nx">number</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">number</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">);</span>
+
+      <span class="k">return</span> <span class="nx">number</span><span class="p">;</span>
+    <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>repeat</code> repeats the first parameter <code>n</code> times.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">repeat</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">target</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">repeat</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+      <span class="p">}</span>
+      <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">});</span></div></div></div></div></body></html>
