@@ -1,0 +1,28 @@
+<html>
+<head>
+</head>
+<body>
+
+</body>
+<script>
+  window.tests = [
+    'test/unit/client/shims/test_winston_shim',
+    'test/unit/client/shims/test_util_shim',
+
+    'test/unit/both/test_color',
+    'test/unit/both/test_general',
+    'test/unit/both/test_string',
+    'test/unit/both/test_time'
+  ];
+  window.mochaCss = '../../lib/vendor/mocha.css';
+  window.entrypoint = '../../lib/vendor/thehelp-test-harness.js';
+  window.coverage = true;
+  // window.waitToRun = true;
+
+  window.winstonLevel = 'verbose';
+  window.host = 'localhost:3000';
+
+</script>
+<script data-main='client/dist_all_setup.js' src="../../lib/vendor/require.js"></script>
+
+</html>

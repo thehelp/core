@@ -1,21 +1,10 @@
 
-'use strict';
+require(['dist_config'], function(config) {
+  'use strict';
 
-requirejs.config({
-  baseUrl: '/',
-  paths: {
-    'thehelp-core': 'dist/thehelp-core',
+  config.paths.jquery = 'lib/vendor/jquery';
 
-    lodash: 'lib/vendor/lodash',
+  requirejs.config(config);
 
-    winston: 'src/client/shims/winston_shim',
-    util: 'src/client/shims/util_shim',
-
-    jquery: 'lib/vendor/jquery',
-    'thehelp-test': 'lib/vendor/thehelp-test',
-    'thehelp-test-coverage': 'lib/vendor/thehelp-test-coverage',
-    'grunt-mocha-bridge': 'lib/vendor/grunt-mocha-bridge'
-  }
+  require(['jquery', window.entrypoint], function() {});
 });
-
-require([window.entrypoint], function() {});

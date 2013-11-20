@@ -12,6 +12,6 @@ define(['../../../src/client/config'], function(config) {
 
   requirejs.config(config);
 
-  require([window.entrypoint], function() {});
+  require(['jquery', window.entrypoint], function() {});
 
 });

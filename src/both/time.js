@@ -3,27 +3,16 @@
 All things time. Uses [Moment](http://momentjs.com/) and [TimezoneJS](https://github.com/mde/timezone-js)
 to present a number of simple time-related methods.
 
-On the server side, timezone-related functionality requires one environment variable:
-TIME\_ZONE\_DATA, where you've put your `all.json` parsed and minified time zone
-data file.
+__Server__: On the server side, timezone data is loaded from either 'lib/vendor/tz' or a directory
+you specify with the TIME\_ZONE\_DATA environment variable.
 
-NOTE: To use this module in the browser you'll need to specify paths for three
-components in your requirejs config: `moment`, `timezone-js` and `fs`. `fs`
-can be set to an empty placeholder module (like [`empty`](../client/js/shims/empty.html))
-since it's not used on the client side. Additionally, because `timezone-js`
-is not aware of AMD loaders, you'll need to put this
-in your requirejs shims section:
+__Browser__: To make browser usage easier, this project has a [grunt task](../../Gruntfile.html)
+which injects time zone data into the file itself. _NOTE: If you don't end up using one of
+these versions of 'thehelp-core', `timezone-js` will need to use AJAX to pull in time zone
+data. This will require Fleegix, jQuery or Zepto as well as `window.tzUrl` set to the
+location of the JSON file containing timezone info._
 
-    'timezone-js': {
-      init: function() {
-        return window.timezoneJS;
-      }
-    }
-
-Lastly, `timezone-js` requires Fleegix, jQuery or Zepto to load a timezone data
-file via AJAX.
-
-NOTE: In this file, when we talk about times being in the _default timezone_,
+__NOTE:__ In this file, when we talk about times being in the _default timezone_,
 we mean that they are "correct", the right UTC time. When they are "in a
 local timezone" they are no longer correct, and should not be used for anything
 but display. They have been shifted so as to be printed out correctly, but their
@@ -46,30 +35,26 @@ define(['moment', 'winston', 'util', 'fs', 'timezone-js', './string'],
   // In the browser we synchronously load timezone data from `window.tzUrl`.
   var tz = timezonejs.timezone;
   if (typeof window !== 'undefined') {
+    //----- marking this section for injection of timezone JSON
     if (!window.tzUrl) {
-      winston.verbose('JSON file containing time zone data was not specified via window.tzUrl');
+      winston.warn('JSON file containing time zone data was not specified via window.tzUrl');
     }
     else {
       tz.loadingScheme = tz.loadingSchemes.MANUAL_LOAD;
       //true here signifies that we want to load the JSON synchronously
       tz.loadZoneJSONData(window.tzUrl, true);
     }
+    //-----
   }
-  // On the server we load timezone data at the TIME\_ZONE\_DATA environment variable.
-  // We use a synchronous filesystem load to avoid race conditions.
+  // On the server we load timezone data at the TIME\_ZONE\_DATA environment variable
+  // or 'lib/vendor/tz.' We use a synchronous file load to avoid race conditions.
   else {
-    var tzPath = process.env.TIME_ZONE_DATA;
-    if (!tzPath) {
-      winston.verbose('JSON file containing time zone data was not specified via TIME_ZONE_DATA environment variable');
-    }
-    else {
-      tz.loadingScheme = tz.loadingSchemes.PRELOAD_ALL;
-      tz.zoneFileBasePath = process.env.TIME_ZONE_DATA;
-      tz.transport = function(options) {
-        return fs.readFileSync(options.url).toString();
-      };
-      tz.init({async: false});
-    }
+    tz.loadingScheme = tz.loadingSchemes.PRELOAD_ALL;
+    tz.zoneFileBasePath = process.env.TIME_ZONE_DATA || 'lib/vendor/tz';
+    tz.transport = function(options) {
+      return fs.readFileSync(options.url).toString();
+    };
+    tz.init({async: false});
   }
 
   // Duration
