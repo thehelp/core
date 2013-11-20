@@ -20,13 +20,26 @@ module.exports = function(grunt) {
   config.registerDoc(['src/**/*.js', '*.js', 'README.md', '!src/both/time-*.js']);
 
   config.registerConnect();
+
+  // Generate dist/
+  // ========
+
+  // Three versions of thehelp-core: raw, and with all/min.json tz data injected
   var options = require('./src/client/config');
-  config.registerOptimize({
+  var optimize = {
     name: 'thehelp-core',
     empty: ['winston', 'util'],
     config: options
-  });
+  };
+  config.registerOptimize(optimize);
 
+  options.paths['src/both/time'] = 'src/both/time-min';
+  optimize.outName = 'thehelp-core-tz-min';
+  config.registerOptimize(optimize);
+
+  options.paths['src/both/time'] = 'src/both/time-all';
+  optimize.outName = 'thehelp-core-tz-all';
+  config.registerOptimize(optimize);
   config.registerCopy([{
     expand: true,
     cwd: 'src/client/shims',
