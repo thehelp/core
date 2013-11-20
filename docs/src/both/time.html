@@ -3,28 +3,16 @@
 <p>All things time. Uses <a href="http://momentjs.com/">Moment</a> and <a href="https://github.com/mde/timezone-js">TimezoneJS</a>
 to present a number of simple time-related methods.</p>
 
-<p>On the server side, timezone-related functionality requires one environment variable:
-TIME_ZONE_DATA, where you've put your <code>all.json</code> parsed and minified time zone
-data file.</p>
+<p><strong>Server</strong>: On the server side, timezone data is loaded from either 'lib/vendor/tz' or a directory
+you specify with the TIME_ZONE_DATA environment variable.</p>
 
-<p>NOTE: To use this module in the browser you'll need to specify paths for three
-components in your requirejs config: <code>moment</code>, <code>timezone-js</code> and <code>fs</code>. <code>fs</code>
-can be set to an empty placeholder module (like <a href="../client/js/shims/empty.html"><code>empty</code></a>)
-since it's not used on the client side. Additionally, because <code>timezone-js</code>
-is not aware of AMD loaders, you'll need to put this
-in your requirejs shims section:</p>
+<p><strong>Browser</strong>: To make browser usage easier, this project has a <a href="../../Gruntfile.html">grunt task</a>
+which injects time zone data into the file itself. <em>NOTE: If you don't end up using one of
+these versions of 'thehelp-core', <code>timezone-js</code> will need to use AJAX to pull in time zone
+data. This will require Fleegix, jQuery or Zepto as well as <code>window.tzUrl</code> set to the
+location of the JSON file containing timezone info.</em></p>
 
-<pre><code>'timezone-js': {
-  init: function() {
-    return window.timezoneJS;
-  }
-}
-</code></pre>
-
-<p>Lastly, <code>timezone-js</code> requires Fleegix, jQuery or Zepto to load a timezone data
-file via AJAX.</p>
-
-<p>NOTE: In this file, when we talk about times being in the <em>default timezone</em>,
+<p><strong>NOTE:</strong> In this file, when we talk about times being in the <em>default timezone</em>,
 we mean that they are "correct", the right UTC time. When they are "in a
 local timezone" they are no longer correct, and should not be used for anything
 but display. They have been shifted so as to be printed out correctly, but their
@@ -37,28 +25,24 @@ UTC values are are no longer correct.</p></div></div></div><div class="segment">
   <span class="kd">function</span><span class="p">(</span><span class="nx">moment</span><span class="p">,</span> <span class="nx">winston</span><span class="p">,</span> <span class="nx">util</span><span class="p">,</span> <span class="nx">fs</span><span class="p">,</span> <span class="nx">timezonejs</span><span class="p">,</span> <span class="nx">string</span><span class="p">)</span> <span class="p">{</span>
   <span class="s1">&#39;use strict&#39;</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="setup">Setup</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>In the browser we synchronously load timezone data from <code>window.tzUrl</code>.</p></div></div><div class="code"><div class="wrapper">  <span class="kd">var</span> <span class="nx">tz</span> <span class="o">=</span> <span class="nx">timezonejs</span><span class="p">.</span><span class="nx">timezone</span><span class="p">;</span>
   <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nb">window</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//----- marking this section for injection of timezone JSON</span>
     <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">window</span><span class="p">.</span><span class="nx">tzUrl</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">winston</span><span class="p">.</span><span class="nx">verbose</span><span class="p">(</span><span class="s1">&#39;JSON file containing time zone data was not specified via window.tzUrl&#39;</span><span class="p">);</span>
+      <span class="nx">winston</span><span class="p">.</span><span class="nx">warn</span><span class="p">(</span><span class="s1">&#39;JSON file containing time zone data was not specified via window.tzUrl&#39;</span><span class="p">);</span>
     <span class="p">}</span>
     <span class="k">else</span> <span class="p">{</span>
       <span class="nx">tz</span><span class="p">.</span><span class="nx">loadingScheme</span> <span class="o">=</span> <span class="nx">tz</span><span class="p">.</span><span class="nx">loadingSchemes</span><span class="p">.</span><span class="nx">MANUAL_LOAD</span><span class="p">;</span>
       <span class="c1">//true here signifies that we want to load the JSON synchronously</span>
       <span class="nx">tz</span><span class="p">.</span><span class="nx">loadZoneJSONData</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">tzUrl</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
     <span class="p">}</span>
-  <span class="p">}</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>On the server we load timezone data at the TIME_ZONE_DATA environment variable.
-We use a synchronous filesystem load to avoid race conditions.</p></div></div><div class="code"><div class="wrapper">  <span class="k">else</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">tzPath</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">TIME_ZONE_DATA</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">tzPath</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">winston</span><span class="p">.</span><span class="nx">verbose</span><span class="p">(</span><span class="s1">&#39;JSON file containing time zone data was not specified via TIME_ZONE_DATA environment variable&#39;</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">else</span> <span class="p">{</span>
-      <span class="nx">tz</span><span class="p">.</span><span class="nx">loadingScheme</span> <span class="o">=</span> <span class="nx">tz</span><span class="p">.</span><span class="nx">loadingSchemes</span><span class="p">.</span><span class="nx">PRELOAD_ALL</span><span class="p">;</span>
-      <span class="nx">tz</span><span class="p">.</span><span class="nx">zoneFileBasePath</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">TIME_ZONE_DATA</span><span class="p">;</span>
-      <span class="nx">tz</span><span class="p">.</span><span class="nx">transport</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">url</span><span class="p">).</span><span class="nx">toString</span><span class="p">();</span>
-      <span class="p">};</span>
-      <span class="nx">tz</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span><span class="nx">async</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
-    <span class="p">}</span>
+    <span class="c1">//-----</span>
+  <span class="p">}</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>On the server we load timezone data at the TIME_ZONE_DATA environment variable
+or 'lib/vendor/tz.' We use a synchronous file load to avoid race conditions.</p></div></div><div class="code"><div class="wrapper">  <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">tz</span><span class="p">.</span><span class="nx">loadingScheme</span> <span class="o">=</span> <span class="nx">tz</span><span class="p">.</span><span class="nx">loadingSchemes</span><span class="p">.</span><span class="nx">PRELOAD_ALL</span><span class="p">;</span>
+    <span class="nx">tz</span><span class="p">.</span><span class="nx">zoneFileBasePath</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">TIME_ZONE_DATA</span> <span class="o">||</span> <span class="s1">&#39;lib/vendor/tz&#39;</span><span class="p">;</span>
+    <span class="nx">tz</span><span class="p">.</span><span class="nx">transport</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">url</span><span class="p">).</span><span class="nx">toString</span><span class="p">();</span>
+    <span class="p">};</span>
+    <span class="nx">tz</span><span class="p">.</span><span class="nx">init</span><span class="p">({</span><span class="nx">async</span><span class="o">:</span> <span class="kc">false</span><span class="p">});</span>
   <span class="p">}</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="duration">Duration</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>The <code>time.Duration</code> class helps keep track of a span of time.
 Create a new instance of the class, then use the result of <code>duration.end()</code>
 in your logs to get the amount of time elapsed.</p></div></div><div class="code"><div class="wrapper">  <span class="kd">function</span> <span class="nx">Duration</span><span class="p">()</span> <span class="p">{</span>

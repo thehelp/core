@@ -96,6 +96,13 @@ module.exports = function(grunt) {
   // ========
   config.registerCopyFromDist(['thehelp-test']);
 
+  //use grunt shell to pull the entire 'install dependencies workflow' into grunt?
+  //npm install
+  //bower install
+  //./bower_install.sh - perhaps this could be deconstructed into copy tasks (and the occasional shell)
+  //what else?
+  //pull down latest timzone data
+  //generate all.json/min.json
 
   grunt.registerTask('default', ['test', 'staticanalysis', 'doc', 'dist', 'client-test']);
 };
