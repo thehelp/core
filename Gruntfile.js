@@ -8,10 +8,18 @@ var GruntConfig = require('thehelp-project').GruntConfig;
 module.exports = function(grunt) {
   var config = new GruntConfig(grunt);
 
-  config.standardSetup();
-  config.standardDefault();
+  config.setupTimeGrunt();
+  config.registerWatch();
+  config.registerEnv();
+  config.registerClean();
 
-  // Produce files in the dist/ folder
+  config.registerTest();
+  config.registerStaticAnalysis();
+
+  // Need to exclude the generated time.js files - 1) they're dupes 2) they hang groc
+  config.registerDoc(['src/**/*.js', '*.js', 'README.md', '!src/both/time-*.js']);
+
+  config.registerConnect();
   var options = require('./src/client/config');
   config.registerOptimize({
     name: 'thehelp-core',
