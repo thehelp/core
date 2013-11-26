@@ -11,9 +11,9 @@
     "winston": "0.7.2"
   },
   "devDependencies": {
-    "grunt": "0.4.1",
+    "grunt": "0.4.x",
     "lodash": "2.3.0",
-    "thehelp-project": "git+ssh://git@infra:thehelp-project#v1.2.2",
+    "thehelp-project": "git+ssh://git@infra:thehelp-project#v1.3.0",
     "thehelp-test": "git+ssh://git@infra:thehelp-test#v2.0.0"
   },
 
