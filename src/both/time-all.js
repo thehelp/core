@@ -45,7 +45,7 @@ define(['moment', 'winston', 'util', 'fs', 'timezone-js', './string'],
   // or 'lib/vendor/tz.' We use a synchronous file load to avoid race conditions.
   else {
     tz.loadingScheme = tz.loadingSchemes.PRELOAD_ALL;
-    tz.zoneFileBasePath = process.env.TIME_ZONE_DATA || 'lib/vendor/tz';
+    tz.zoneFileBasePath = process.env.TIME_ZONE_DATA || __dirname + '/../../lib/vendor/tz';
     tz.transport = function(options) {
       return fs.readFileSync(options.url).toString();
     };
