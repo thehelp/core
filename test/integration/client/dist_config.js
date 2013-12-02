@@ -7,7 +7,7 @@ define(function() {
     paths: {
       'thehelp-core': 'dist/thehelp-core',
 
-      lodash: 'lib/vendor/lodash',
+      lodash: 'lib/vendor/lodash.compat',
 
       winston: 'src/client/shims/winston_shim',
       util: 'src/client/shims/util_shim',

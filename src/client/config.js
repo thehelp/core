@@ -20,7 +20,7 @@ define(function() {
     name: 'thehelp-test',
     paths: {
       async: 'lib/vendor/async',
-      lodash: 'lib/vendor/lodash',
+      lodash: 'lib/vendor/lodash.compat',
 
       moment: 'lib/vendor/moment',
       'timezone-js': 'lib/vendor/timezone',
