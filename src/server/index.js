@@ -1,3 +1,8 @@
+// index
+// ========
+// Pulls in everything needed for use via npm.
+
+'use strict';
 
 module.exports = {
   color: require('../both/color'),
