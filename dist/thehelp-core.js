@@ -3728,6 +3728,8 @@ define('src/both/time',['moment', 'winston', 'util', 'fs', 'timezone-js', './str
   };
 
   var time = {
+    moment: moment,
+    timezonejs: timezonejs,
     Duration: Duration,
 
     // Date Formatting
