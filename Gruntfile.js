@@ -4,27 +4,42 @@
 'use strict';
 
 var GruntConfig = require('thehelp-project').GruntConfig;
+var grunt;
 
-module.exports = function(grunt) {
-  var config = new GruntConfig(grunt);
+// `injectTzInfo` injects all/min.json (timezone information) into src/both/time.js.
+// This increases the size of the javascript (by a lot in the case of all.json)
+// but reduces the number of client/server roundtrips.
+var injectTzInfo = function() {
+  var time = grunt.file.read('src/both/time.js');
+  var all = grunt.file.read('lib/vendor/tz/all.json').replace('\n', '');
+  var min = grunt.file.read('lib/vendor/tz/min.json').replace('\n', '');
 
-  config.setupTimeGrunt();
-  config.registerWatch();
-  config.registerEnv();
-  config.registerClean();
+  var start = 'var json = \'';
+  var end = '\';\n' +
+    '    tz.transport = function() {\n' +
+    '      return json;\n' +
+    '    };\n' +
+    '    tz.loadZoneJSONData(null, true);';
 
-  config.registerTest();
-  config.registerStaticAnalysis();
+  var replace = /\/\/-----[\w\W]+\/\/-----/g;
 
-  // Need to exclude the generated time.js files - 1) they're dupes 2) they hang groc
-  config.registerDoc(['src/**/*.js', '*.js', 'README.md', '!src/both/time-*.js']);
+  var timeAll = time.replace(replace, start + all + end);
+  grunt.file.write('src/both/time-all.js', timeAll);
 
-  config.registerConnect();
+  var timeMin = time.replace(replace, start + min + end);
+  grunt.file.write('src/both/time-min.js', timeMin);
+};
 
-  // Generate dist/
-  // ========
+/*
+`generateDist` contains all the grunt registration required to assemble
+the dist folder, for users of the-help on the client side:
 
-  // Three versions of thehelp-core: raw, and with all/min.json tz data injected
+1. inject time zone information into src/client/time-all/min.js
+2. optimize thehelp-core.js into three different versions: raw, with min.json
+included, and with all.json included.
+3. copy all shims to dist/shims folder
+*/
+var generateDist = function(config, grunt) {
   var options = require('./src/client/config');
   var optimize = {
     name: 'thehelp-core',
@@ -41,48 +56,42 @@ module.exports = function(grunt) {
   optimize.outName = 'thehelp-core-tz-all';
   config.registerOptimize(optimize);
 
-  // Copy all shims, and all time zone data
-  config.registerCopy([{
-    expand: true,
-    cwd: 'src/client/shims',
-    src: ['*.js'],
-    dest: 'dist/shims',
-  }, {
-    expand: true,
-    cwd: 'lib/vendor/tz',
-    src: ['*'],
-    dest: 'dist/tz',
-  }]);
-
-  // This injects all/min.json (timezone information) into src/both/time.js.
-  // This increases the size of the javascript (by a lot in the case of all.json)
-  // but reduces the number of client/server roundtrips.
-  grunt.registerTask('inject-tz-json', function() {
-    var time = grunt.file.read('src/both/time.js');
-    var all = grunt.file.read('lib/vendor/tz/all.json').replace('\n', '');
-    var min = grunt.file.read('lib/vendor/tz/min.json').replace('\n', '');
-
-    var start = 'var json = \'';
-    var end = '\';\n' +
-      '    tz.transport = function() {\n' +
-      '      return json;\n' +
-      '    };\n' +
-      '    tz.loadZoneJSONData(null, true);';
-
-    var replace = /\/\/-----[\w\W]+\/\/-----/g;
-
-    var timeAll = time.replace(replace, start + all + end);
-    grunt.file.write('src/both/time-all.js', timeAll);
-
-    var timeMin = time.replace(replace, start + min + end);
-    grunt.file.write('src/both/time-min.js', timeMin);
+  grunt.config('copy.shims-to-dist', {
+    files: [{
+      expand: true,
+      cwd: 'src/client/shims',
+      src: ['*.js'],
+      dest: 'dist/shims',
+    }]
   });
 
-  grunt.registerTask('dist', ['inject-tz-json', 'copy:default', 'requirejs']);
+  grunt.registerTask('inject-tz-json', injectTzInfo);
+  grunt.registerTask('dist', ['inject-tz-json', 'copy:shims-to-dist', 'requirejs']);
+};
 
+// ## Overall setup
+// We can't call `config.standardSetup()` because we need to customize set of
+// files we process for documentation (we have to exclude the generated time.js files
+// - 1. they're dupes 2. they hang groc). So we call a number of methods on `config`.
+module.exports = function(g) {
+  grunt = g;
+  var config = new GruntConfig(grunt);
 
-  // Client testing
-  // ========
+  config.setupTimeGrunt();
+  config.registerWatch();
+  config.registerEnv();
+  config.registerClean();
+
+  config.registerTest();
+  config.registerStaticAnalysis();
+  config.registerConnect();
+
+  config.registerDoc(['src/**/*.js', '*.js', 'README.md', '!src/both/time-*.js']);
+
+  // ## Generate dist/ folder
+  generateDist(config, grunt);
+
+  // ## Client testing
   config.registerMocha([
     'http://localhost:3001/test/integration/dev.html',
     'http://localhost:3001/test/integration/dist.html',
@@ -91,18 +100,21 @@ module.exports = function(grunt) {
   ]);
   grunt.registerTask('client-test', ['connect:test', 'mocha']);
 
-
-  // Pulling in dependencies
-  // ========
+  // ## Pulling in dependencies
+  config.registerInstall();
   config.registerCopyFromDist(['thehelp-test']);
+  config.registerCopyFromBower();
 
-  //use grunt shell to pull the entire 'install dependencies workflow' into grunt?
-  //npm install
-  //bower install
-  //./bower_install.sh - perhaps this could be deconstructed into copy tasks (and the occasional shell)
-  //what else?
-  //pull down latest timzone data
-  //generate all.json/min.json
+  grunt.config('copy.timezonejs', {
+    files: {
+      'lib/vendor/timezone.js': 'node_modules/timezone-js/src/date.js'
+    }
+  });
+  grunt.registerTask('setup', ['shell:npm-install', 'shell:bower-install', 'copy:timezonejs',
+    'copy:from-bower', 'copy:from-dist']);
 
+  // ## Default task
+
+  // This is what runs when you type just 'grunt' on the command line
   grunt.registerTask('default', ['test', 'staticanalysis', 'doc', 'dist', 'client-test']);
 };
