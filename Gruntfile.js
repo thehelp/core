@@ -83,7 +83,7 @@ module.exports = function(g) {
   config.registerClean();
 
   config.registerTest();
-  config.registerStaticAnalysis();
+  config.registerStaticAnalysis(['src/**/*.js', '*.js', '!src/both/time-*.js']);
   config.registerConnect();
 
   config.registerDoc(['src/**/*.js', '*.js', 'README.md', '!src/both/time-*.js']);
@@ -110,8 +110,8 @@ module.exports = function(g) {
       'lib/vendor/timezone.js': 'node_modules/timezone-js/src/date.js'
     }
   });
-  grunt.registerTask('setup', ['shell:npm-install', 'shell:bower-install', 'copy:timezonejs',
-    'copy:from-bower', 'copy:from-dist']);
+  grunt.registerTask('setup', ['shell:npm-install', 'shell:bower-install',
+    'copy:timezonejs', 'copy:from-bower', 'copy:from-dist']);
 
   // ## Default task
 

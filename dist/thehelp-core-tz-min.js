@@ -1,9 +1,8 @@
-
 // # color
 // This module provides a number of methods for dealing with color.
 
 // [RequireJS](http://requirejs.org/) boilerplate, dependencies and
-// [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode)
+// [strict mode](http://mzl.la/1fRhnam)
 
 
 define('src/both/color',[],function() {
@@ -146,7 +145,7 @@ define('src/both/color',[],function() {
 // A few quick utility methods useful just about everywhere.
 
 // [RequireJS](http://requirejs.org/) boilerplate, dependencies and
-// [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode)
+// [strict mode](http://mzl.la/1fRhnam)
 
 
 define('src/both/general',['winston', 'util'], function(winston, util) {
@@ -209,7 +208,8 @@ define('src/both/general',['winston', 'util'], function(winston, util) {
       }
     },
 
-    // `setTimeout` and `setInterval` - because it's annoying to pass the callback as the first parameter.
+    // `setTimeout` and `setInterval` - because it's annoying to pass the callback as the
+    // first parameter.
     setTimeout: function(number, cb) {
       return setTimeout(cb, number);
     },
@@ -224,7 +224,7 @@ define('src/both/general',['winston', 'util'], function(winston, util) {
 // A few quick string-related utility methods.
 
 // [RequireJS](http://requirejs.org/) boilerplate, dependencies and
-// [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode)
+// [strict mode](http://mzl.la/1fRhnam)
 
 
 define('src/both/string',[],function() {
@@ -259,8 +259,8 @@ define('src/both/string',[],function() {
     },
 
     // `pluralize` is very simple - it takes a `count` as well as `singular`
-    // and `plural` strings. It then returns a string with both the count and the appropriate
-    // singular or plural label.
+    // and `plural` strings. It then returns a string with both the count and the
+    // appropriate singular or plural label.
     pluralize: function(count, singular, plural) {
       if (count === 1) {
         return count + ' ' + singular;
@@ -2621,8 +2621,8 @@ define('src/both/string',[],function() {
 }).call(this);
 
 // Used for things that are `require()`'d on on the client side but never used.
-// For example, [`ModelHelpers`](../../../both/model_helpers.html) loads `jugglingdb-postgres`
-// on the client but actually uses a web-appropriate adapter.
+// For example, [`ModelHelpers`](../../../both/model_helpers.html) loads
+// `jugglingdb-postgres` on the client but actually uses a web-appropriate adapter.
 define('fs',[],function() {
   
 
@@ -3647,17 +3647,19 @@ define("timezone-js", (function (global) {
 
 /*
 # time
-All things time. Uses [Moment](http://momentjs.com/) and [TimezoneJS](https://github.com/mde/timezone-js)
-to present a number of simple time-related methods.
+All things time. Uses [Moment](http://momentjs.com/) and
+[TimezoneJS](https://github.com/mde/timezone-js) to present a number of simple
+time-related methods.
 
-__Server__: On the server side, timezone data is loaded from either 'lib/vendor/tz' or a directory
-you specify with the TIME\_ZONE\_DATA environment variable.
+__Server__: On the server side, timezone data is loaded from either 'lib/vendor/tz' or a
+directory you specify with the TIME\_ZONE\_DATA environment variable.
 
-__Browser__: To make browser usage easier, this project has a [grunt task](../../Gruntfile.html)
-which injects time zone data into the file itself. _NOTE: If you don't end up using one of
-these versions of 'thehelp-core', `timezone-js` will need to use AJAX to pull in time zone
-data. This will require Fleegix, jQuery or Zepto as well as `window.tzUrl` set to the
-location of the JSON file containing timezone info._
+__Browser__: To make browser usage easier, this project has a
+[grunt task](../../Gruntfile.html) which injects time zone data into the file itself.
+_NOTE: If you don't end up using one of these versions of 'thehelp-core', `timezone-js`
+will need to use AJAX to pull in time zone data. This will require Fleegix, jQuery or
+Zepto as well as `window.tzUrl` set to the location of the JSON file containing timezone
+info._
 
 __NOTE:__ In this file, when we talk about times being in the _default timezone_,
 we mean that they are "correct", the right UTC time. When they are "in a
@@ -3667,7 +3669,7 @@ UTC values are are no longer correct.
 */
 
 // [RequireJS](http://requirejs.org/) boilerplate, dependencies and
-// [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode)
+// [strict mode](http://mzl.la/1fRhnam)
 
 
 define('src/both/time',['moment', 'winston', 'util', 'fs', 'timezone-js', './string'],
@@ -3690,7 +3692,8 @@ define('src/both/time',['moment', 'winston', 'util', 'fs', 'timezone-js', './str
   // or 'lib/vendor/tz.' We use a synchronous file load to avoid race conditions.
   else {
     tz.loadingScheme = tz.loadingSchemes.PRELOAD_ALL;
-    tz.zoneFileBasePath = process.env.TIME_ZONE_DATA || __dirname + '/../../lib/vendor/tz';
+    tz.zoneFileBasePath = process.env.TIME_ZONE_DATA ||
+      __dirname + '/../../lib/vendor/tz';
     tz.transport = function(options) {
       return fs.readFileSync(options.url).toString();
     };
@@ -4010,10 +4013,10 @@ define('src/both/time',['moment', 'winston', 'util', 'fs', 'timezone-js', './str
       return new Date(millis);
     },
 
-    // `nextDay` looks for the next instance of `day`, where day is something like 'Monday.'
-    // You can set the start `date` for the search; otherwise it will use the current time.
-    // `timezone` is required to ensure our determination of the day is correct in the
-    // user's timezone.
+    // `nextDay` looks for the next instance of `day`, where day is something like
+    // 'Monday.' You can set the start `date` for the search; otherwise it will use the
+    // current time. `timezone` is required to ensure our determination of the day is
+    // correct in the user's timezone.
     nextDay: function(day, timezone, date) {
       return this.searchDay(1, day, timezone, date);
     },
@@ -4085,7 +4088,9 @@ define('src/both/time',['moment', 'winston', 'util', 'fs', 'timezone-js', './str
       }
 
       date = time.timezoneAwareDate(date, timezone);
-      date = new timezonejs.Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, timezone);
+      date = new timezonejs.Date(
+        date.getFullYear(), date.getMonth(), date.getDate(), hour, timezone
+      );
       return new Date(date.getTime());
     },
 
@@ -4152,7 +4157,7 @@ define('src/both/time',['moment', 'winston', 'util', 'fs', 'timezone-js', './str
 // This file pulls in color, general, string and time for the client side.
 
 // [RequireJS](http://requirejs.org/) boilerplate, dependencies and
-// [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode)
+// [strict mode](http://mzl.la/1fRhnam)
 
 
 define('thehelp-core',[
@@ -4178,3 +4183,4 @@ define('thehelp-core',[
   };
 
 });
+

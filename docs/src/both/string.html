@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="en"><head><title>src/both/string</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="src/both/string"><meta name="groc-project-path" content="src/both/string.js"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">src/both/string.js</div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="string">string</h1>
 
 <p>A few quick string-related utility methods.</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><a href="http://requirejs.org/">RequireJS</a> boilerplate, dependencies and
-<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode">strict mode</a></p></div></div><div class="code"><div class="wrapper"><span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">define</span> <span class="o">!==</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span> <span class="p">{</span>
+<a href="http://mzl.la/1fRhnam">strict mode</a></p></div></div><div class="code"><div class="wrapper"><span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">define</span> <span class="o">!==</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">define</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;amdefine&#39;</span><span class="p">)(</span><span class="nx">module</span><span class="p">);</span>
 <span class="p">}</span>
 
@@ -27,8 +27,8 @@ string will end with an ellipsis ("...") to signify that it's missing info.</p><
       <span class="p">}</span>
       <span class="k">return</span> <span class="nx">text</span><span class="p">;</span>
     <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>pluralize</code> is very simple - it takes a <code>count</code> as well as <code>singular</code>
-and <code>plural</code> strings. It then returns a string with both the count and the appropriate
-singular or plural label.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">pluralize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">count</span><span class="p">,</span> <span class="nx">singular</span><span class="p">,</span> <span class="nx">plural</span><span class="p">)</span> <span class="p">{</span>
+and <code>plural</code> strings. It then returns a string with both the count and the
+appropriate singular or plural label.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">pluralize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">count</span><span class="p">,</span> <span class="nx">singular</span><span class="p">,</span> <span class="nx">plural</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">if</span> <span class="p">(</span><span class="nx">count</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">return</span> <span class="nx">count</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nx">singular</span><span class="p">;</span>
       <span class="p">}</span>

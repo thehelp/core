@@ -1,8 +1,7 @@
 <!DOCTYPE html><html lang="en"><head><title>src/client/shims/util_shim</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../"><meta name="groc-document-path" content="src/client/shims/util_shim"><meta name="groc-project-path" content="src/client/shims/util_shim.js"><link rel="stylesheet" type="text/css" media="all" href="../../../assets/style.css"><script type="text/javascript" src="../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">src/client/shims/util_shim.js</div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="util-shim">util_shim</h1>
 
 <p>Kinda replicates some of the most oft-used methods of the <code>util</code>
-built-in node module.</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Dependencies and
-<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode">strict mode</a></p></div></div><div class="code"><div class="wrapper"><span class="nx">define</span><span class="p">([</span>
+built-in node module.</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Dependencies and <a href="http://mzl.la/1fRhnam">strict mode</a></p></div></div><div class="code"><div class="wrapper"><span class="nx">define</span><span class="p">([</span>
 <span class="p">],</span>
   <span class="kd">function</span><span class="p">(</span>
   <span class="p">)</span> <span class="p">{</span>
@@ -80,7 +79,7 @@ to pull in string. Boo.</p></div></div><div class="code"><div class="wrapper">  
         <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
       <span class="p">}</span>
     <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>inherits</code> does "proper" inheritance. For reference:
-<a href="http://nodejs.org/docs/latest/api/util.html#util_util_inherits_constructor_superconstructor">node's util.inherits</a></p></div></div><div class="code"><div class="wrapper">    <span class="nx">inherits</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Child</span><span class="p">,</span> <span class="nx">Parent</span><span class="p">)</span> <span class="p">{</span>
+<a href="http://bit.ly/1fRjdYX">node's util.inherits</a></p></div></div><div class="code"><div class="wrapper">    <span class="nx">inherits</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">Child</span><span class="p">,</span> <span class="nx">Parent</span><span class="p">)</span> <span class="p">{</span>
       <span class="nx">Child</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">Parent</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span> <span class="p">{</span>
         <span class="nx">constructor</span><span class="o">:</span> <span class="p">{</span>
           <span class="nx">value</span><span class="o">:</span> <span class="nx">Child</span><span class="p">,</span>

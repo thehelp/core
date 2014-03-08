@@ -1,8 +1,7 @@
 // # winston_shim
 // Kinda replicates winston on the client side.
 
-// Dependencies and
-// [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode)
+// Dependencies and [strict mode](http://mzl.la/1fRhnam)
 define(function() {
   'use strict';
 

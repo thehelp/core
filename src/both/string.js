@@ -2,7 +2,7 @@
 // A few quick string-related utility methods.
 
 // [RequireJS](http://requirejs.org/) boilerplate, dependencies and
-// [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode)
+// [strict mode](http://mzl.la/1fRhnam)
 if (typeof define !== 'function') {
   var define = require('amdefine')(module);
 }
@@ -39,8 +39,8 @@ define(function() {
     },
 
     // `pluralize` is very simple - it takes a `count` as well as `singular`
-    // and `plural` strings. It then returns a string with both the count and the appropriate
-    // singular or plural label.
+    // and `plural` strings. It then returns a string with both the count and the
+    // appropriate singular or plural label.
     pluralize: function(count, singular, plural) {
       if (count === 1) {
         return count + ' ' + singular;

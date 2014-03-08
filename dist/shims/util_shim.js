@@ -2,8 +2,7 @@
 // Kinda replicates some of the most oft-used methods of the `util`
 // built-in node module.
 
-// Dependencies and
-// [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode)
+// Dependencies and [strict mode](http://mzl.la/1fRhnam)
 define([
 ],
   function(
@@ -89,7 +88,7 @@ define([
     },
 
     // `inherits` does "proper" inheritance. For reference:
-    // [node's util.inherits](http://nodejs.org/docs/latest/api/util.html#util_util_inherits_constructor_superconstructor)
+    // [node's util.inherits](http://bit.ly/1fRjdYX)
     inherits: function(Child, Parent) {
       Child.prototype = Object.create(Parent.prototype, {
         constructor: {

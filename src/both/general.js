@@ -2,7 +2,7 @@
 // A few quick utility methods useful just about everywhere.
 
 // [RequireJS](http://requirejs.org/) boilerplate, dependencies and
-// [strict mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode)
+// [strict mode](http://mzl.la/1fRhnam)
 if (typeof define !== 'function') {
   var define = require('amdefine')(module);
 }
@@ -67,7 +67,8 @@ define(['winston', 'util'], function(winston, util) {
       }
     },
 
-    // `setTimeout` and `setInterval` - because it's annoying to pass the callback as the first parameter.
+    // `setTimeout` and `setInterval` - because it's annoying to pass the callback as the
+    // first parameter.
     setTimeout: function(number, cb) {
       return setTimeout(cb, number);
     },
