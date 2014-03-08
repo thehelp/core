@@ -6,15 +6,16 @@
 
   "dependencies": {
     "amdefine": "0.1.0",
-    "moment": "2.4.0",
-    "timezone-js": "0.4.6",
+    "moment": "2.5.1",
+    "timezone-js": "0.4.7",
     "winston": "0.7.2"
   },
   "devDependencies": {
-    "grunt": "0.4.x",
-    "lodash": "2.4.0",
-    "thehelp-project": "git+ssh://git@infra:thehelp-project#v2.0.0",
-    "thehelp-test": "git+ssh://git@infra:thehelp-test#v2.0.0"
+    "blanket": "https://github.com/NiKnight/blanket/tarball/changes",
+    "grunt": "0.4.3",
+    "lodash": "2.4.1",
+    "thehelp-project": "git+ssh://git@infra:thehelp-project#v2.3.0",
+    "thehelp-test": "git+ssh://git@infra:thehelp-test#v2.0.2"
   },
 
   "scripts": {
