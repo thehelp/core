@@ -33,6 +33,12 @@ On the client side, it's easiest to pull in `thehelp-core-tz-min.min.js` You can
 
 ## History
 
+### 1.2.1
+
+* Patch version updates: timezone-js, grunt, lodash
+* Minor version updates: moment, thehelp-project, thehelp-test
+* Fixing too-long lines
+
 ### 1.2.0
 
 * instead of looking for timezone data at '[cwd]/lib/vendor/tz' if TIME\_ZONE\_DATA environment variable is not set, we now look inside this node module
