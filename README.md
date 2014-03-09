@@ -33,6 +33,10 @@ On the client side, it's easiest to pull in `thehelp-core-tz-min.min.js` You can
 
 ## History
 
+### 1.2.2
+
+* Source maps now in dist/ with an upgrade to `thehelp-project` dependency
+
 ### 1.2.1
 
 * Patch version updates: timezone-js, grunt, lodash
