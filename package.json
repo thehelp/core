@@ -14,7 +14,7 @@
     "blanket": "https://github.com/NiKnight/blanket/tarball/changes",
     "grunt": "0.4.3",
     "lodash": "2.4.1",
-    "thehelp-project": "git+ssh://git@infra:thehelp-project#v2.3.0",
+    "thehelp-project": "git+ssh://git@infra:thehelp-project#v2.4.0",
     "thehelp-test": "git+ssh://git@infra:thehelp-test#v2.0.2"
   },
 
