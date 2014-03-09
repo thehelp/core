@@ -72,7 +72,8 @@ var generateDist = function(config, grunt) {
 // ## Overall setup
 // We can't call `config.standardSetup()` because we need to customize set of
 // files we process for documentation (we have to exclude the generated time.js files
-// - 1. they're dupes 2. they hang groc). So we call a number of methods on `config`.
+// - 1. they're dupes 2. they hang groc 3. they have really long lines). So we call a
+// number of methods on `config`.
 module.exports = function(g) {
   grunt = g;
   var config = new GruntConfig(grunt);

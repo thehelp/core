@@ -64,7 +64,8 @@ included, and with all.json included.</li>
 
 <p>We can't call <code>config.standardSetup()</code> because we need to customize set of
 files we process for documentation (we have to exclude the generated time.js files
-- 1. they're dupes 2. they hang groc). So we call a number of methods on <code>config</code>.</p></div></div><div class="code"><div class="wrapper"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">g</span><span class="p">)</span> <span class="p">{</span>
+- 1. they're dupes 2. they hang groc 3. they have really long lines). So we call a
+number of methods on <code>config</code>.</p></div></div><div class="code"><div class="wrapper"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">g</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">grunt</span> <span class="o">=</span> <span class="nx">g</span><span class="p">;</span>
   <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GruntConfig</span><span class="p">(</span><span class="nx">grunt</span><span class="p">);</span>
 
