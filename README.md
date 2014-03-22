@@ -33,6 +33,11 @@ On the client side, it's easiest to pull in `thehelp-core-tz-min.min.js` You can
 
 ## History
 
+### 1.2.3
+
+* Patch upgrades (bower): moment
+* Dev dependencies: lodash, jquery, requirejs, grunt, thehelp-project, thehelp-test
+
 ### 1.2.2
 
 * Source maps now in dist/ with an upgrade to `thehelp-project` dependency
