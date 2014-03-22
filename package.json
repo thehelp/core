@@ -12,10 +12,10 @@
   },
   "devDependencies": {
     "blanket": "https://github.com/NiKnight/blanket/tarball/changes",
-    "grunt": "0.4.3",
+    "grunt": "0.4.4",
     "lodash": "2.4.1",
-    "thehelp-project": "git+ssh://git@infra:thehelp-project#v2.4.0",
-    "thehelp-test": "git+ssh://git@infra:thehelp-test#v2.0.2"
+    "thehelp-project": "git+ssh://git@infra:thehelp-project#v2.4.2",
+    "thehelp-test": "git+ssh://git@infra:thehelp-test#v2.0.3"
   },
 
   "scripts": {

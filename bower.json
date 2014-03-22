@@ -1,9 +1,9 @@
 {
   "name": "thehelp",
   "dependencies": {
-    "jquery": "1.10.2",
-    "lodash": "2.4.0",
-    "moment": "2.4.0",
-    "requirejs": "2.1.9"
+    "jquery": "1.11.0",
+    "lodash": "2.4.1",
+    "moment": "2.5.1",
+    "requirejs": "2.1.11"
   }
 }
