@@ -33,6 +33,13 @@ On the client side, it's easiest to pull in `thehelp-core-tz-min.min.js` You can
 
 ## History
 
+### 1.3.0 (2014-04-11)
+
+* Updated time zone data
+* Patch version update to `timezone-js`
+* General version numbers for `winston` and `amdefine`
+* Updates of dev dependencies: `blanket`,`thehelp-project`, `thehelp-test`
+
 ### 1.2.3
 
 * Patch upgrades (bower): moment
