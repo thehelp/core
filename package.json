@@ -5,10 +5,10 @@
   "main": "src/server/index.js",
 
   "dependencies": {
-    "amdefine": "0.1.0",
+    "amdefine": "0.1.x",
     "moment": "2.5.1",
     "timezone-js": "0.4.7",
-    "winston": "0.7.2"
+    "winston": "0.7.x"
   },
   "devDependencies": {
     "blanket": "git+ssh://git@github.com:scottnonnenberg/blanket#v1.1.6",
