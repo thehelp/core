@@ -2774,7 +2774,7 @@ define('fs',[],function() {
   // This can be jQuery, Zepto or fleegix.
   // You can also specify your own transport mechanism by declaring
   // `timezoneJS.timezone.transport` to a `function`. More details will follow
-  var $ = root.$ || root.jQuery || root.Zepto
+  var ajax_lib = root.$ || root.jQuery || root.Zepto
     , fleegix = root.fleegix
     // Declare constant list of days and months. Unfortunately this doesn't leave room for i18n due to the Olson data being in English itself
     , DAYS = timezoneJS.Days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -2832,7 +2832,7 @@ define('fs',[],function() {
   // `_fixWidth(2, 2) = '02'`
   //
   // `_fixWidth(1998, 2) = '98'`  // year, shorten it to the 2 digit representation
-  // 
+  //
   // `_fixWidth(23, 1) = '23'`  // hour, even with 1 digit specified, do not trim
   //
   // This is used to pad numbers in converting date to string in ISO standard.
@@ -2865,7 +2865,7 @@ define('fs',[],function() {
   // - `error`: error callback function
   // Returns response from URL if async is false, otherwise the AJAX request object itself
   var _transport = function (opts) {
-    if ((!fleegix || typeof fleegix.xhr === 'undefined') && (!jQuery || typeof jQuery.ajax === 'undefined')) {
+    if ((!fleegix || typeof fleegix.xhr === 'undefined') && (!ajax_lib || typeof ajax_lib.ajax === 'undefined')) {
       throw new Error('Please use the Fleegix.js XHR module, jQuery ajax, Zepto ajax, or define your own transport mechanism for downloading zone files.');
     }
     if (!opts) return;
@@ -2874,7 +2874,7 @@ define('fs',[],function() {
     if (!opts.async) {
       return fleegix && fleegix.xhr
       ? fleegix.xhr.doReq({ url: opts.url, async: false })
-      : jQuery.ajax({ url : opts.url, async : false, dataType: 'text' }).responseText;
+      : ajax_lib.ajax({ url : opts.url, async : false, dataType: 'text' }).responseText;
     }
     return fleegix && fleegix.xhr
     ? fleegix.xhr.send({
@@ -2883,7 +2883,7 @@ define('fs',[],function() {
       handleSuccess : opts.success,
       handleErr : opts.error
     })
-    : jQuery.ajax({
+    : ajax_lib.ajax({
       url : opts.url,
       dataType: 'text',
       method : 'GET',
@@ -2925,7 +2925,7 @@ define('fs',[],function() {
     }
     // If the last string argument doesn't parse as a Date, treat it as tz
     if (typeof args[args.length - 1] === 'string') {
-      valid = Date.parse(args[args.length - 1].replace(/GMT\+\d+/, ''));
+      valid = Date.parse(args[args.length - 1].replace(/GMT[\+\-]\d+/, '')); 
       if (isNaN(valid) || valid === null) {  // Checking against null is required for compatability with Datejs
         tz = args.pop();
       }
@@ -3181,6 +3181,8 @@ define('fs',[],function() {
     toSource: function () {},
     toISOString: function () { return this.toString('yyyy-MM-ddTHH:mm:ss.SSS', 'Etc/UTC') + 'Z'; },
     toJSON: function () { return this.toISOString(); },
+    toDateString: function () { return this.toString('EEE MMM dd yyyy'); },
+    toTimeString: function () { return this.toString('H:mm k'); },
     // Allows different format following ISO8601 format:
     toString: function (format, tz) {
       // Default format is the same as toISOString
