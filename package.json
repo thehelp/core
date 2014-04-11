@@ -11,11 +11,11 @@
     "winston": "0.7.2"
   },
   "devDependencies": {
-    "blanket": "https://github.com/NiKnight/blanket/tarball/changes",
+    "blanket": "git+ssh://git@github.com:scottnonnenberg/blanket#v1.1.6",
     "grunt": "0.4.4",
     "lodash": "2.4.1",
-    "thehelp-project": "git+ssh://git@infra:thehelp-project#v2.4.2",
-    "thehelp-test": "git+ssh://git@infra:thehelp-test#v2.0.3"
+    "thehelp-project": "git+ssh://git@infra:thehelp-project#v2.4.4",
+    "thehelp-test": "git+ssh://git@infra:thehelp-test#v2.0.6"
   },
 
   "scripts": {
