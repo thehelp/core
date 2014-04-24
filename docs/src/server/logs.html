@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="en"><head><title>src/server/logs</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../"><meta name="groc-document-path" content="src/server/logs"><meta name="groc-project-path" content="src/server/logs.js"><link rel="stylesheet" type="text/css" media="all" href="../../assets/style.css"><script type="text/javascript" src="../../assets/behavior.js"></script><body><div id="meta"><div class="file-path">src/server/logs.js</div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="logs">logs</h1>
+
+<p>Makes it a little quicker/easier to set up winston logging for a process.</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><a href="http://mzl.la/1fRhnam">strict mode</a></p></div></div><div class="code"><div class="wrapper"><span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">winston</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;winston&#39;</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>timestamp</code> is a helper function used to ensure that winston timestamps aren't
+timezone-specific.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">timestamp</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nx">date</span><span class="p">.</span><span class="nx">toISOString</span><span class="p">();</span>
+  <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>setupConsole</code> has just one optional options parameter. Default for <code>level</code> is
+'info', default for <code>colorize</code> is <code>true</code>.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">setupConsole</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">options</span> <span class="o">=</span> <span class="nx">options</span> <span class="o">||</span> <span class="p">{};</span>
+    <span class="nx">options</span><span class="p">.</span><span class="nx">level</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">level</span> <span class="o">||</span> <span class="s1">&#39;info&#39;</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">options</span><span class="p">.</span><span class="nx">colorize</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">options</span><span class="p">.</span><span class="nx">colorize</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">winston</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">winston</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">Console</span><span class="p">);</span>
+    <span class="nx">winston</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">winston</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">Console</span><span class="p">,</span> <span class="p">{</span>
+      <span class="nx">level</span><span class="o">:</span> <span class="nx">options</span><span class="p">.</span><span class="nx">level</span><span class="p">,</span>
+      <span class="nx">colorize</span><span class="o">:</span> <span class="nx">options</span><span class="p">.</span><span class="nx">colorize</span><span class="p">,</span>
+      <span class="nx">timestamp</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">timestamp</span>
+    <span class="p">});</span>
+  <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>setupFile</code> takes a required path and an options object. Default for <code>level</code> is
+'verbose', default <code>maxsize</code> (when file rolls over) is <code>50000000</code>.</p>
+
+<p><em>Note: assumes that no file setup has been done previously in this process.</em></p></div></div><div class="code"><div class="wrapper">  <span class="nx">setupFile</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">options</span> <span class="o">=</span> <span class="nx">options</span> <span class="o">||</span> <span class="p">{};</span>
+    <span class="nx">options</span><span class="p">.</span><span class="nx">level</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">level</span> <span class="o">||</span> <span class="s1">&#39;verbose&#39;</span><span class="p">;</span>
+    <span class="nx">options</span><span class="p">.</span><span class="nx">maxsize</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">maxsize</span> <span class="o">||</span> <span class="mi">50000000</span><span class="p">;</span>
+
+    <span class="nx">winston</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">winston</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">File</span><span class="p">,</span> <span class="p">{</span>
+      <span class="nx">level</span><span class="o">:</span> <span class="nx">options</span><span class="p">.</span><span class="nx">level</span><span class="p">,</span>
+      <span class="nx">filename</span><span class="o">:</span> <span class="nx">path</span><span class="p">,</span>
+      <span class="nx">maxsize</span><span class="o">:</span> <span class="nx">options</span><span class="p">.</span><span class="nx">maxsize</span><span class="p">,</span>
+      <span class="nx">timestamp</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">timestamp</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">};</span></div></div></div></div></body></html>
