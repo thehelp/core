@@ -75,6 +75,14 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "type": "heading",
                   "data": {
                     "level": 3,
+                    "title": "1.4.0 (2014-04-23)",
+                    "slug": "140-2014-04-23"
+                  },
+                  "depth": 3
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
                     "title": "1.3.0 (2014-04-11)",
                     "slug": "130-2014-04-11"
                   },
@@ -189,6 +197,14 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "depth": 2,
           "children": [
             {
+              "type": "heading",
+              "data": {
+                "level": 3,
+                "title": "1.4.0 (2014-04-23)",
+                "slug": "140-2014-04-23"
+              },
+              "depth": 3
+            }, {
               "type": "heading",
               "data": {
                 "level": 3,
@@ -855,6 +871,36 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "depth": 1
                 },
                 "title": "index"
+              },
+              "depth": 3,
+              "outline": []
+            }, {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [".js"],
+                  "pygmentsLexer": "javascript",
+                  "multiLineComment": ["/*", "*", "*/"],
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "JavaScript"
+                },
+                "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/server/logs.js",
+                "projectPath": "src/server/logs.js",
+                "targetPath": "src/server/logs",
+                "pageTitle": "src/server/logs",
+                "firstHeader": {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "logs",
+                    "slug": "logs",
+                    "isFileHeader": true
+                  },
+                  "depth": 1
+                },
+                "title": "logs"
               },
               "depth": 3,
               "outline": []

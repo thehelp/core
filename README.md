@@ -8,6 +8,7 @@ This project provides basic functionality that almost all javascript apps will n
 * some basic color manipulation functions
 * timezone.js, and time zone data - min.json with a minimum set, and all.json with comprehensive data
 * time.js date formatting and manipuation functions, including a Duration class to make it easy to track timings.
+* methods for quick winston setup on the server
 * winston and util shims for use on the client side
 
 ## Jump in!
@@ -32,6 +33,10 @@ var timezone = core.time.getTimezone();
 On the client side, it's easiest to pull in `thehelp-core-tz-min.min.js` You can very quickly add it to lib/vendor with the `registerCopyFromDist()` method from `thehelp-project`. Lastly you'll need to ensure that `winston` and `util` are available - you can use the shim files in 'dist/shims.'
 
 ## History
+
+### 1.4.0 (2014-04-23)
+
+* New: server methods to set up logs easily: `logs.setupConsole()` and `logs.setupFile()`
 
 ### 1.3.0 (2014-04-11)
 
