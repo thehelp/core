@@ -9,5 +9,6 @@ module.exports = {
   general: require('../both/general'),
   string: require('../both/string'),
   time: require('../both/time'),
-  logs: require('./logs.js')
+  logs: require('./logs.js'),
+  env: require('./env.js')
 };
