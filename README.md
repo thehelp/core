@@ -18,7 +18,7 @@ This project provides basic functionality that almost all javascript apps will n
 Include the project in your dependencies:
 
 ```
-  "thehelp-core": "git+ssh://git@infra:thehelp-core#v1.0.0"
+"thehelp-core": "git+ssh://git@infra:thehelp-core#v1.0.0"
 ```
 
 ### Usage
@@ -32,7 +32,21 @@ var timezone = core.time.getTimezone();
 
 On the client side, it's easiest to pull in `thehelp-core-tz-min.min.js` You can very quickly add it to lib/vendor with the `registerCopyFromDist()` method from `thehelp-project`. Lastly you'll need to ensure that `winston` and `util` are available - you can use the shim files in 'dist/shims.'
 
+## Development
+
+To successfully run tests, you'll need an 'env.json' file in the root directory with this in it:
+
+```
+{
+  "HOST": "anything"
+}
+```
+
 ## History
+
+### 1.5.0 (2014-05-01)
+
+* New: server methods to merge environment variables with data in 'env.json' (preferring real environment): `env.merge()`
 
 ### 1.4.0 (2014-04-23)
 
@@ -45,34 +59,34 @@ On the client side, it's easiest to pull in `thehelp-core-tz-min.min.js` You can
 * General version numbers for `winston` and `amdefine`
 * Updates of dev dependencies: `blanket`,`thehelp-project`, `thehelp-test`
 
-### 1.2.3
+### 1.2.3 (2014-03-21)
 
 * Patch upgrades (bower): moment
 * Dev dependencies: lodash, jquery, requirejs, grunt, thehelp-project, thehelp-test
 
-### 1.2.2
+### 1.2.2 (2014-03-09)
 
 * Source maps now in dist/ with an upgrade to `thehelp-project` dependency
 
-### 1.2.1
+### 1.2.1 (2014-03-08)
 
 * Patch version updates: timezone-js, grunt, lodash
 * Minor version updates: moment, thehelp-project, thehelp-test
 * Fixing too-long lines
 
-### 1.2.0
+### 1.2.0 (2013-12-02)
 
 * instead of looking for timezone data at '[cwd]/lib/vendor/tz' if TIME\_ZONE\_DATA environment variable is not set, we now look inside this node module
 * dist/tz folder no longer has server time zone data
 * expose moment and timezone js on the time object for direct use
 * adding readme
 
-### 1.1.0
+### 1.1.0 (2013-11-19)
 
 * dist/ now has three final versions of thehelp-core - one with all.json timezone data injected, one with min.json timezone data injected, and one that requires jquery/zepto/other to load it dynamically.
 * including server timezone data in dist/tz folder
 
-### 1.0.0
+### 1.0.0 (2013-11-18)
 
 * Initial release
 * Core logic is all there!

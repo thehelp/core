@@ -66,12 +66,28 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "type": "heading",
               "data": {
                 "level": 2,
+                "title": "Development",
+                "slug": "development"
+              },
+              "depth": 2
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 2,
                 "title": "History",
                 "slug": "history"
               },
               "depth": 2,
               "children": [
                 {
+                  "type": "heading",
+                  "data": {
+                    "level": 3,
+                    "title": "1.5.0 (2014-05-01)",
+                    "slug": "150-2014-05-01"
+                  },
+                  "depth": 3
+                }, {
                   "type": "heading",
                   "data": {
                     "level": 3,
@@ -91,48 +107,48 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "type": "heading",
                   "data": {
                     "level": 3,
-                    "title": "1.2.3",
-                    "slug": "123"
+                    "title": "1.2.3 (2014-03-21)",
+                    "slug": "123-2014-03-21"
                   },
                   "depth": 3
                 }, {
                   "type": "heading",
                   "data": {
                     "level": 3,
-                    "title": "1.2.2",
-                    "slug": "122"
+                    "title": "1.2.2 (2014-03-09)",
+                    "slug": "122-2014-03-09"
                   },
                   "depth": 3
                 }, {
                   "type": "heading",
                   "data": {
                     "level": 3,
-                    "title": "1.2.1",
-                    "slug": "121"
+                    "title": "1.2.1 (2014-03-08)",
+                    "slug": "121-2014-03-08"
                   },
                   "depth": 3
                 }, {
                   "type": "heading",
                   "data": {
                     "level": 3,
-                    "title": "1.2.0",
-                    "slug": "120"
+                    "title": "1.2.0 (2013-12-02)",
+                    "slug": "120-2013-12-02"
                   },
                   "depth": 3
                 }, {
                   "type": "heading",
                   "data": {
                     "level": 3,
-                    "title": "1.1.0",
-                    "slug": "110"
+                    "title": "1.1.0 (2013-11-19)",
+                    "slug": "110-2013-11-19"
                   },
                   "depth": 3
                 }, {
                   "type": "heading",
                   "data": {
                     "level": 3,
-                    "title": "1.0.0",
-                    "slug": "100"
+                    "title": "1.0.0 (2013-11-18)",
+                    "slug": "100-2013-11-18"
                   },
                   "depth": 3
                 }
@@ -191,12 +207,28 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "type": "heading",
           "data": {
             "level": 2,
+            "title": "Development",
+            "slug": "development"
+          },
+          "depth": 2
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
             "title": "History",
             "slug": "history"
           },
           "depth": 2,
           "children": [
             {
+              "type": "heading",
+              "data": {
+                "level": 3,
+                "title": "1.5.0 (2014-05-01)",
+                "slug": "150-2014-05-01"
+              },
+              "depth": 3
+            }, {
               "type": "heading",
               "data": {
                 "level": 3,
@@ -216,48 +248,48 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "type": "heading",
               "data": {
                 "level": 3,
-                "title": "1.2.3",
-                "slug": "123"
+                "title": "1.2.3 (2014-03-21)",
+                "slug": "123-2014-03-21"
               },
               "depth": 3
             }, {
               "type": "heading",
               "data": {
                 "level": 3,
-                "title": "1.2.2",
-                "slug": "122"
+                "title": "1.2.2 (2014-03-09)",
+                "slug": "122-2014-03-09"
               },
               "depth": 3
             }, {
               "type": "heading",
               "data": {
                 "level": 3,
-                "title": "1.2.1",
-                "slug": "121"
+                "title": "1.2.1 (2014-03-08)",
+                "slug": "121-2014-03-08"
               },
               "depth": 3
             }, {
               "type": "heading",
               "data": {
                 "level": 3,
-                "title": "1.2.0",
-                "slug": "120"
+                "title": "1.2.0 (2013-12-02)",
+                "slug": "120-2013-12-02"
               },
               "depth": 3
             }, {
               "type": "heading",
               "data": {
                 "level": 3,
-                "title": "1.1.0",
-                "slug": "110"
+                "title": "1.1.0 (2013-11-19)",
+                "slug": "110-2013-11-19"
               },
               "depth": 3
             }, {
               "type": "heading",
               "data": {
                 "level": 3,
-                "title": "1.0.0",
-                "slug": "100"
+                "title": "1.0.0 (2013-11-18)",
+                "slug": "100-2013-11-18"
               },
               "depth": 3
             }
@@ -845,6 +877,36 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "depth": 2,
           "children": [
             {
+              "type": "file",
+              "data": {
+                "language": {
+                  "nameMatchers": [".js"],
+                  "pygmentsLexer": "javascript",
+                  "multiLineComment": ["/*", "*", "*/"],
+                  "singleLineComment": ["//"],
+                  "ignorePrefix": "}",
+                  "foldPrefix": "^",
+                  "name": "JavaScript"
+                },
+                "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/server/env.js",
+                "projectPath": "src/server/env.js",
+                "targetPath": "src/server/env",
+                "pageTitle": "src/server/env",
+                "firstHeader": {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "env",
+                    "slug": "env",
+                    "isFileHeader": true
+                  },
+                  "depth": 1
+                },
+                "title": "env"
+              },
+              "depth": 3,
+              "outline": []
+            }, {
               "type": "file",
               "data": {
                 "language": {

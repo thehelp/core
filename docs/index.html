@@ -19,7 +19,7 @@
 
 <p>Include the project in your dependencies:</p>
 
-<pre><code>  "thehelp-core": "git+ssh://git@infra:thehelp-core#v1.0.0"
+<pre><code>"thehelp-core": "git+ssh://git@infra:thehelp-core#v1.0.0"
 </code></pre>
 
 <h3 id="usage">Usage</h3>
@@ -32,7 +32,22 @@ var timezone = core.time.getTimezone();
 
 <p>On the client side, it's easiest to pull in <code>thehelp-core-tz-min.min.js</code> You can very quickly add it to lib/vendor with the <code>registerCopyFromDist()</code> method from <code>thehelp-project</code>. Lastly you'll need to ensure that <code>winston</code> and <code>util</code> are available - you can use the shim files in 'dist/shims.'</p>
 
+<h2 id="development">Development</h2>
+
+<p>To successfully run tests, you'll need an 'env.json' file in the root directory with this in it:</p>
+
+<pre><code>{
+  "HOST": "anything"
+}
+</code></pre>
+
 <h2 id="history">History</h2>
+
+<h3 id="150-2014-05-01">1.5.0 (2014-05-01)</h3>
+
+<ul>
+<li>New: server methods to merge environment variables with data in 'env.json' (preferring real environment): <code>env.merge()</code></li>
+</ul>
 
 <h3 id="140-2014-04-23">1.4.0 (2014-04-23)</h3>
 
@@ -49,20 +64,20 @@ var timezone = core.time.getTimezone();
 <li>Updates of dev dependencies: <code>blanket</code>,<code>thehelp-project</code>, <code>thehelp-test</code></li>
 </ul>
 
-<h3 id="123">1.2.3</h3>
+<h3 id="123-2014-03-21">1.2.3 (2014-03-21)</h3>
 
 <ul>
 <li>Patch upgrades (bower): moment</li>
 <li>Dev dependencies: lodash, jquery, requirejs, grunt, thehelp-project, thehelp-test</li>
 </ul>
 
-<h3 id="122">1.2.2</h3>
+<h3 id="122-2014-03-09">1.2.2 (2014-03-09)</h3>
 
 <ul>
 <li>Source maps now in dist/ with an upgrade to <code>thehelp-project</code> dependency</li>
 </ul>
 
-<h3 id="121">1.2.1</h3>
+<h3 id="121-2014-03-08">1.2.1 (2014-03-08)</h3>
 
 <ul>
 <li>Patch version updates: timezone-js, grunt, lodash</li>
@@ -70,7 +85,7 @@ var timezone = core.time.getTimezone();
 <li>Fixing too-long lines</li>
 </ul>
 
-<h3 id="120">1.2.0</h3>
+<h3 id="120-2013-12-02">1.2.0 (2013-12-02)</h3>
 
 <ul>
 <li>instead of looking for timezone data at '[cwd]/lib/vendor/tz' if TIME_ZONE_DATA environment variable is not set, we now look inside this node module</li>
@@ -79,14 +94,14 @@ var timezone = core.time.getTimezone();
 <li>adding readme</li>
 </ul>
 
-<h3 id="110">1.1.0</h3>
+<h3 id="110-2013-11-19">1.1.0 (2013-11-19)</h3>
 
 <ul>
 <li>dist/ now has three final versions of thehelp-core - one with all.json timezone data injected, one with min.json timezone data injected, and one that requires jquery/zepto/other to load it dynamically.</li>
 <li>including server timezone data in dist/tz folder</li>
 </ul>
 
-<h3 id="100">1.0.0</h3>
+<h3 id="100-2013-11-18">1.0.0 (2013-11-18)</h3>
 
 <ul>
 <li>Initial release</li>
