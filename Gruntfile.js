@@ -105,7 +105,7 @@ module.exports = function(g) {
   config.registerInstall();
   config.registerCopyFromDist(['thehelp-test']);
 
-  config.bowerSpecialCases['jquery'] = 'dist/jquery.js';
+  config.bowerSpecialCases.jquery = 'dist/jquery.js';
   config.registerCopyFromBower();
 
   grunt.config('copy.timezonejs', {
