@@ -44,6 +44,12 @@ To successfully run tests, you'll need an 'env.json' file in the root directory 
 
 ## History
 
+### 1.5.1 (2014-05-02)
+
+* Minor version update: `moment` (both npm and bower)
+* Bower dev dependency update: `jquery`
+* Update to gruntfile to copy jquery into 'lib/vendor'
+
 ### 1.5.0 (2014-05-01)
 
 * New: server methods to merge environment variables with data in 'env.json' (preferring real environment): `env.merge()`

@@ -86,6 +86,8 @@ number of methods on <code>config</code>.</p></div></div><div class="code"><div 
   <span class="p">]);</span>
   <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;client-test&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;connect:test&#39;</span><span class="p">,</span> <span class="s1">&#39;mocha&#39;</span><span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="pulling-in-dependencies">Pulling in dependencies</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="nx">config</span><span class="p">.</span><span class="nx">registerInstall</span><span class="p">();</span>
   <span class="nx">config</span><span class="p">.</span><span class="nx">registerCopyFromDist</span><span class="p">([</span><span class="s1">&#39;thehelp-test&#39;</span><span class="p">]);</span>
+
+  <span class="nx">config</span><span class="p">.</span><span class="nx">bowerSpecialCases</span><span class="p">.</span><span class="nx">jquery</span> <span class="o">=</span> <span class="s1">&#39;dist/jquery.js&#39;</span><span class="p">;</span>
   <span class="nx">config</span><span class="p">.</span><span class="nx">registerCopyFromBower</span><span class="p">();</span>
 
   <span class="nx">grunt</span><span class="p">.</span><span class="nx">config</span><span class="p">(</span><span class="s1">&#39;copy.timezonejs&#39;</span><span class="p">,</span> <span class="p">{</span>
