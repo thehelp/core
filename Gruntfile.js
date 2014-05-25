@@ -61,7 +61,7 @@ var generateDist = function(config, grunt) {
       expand: true,
       cwd: 'src/client/shims',
       src: ['*.js'],
-      dest: 'dist/shims',
+      dest: 'dist/shims'
     }]
   });
 
@@ -84,7 +84,9 @@ module.exports = function(g) {
   config.registerClean();
 
   config.registerTest();
-  config.registerStaticAnalysis(['src/**/*.js', '*.js', '!src/both/time-*.js']);
+  var srcFiles = ['src/**/*.js', '*.js', '!src/both/time-*.js'];
+  config.registerStaticAnalysis(srcFiles);
+  config.registerStyle(srcFiles);
   config.registerConnect();
 
   config.registerDoc(['src/**/*.js', '*.js', 'README.md', '!src/both/time-*.js']);
@@ -113,11 +115,16 @@ module.exports = function(g) {
       'lib/vendor/timezone.js': 'node_modules/timezone-js/src/date.js'
     }
   });
-  grunt.registerTask('setup', ['shell:npm-install', 'shell:bower-install',
-    'copy:timezonejs', 'copy:from-bower', 'copy:from-dist']);
+  grunt.registerTask('setup', [
+    'shell:npm-install', 'shell:bower-install',
+    'copy:timezonejs', 'copy:from-bower', 'copy:from-dist'
+  ]);
 
   // ## Default task
 
   // This is what runs when you type just 'grunt' on the command line
-  grunt.registerTask('default', ['test', 'staticanalysis', 'doc', 'dist', 'client-test']);
+  grunt.registerTask(
+    'default',
+    ['test', 'staticanalysis', 'style', 'doc', 'dist', 'client-test']
+  );
 };

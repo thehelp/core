@@ -8,6 +8,7 @@ if (typeof define !== 'function') {
 }
 
 define(function() {
+
   'use strict';
 
   return {

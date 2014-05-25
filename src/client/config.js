@@ -27,10 +27,10 @@ define(function() {
       fs: 'src/client/shims/empty',
 
       winston: 'src/client/shims/winston_shim',
-      util: 'src/client/shims/util_shim',
+      util: 'src/client/shims/util_shim'
     },
     shim: {
-      'timezone-js': { exports: 'window.timezoneJS' }
+      'timezone-js': {exports: 'window.timezoneJS'}
     }
   };
 

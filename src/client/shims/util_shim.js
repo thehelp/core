@@ -3,10 +3,8 @@
 // built-in node module.
 
 // Dependencies and [strict mode](http://mzl.la/1fRhnam)
-define([
-],
-  function(
-  ) {
+define([], function() {
+
   'use strict';
 
   return {

@@ -3,6 +3,7 @@
 
 // Dependencies and [strict mode](http://mzl.la/1fRhnam)
 define(function() {
+
   'use strict';
 
   // Damn Internet Explorer. If the dev tools are not active, console.log isn't

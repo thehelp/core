@@ -57,7 +57,11 @@ define(['thehelp-test', 'winston',
 
       it('calls callback when provided and error is something', function() {
         var cb = test.sinon.stub();
-        var actual = general.checkError('someone@email.com (method)', new Error('You cannot do that!'), cb);
+        var actual = general.checkError(
+          'someone@email.com (method)',
+          new Error('You cannot do that!'),
+          cb
+        );
 
         general.winston.error.callCount.should.equal(1, 'winston.error should be called');
         actual.should.equal(true, 'checkError should return true');

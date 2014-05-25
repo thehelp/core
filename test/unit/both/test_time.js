@@ -257,7 +257,8 @@ define(['thehelp-test', 'util', 'winston', 'thehelp-core'],
 
       it('handles other times above a minute', function() {
         time.renderTimespan(90 * time.SECOND_IN_MIL).should.equal('1:30');
-        time.renderTimespan(43 * time.SECOND_IN_MIL + 40 * time.MINUTE_IN_MIL).should.equal('40:43');
+        time.renderTimespan(43 * time.SECOND_IN_MIL + 40 * time.MINUTE_IN_MIL)
+          .should.equal('40:43');
       });
 
       it('handles one minute', function() {
@@ -319,7 +320,9 @@ define(['thehelp-test', 'util', 'winston', 'thehelp-core'],
     });
 
     describe('#timezoneAwareDate', function() {
-      it('returns a date that has the right value for getDay() (only works in PST)', function() {
+      it('returns a date that has the right value for getDay() (only works in PST)',
+        function()
+      {
         var date = new Date('2013-01-31T08:01:19.621Z');
 
         date.getDay().should.equal(4);

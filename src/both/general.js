@@ -8,6 +8,7 @@ if (typeof define !== 'function') {
 }
 
 define(['winston', 'util'], function(winston, util) {
+
   'use strict';
 
   return {

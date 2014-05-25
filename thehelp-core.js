@@ -12,13 +12,12 @@ define([
   'src/both/general',
   'src/both/string',
   'src/both/time'
-],
-  function(
-    color,
-    general,
-    string,
-    time
-  ) {
+], function(
+  color,
+  general,
+  string,
+  time
+) {
 
   'use strict';
 

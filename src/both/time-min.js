@@ -27,8 +27,12 @@ if (typeof define !== 'function') {
   var define = require('amdefine')(module);
 }
 
-define(['moment', 'winston', 'util', 'fs', 'timezone-js', './string'],
-  function(moment, winston, util, fs, timezonejs, string) {
+define([
+  'moment', 'winston', 'util', 'fs', 'timezone-js', './string'
+], function(
+  moment, winston, util, fs, timezonejs, string
+) {
+
   'use strict';
 
   // Setup
@@ -209,7 +213,7 @@ define(['moment', 'winston', 'util', 'fs', 'timezone-js', './string'],
       ];
 
       var index = 0;
-      var step = function () {
+      var step = function() {
         var units = Math.floor(mil / steps[index].divisor);
         var next = Math.floor(mil / steps[index + 1].divisor);
 
@@ -243,7 +247,8 @@ define(['moment', 'winston', 'util', 'fs', 'timezone-js', './string'],
       var minutes = Math.floor(mil / time.MINUTE_IN_MIL);
       if (hours > 0) {
         result += time.addPadding(minutes, 2);
-      } else if (minutes > 0) {
+      }
+      else if (minutes > 0) {
         result += minutes;
       }
       mil -= time.MINUTE_IN_MIL * minutes;
