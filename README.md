@@ -44,6 +44,12 @@ To successfully run tests, you'll need an 'env.json' file in the root directory 
 
 ## History
 
+### 1.5.2 (2014-05-24)
+
+* Patch version update: `timezone-js` (both client and server)
+* Update timezone data
+* Update dev dependencies
+
 ### 1.5.1 (2014-05-02)
 
 * Minor version update: `moment` (both npm and bower)
