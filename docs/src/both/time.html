@@ -23,8 +23,12 @@ UTC values are are no longer correct.</p></div></div></div><div class="segment">
   <span class="kd">var</span> <span class="nx">define</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;amdefine&#39;</span><span class="p">)(</span><span class="nx">module</span><span class="p">);</span>
 <span class="p">}</span>
 
-<span class="nx">define</span><span class="p">([</span><span class="s1">&#39;moment&#39;</span><span class="p">,</span> <span class="s1">&#39;winston&#39;</span><span class="p">,</span> <span class="s1">&#39;util&#39;</span><span class="p">,</span> <span class="s1">&#39;fs&#39;</span><span class="p">,</span> <span class="s1">&#39;timezone-js&#39;</span><span class="p">,</span> <span class="s1">&#39;./string&#39;</span><span class="p">],</span>
-  <span class="kd">function</span><span class="p">(</span><span class="nx">moment</span><span class="p">,</span> <span class="nx">winston</span><span class="p">,</span> <span class="nx">util</span><span class="p">,</span> <span class="nx">fs</span><span class="p">,</span> <span class="nx">timezonejs</span><span class="p">,</span> <span class="nx">string</span><span class="p">)</span> <span class="p">{</span>
+<span class="nx">define</span><span class="p">([</span>
+  <span class="s1">&#39;moment&#39;</span><span class="p">,</span> <span class="s1">&#39;winston&#39;</span><span class="p">,</span> <span class="s1">&#39;util&#39;</span><span class="p">,</span> <span class="s1">&#39;fs&#39;</span><span class="p">,</span> <span class="s1">&#39;timezone-js&#39;</span><span class="p">,</span> <span class="s1">&#39;./string&#39;</span>
+<span class="p">],</span> <span class="kd">function</span><span class="p">(</span>
+  <span class="nx">moment</span><span class="p">,</span> <span class="nx">winston</span><span class="p">,</span> <span class="nx">util</span><span class="p">,</span> <span class="nx">fs</span><span class="p">,</span> <span class="nx">timezonejs</span><span class="p">,</span> <span class="nx">string</span>
+<span class="p">)</span> <span class="p">{</span>
+
   <span class="s1">&#39;use strict&#39;</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="setup">Setup</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>In the browser we synchronously load timezone data from <code>window.tzUrl</code>.</p></div></div><div class="code"><div class="wrapper">  <span class="kd">var</span> <span class="nx">tz</span> <span class="o">=</span> <span class="nx">timezonejs</span><span class="p">.</span><span class="nx">timezone</span><span class="p">;</span>
   <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nb">window</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">//----- marking this section for injection of timezone JSON</span>
@@ -169,7 +173,7 @@ The next step after "1 hour" is "2 hours", nothing in between.</p></div></div><d
       <span class="p">];</span>
 
       <span class="kd">var</span> <span class="nx">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-      <span class="kd">var</span> <span class="nx">step</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">step</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
         <span class="kd">var</span> <span class="nx">units</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">mil</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">[</span><span class="nx">index</span><span class="p">].</span><span class="nx">divisor</span><span class="p">);</span>
         <span class="kd">var</span> <span class="nx">next</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">mil</span> <span class="o">/</span> <span class="nx">steps</span><span class="p">[</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">].</span><span class="nx">divisor</span><span class="p">);</span>
 
@@ -200,7 +204,8 @@ or "4:00" (four minutes). Milliseconds will not be shown unless
       <span class="kd">var</span> <span class="nx">minutes</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">mil</span> <span class="o">/</span> <span class="nx">time</span><span class="p">.</span><span class="nx">MINUTE_IN_MIL</span><span class="p">);</span>
       <span class="k">if</span> <span class="p">(</span><span class="nx">hours</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">result</span> <span class="o">+=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">addPadding</span><span class="p">(</span><span class="nx">minutes</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">minutes</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">}</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">minutes</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">result</span> <span class="o">+=</span> <span class="nx">minutes</span><span class="p">;</span>
       <span class="p">}</span>
       <span class="nx">mil</span> <span class="o">-=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">MINUTE_IN_MIL</span> <span class="o">*</span> <span class="nx">minutes</span><span class="p">;</span>
