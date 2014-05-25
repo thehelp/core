@@ -7,7 +7,7 @@
   "dependencies": {
     "amdefine": "0.1.x",
     "moment": "2.6.0",
-    "timezone-js": "0.4.9",
+    "timezone-js": "0.4.11",
     "winston": "0.7.x"
   },
   "devDependencies": {
