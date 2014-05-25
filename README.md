@@ -18,7 +18,7 @@ This project provides basic functionality that almost all javascript apps will n
 Include the project in your dependencies:
 
 ```
-"thehelp-core": "git+ssh://git@infra:thehelp-core#v1.0.0"
+npm install thehelp-core --save
 ```
 
 ### Usage
