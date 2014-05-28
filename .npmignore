@@ -1,10 +1,22 @@
+bower*
+
 test
 misc
+logs
+
+public
+
+db
+lib
 
 .gitignore
+.npmignore
+
+*.sublime*
+
 Gruntfile.js
-
-env.json
 result.html
+env.json
+config.json
 
-*.submlime*
+thehelp-core.js
