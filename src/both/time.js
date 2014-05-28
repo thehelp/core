@@ -4,7 +4,7 @@ All things time. Uses [Moment](http://momentjs.com/) and
 [TimezoneJS](https://github.com/mde/timezone-js) to present a number of simple
 time-related methods.
 
-__Server__: On the server side, timezone data is loaded from either 'lib/vendor/tz' or a
+__Server__: On the server side, timezone data is loaded from either 'dist/tz' or a
 directory you specify with the TIME\_ZONE\_DATA environment variable.
 
 __Browser__: To make browser usage easier, this project has a
@@ -55,11 +55,11 @@ define([
     //-----
   }
   // On the server we load timezone data at the TIME\_ZONE\_DATA environment variable
-  // or 'lib/vendor/tz.' We use a synchronous file load to avoid race conditions.
+  // or 'dist/tz.' We use a synchronous file load to avoid race conditions.
   else {
     tz.loadingScheme = tz.loadingSchemes.PRELOAD_ALL;
     tz.zoneFileBasePath = process.env.TIME_ZONE_DATA ||
-      __dirname + '/../../lib/vendor/tz';
+      __dirname + '/../../dist/tz';
     tz.transport = function(options) {
       return fs.readFileSync(options.url).toString();
     };

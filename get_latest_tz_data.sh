@@ -1,4 +1,4 @@
-LIB=lib/vendor/tz/
+LIB=dist/tz/
 
 curl ftp://ftp.iana.org/tz/data/Makefile > ${LIB}Makefile
 curl ftp://ftp.iana.org/tz/data/africa > ${LIB}africa

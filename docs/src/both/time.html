@@ -4,7 +4,7 @@
 <a href="https://github.com/mde/timezone-js">TimezoneJS</a> to present a number of simple
 time-related methods.</p>
 
-<p><strong>Server</strong>: On the server side, timezone data is loaded from either 'lib/vendor/tz' or a
+<p><strong>Server</strong>: On the server side, timezone data is loaded from either 'dist/tz' or a
 directory you specify with the TIME_ZONE_DATA environment variable.</p>
 
 <p><strong>Browser</strong>: To make browser usage easier, this project has a
@@ -44,10 +44,10 @@ UTC values are are no longer correct.</p></div></div></div><div class="segment">
     <span class="p">}</span>
     <span class="c1">//-----</span>
   <span class="p">}</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>On the server we load timezone data at the TIME_ZONE_DATA environment variable
-or 'lib/vendor/tz.' We use a synchronous file load to avoid race conditions.</p></div></div><div class="code"><div class="wrapper">  <span class="k">else</span> <span class="p">{</span>
+or 'dist/tz.' We use a synchronous file load to avoid race conditions.</p></div></div><div class="code"><div class="wrapper">  <span class="k">else</span> <span class="p">{</span>
     <span class="nx">tz</span><span class="p">.</span><span class="nx">loadingScheme</span> <span class="o">=</span> <span class="nx">tz</span><span class="p">.</span><span class="nx">loadingSchemes</span><span class="p">.</span><span class="nx">PRELOAD_ALL</span><span class="p">;</span>
     <span class="nx">tz</span><span class="p">.</span><span class="nx">zoneFileBasePath</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">TIME_ZONE_DATA</span> <span class="o">||</span>
-      <span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/../../lib/vendor/tz&#39;</span><span class="p">;</span>
+      <span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/../../dist/tz&#39;</span><span class="p">;</span>
     <span class="nx">tz</span><span class="p">.</span><span class="nx">transport</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">url</span><span class="p">).</span><span class="nx">toString</span><span class="p">();</span>
     <span class="p">};</span>
