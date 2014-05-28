@@ -44,6 +44,11 @@ To successfully run tests, you'll need an 'env.json' file in the root directory 
 
 ## History
 
+### 1.5.3 (2014-05-27)
+
+* Pare down what's in npm package
+* All time zone data moved from 'lib/vendor/tz' to 'dist/tz' since 'lib' is now excluded from npm package
+
 ### 1.5.2 (2014-05-24)
 
 * Patch version update: `timezone-js` (both client and server)
