@@ -2,8 +2,8 @@ if (typeof define !== 'function') {
   var define = require('amdefine')(module);
 }
 
-define(['thehelp-test', 'winston'],
-  function(test, winston) {
+define(['thehelp-test', 'winston'], function(test, winston) {
+
   'use strict';
 
   describe('winston_shim', function() {

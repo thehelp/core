@@ -2,8 +2,8 @@ if (typeof define !== 'function') {
   var define = require('amdefine')(module);
 }
 
-define(['thehelp-test', 'winston', 'util'],
-  function(test, winston, util) {
+define(['thehelp-test', 'winston', 'util'], function(test, winston, util) {
+
   'use strict';
 
   var sinon = test.sinon;
@@ -72,7 +72,7 @@ define(['thehelp-test', 'winston', 'util'],
         '  }\n' +
         '}';
         var actual = util.inspect(obj);
-        actual = actual.replace(/<.*>/,'<>');
+        actual = actual.replace(/<.*>/, '<>');
         actual.should.equal(expected);
       });
 

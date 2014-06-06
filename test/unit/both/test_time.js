@@ -2,9 +2,15 @@ if (typeof define !== 'function') {
   var define = require('amdefine')(module);
 }
 
-define(['thehelp-test', 'util', 'winston', 'thehelp-core'],
-  function (test, util, winston, core) {
+define([
+  'thehelp-test', 'util', 'winston', 'thehelp-core'
+], function(
+  test, util, winston, core
+) {
+
   'use strict';
+
+  var expect = test.core.expect;
 
   describe('time', function() {
     var time = core.time;
@@ -30,7 +36,8 @@ define(['thehelp-test', 'util', 'winston', 'thehelp-core'],
 
       it('construction sets start', function() {
         var duration = new time.Duration();
-        (!!duration.start).should.equal(true, 'start should be set');
+
+        expect(duration).to.have.property('start').that.exist;
         var now = time.now();
         var delta = now.getTime() - duration.start.getTime();
         delta.should.be.lessThan(time.SECOND_IN_MIL);
@@ -39,7 +46,7 @@ define(['thehelp-test', 'util', 'winston', 'thehelp-core'],
       it('renders on end', function() {
         var duration = new time.Duration();
         var result = duration.end();
-        (!!result).should.equal(true, 'non-null duration.end() return value');
+        expect(result).to.exist;
       });
 
       it('can be ended with render = false', function() {
@@ -141,7 +148,7 @@ define(['thehelp-test', 'util', 'winston', 'thehelp-core'],
       });
 
       it('returns a native javascript object for a real parse', function() {
-        (!!time.parse('2013-01-21').getDay).should.equal(true);
+        expect(time.parse('2013-01-21')).to.have.property('getDay').that.exist;
       });
 
       it('handles today in a different time zone (doesn\'t modify time)', function() {
@@ -320,15 +327,16 @@ define(['thehelp-test', 'util', 'winston', 'thehelp-core'],
     });
 
     describe('#timezoneAwareDate', function() {
-      it('returns a date that has the right value for getDay() (only works in PST)',
-        function()
-      {
-        var date = new Date('2013-01-31T08:01:19.621Z');
+      it(
+        'returns a date that has the right value for getDay() (only works in PST)',
+        function() {
+          var date = new Date('2013-01-31T08:01:19.621Z');
 
-        date.getDay().should.equal(4);
-        var tzDate = time.timezoneAwareDate(date, 'US/Hawaii');
-        tzDate.getDay().should.equal(3);
-      });
+          date.getDay().should.equal(4);
+          var tzDate = time.timezoneAwareDate(date, 'US/Hawaii');
+          tzDate.getDay().should.equal(3);
+        }
+      );
     });
 
     describe('#getTimezone', function() {
@@ -442,7 +450,7 @@ define(['thehelp-test', 'util', 'winston', 'thehelp-core'],
     describe('#toMidnight', function() {
       it('returns midnight PST (crossing midnight)', function() {
         var now = new Date('2013-01-30T05:36:03.748Z');
-        time.now = function () { return now; };
+        time.now = function() { return now; };
         var expected = new Date('2013-01-29T08:00:00.000Z');
 
         var actual = time.toMidnight('US/Pacific');
@@ -462,7 +470,7 @@ define(['thehelp-test', 'util', 'winston', 'thehelp-core'],
     describe('#toHour', function() {
       it('returns 8am PST (crossing midnight)', function() {
         var now = new Date('2013-01-30T05:36:03.748Z');
-        time.now = function () { return now; };
+        time.now = function() { return now; };
         var expected = new Date('2013-01-29T13:00:00.000Z');
 
         var actual = time.toHour(5, 'US/Pacific');
@@ -471,7 +479,7 @@ define(['thehelp-test', 'util', 'winston', 'thehelp-core'],
 
       it('returns 8am EST (not crossing midnight)', function() {
         var now = new Date('2013-01-30T05:36:03.748Z');
-        time.now = function () { return now; };
+        time.now = function() { return now; };
         var expected = new Date('2013-01-30T10:00:00.000Z');
 
         var actual = time.toHour(5, 'US/Eastern');
@@ -482,7 +490,7 @@ define(['thehelp-test', 'util', 'winston', 'thehelp-core'],
     describe('#toFirstOfMonth', function() {
       it('gets back to July 1st in PDT (just short of next month)', function() {
         var now = new Date('2013-08-01T05:30:00.000Z');
-        time.now = function () { return now; };
+        time.now = function() { return now; };
 
         // 7:00 due to daylight savings
         var expected = new Date('2013-07-01T07:00:00.000Z');
@@ -493,7 +501,7 @@ define(['thehelp-test', 'util', 'winston', 'thehelp-core'],
 
       it('gets back to August 1st in EDT (right at beginning of month)', function() {
         var now = new Date('2013-08-01T05:30:00.000Z');
-        time.now = function () { return now; };
+        time.now = function() { return now; };
 
         // 4:00 due to daylight savings
         var expected = new Date('2013-08-01T04:00:00.000Z');
@@ -506,14 +514,14 @@ define(['thehelp-test', 'util', 'winston', 'thehelp-core'],
     describe('#isLastDayOfMonth', function() {
       it('returns true for July 31st in PDT', function() {
         var now = new Date('2013-08-01T05:30:00.000Z');
-        time.now = function () { return now; };
+        time.now = function() { return now; };
 
         time.isLastDayOfMonth('US/Pacific').should.equal(true);
       });
 
       it('returns false for August 1st in EDT', function() {
         var now = new Date('2013-08-01T05:30:00.000Z');
-        time.now = function () { return now; };
+        time.now = function() { return now; };
 
         time.isLastDayOfMonth('US/Eastern').should.equal(false);
       });

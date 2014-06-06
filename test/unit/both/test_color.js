@@ -2,12 +2,12 @@ if (typeof define !== 'function') {
   var define = require('amdefine')(module);
 }
 
-define(['thehelp-test', 'winston', 'util', 'lodash',
-  'thehelp-core'
-],
-  function(test, winston, util, _,
-    core
-  ) {
+define([
+  'thehelp-test', 'winston', 'util', 'lodash', 'thehelp-core'
+], function(
+  test, winston, util, _, core
+) {
+
   'use strict';
 
   describe('color', function() {

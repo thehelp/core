@@ -2,15 +2,16 @@ if (typeof define !== 'function') {
   var define = require('amdefine')(module);
 }
 
-define(['thehelp-test', 'winston',
-  'thehelp-core'
-],
-  function(test, winston,
-    core
-  ) {
+define([
+  'thehelp-test', 'winston', 'thehelp-core'
+], function(
+  test, winston, core
+) {
+
   'use strict';
 
   var general = core.general;
+  var expect = test.core.expect;
 
   describe('General', function() {
 
@@ -22,7 +23,7 @@ define(['thehelp-test', 'winston',
 
     describe('#getHost', function() {
       it('returns something', function() {
-        (!!general.getHost()).should.equal(true, 'host should return something');
+        expect(general.getHost()).to.exist;
       });
     });
 
@@ -105,7 +106,7 @@ define(['thehelp-test', 'winston',
 
     describe('#setTimeout', function() {
       it('calls provided function', function(done) {
-        var cb = function () {
+        var cb = function() {
           return done();
         };
 
