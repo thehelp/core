@@ -13,7 +13,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "commentsOnly": true,
           "name": "Markdown"
         },
-        "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/README.md",
         "projectPath": "README.md",
         "targetPath": "index",
         "pageTitle": "index",
@@ -364,7 +363,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "foldPrefix": "^",
           "name": "JavaScript"
         },
-        "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/Gruntfile.js",
         "projectPath": "Gruntfile.js",
         "targetPath": "Gruntfile",
         "pageTitle": "Gruntfile",
@@ -495,7 +493,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "foldPrefix": "^",
                   "name": "JavaScript"
                 },
-                "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/both/color.js",
                 "projectPath": "src/both/color.js",
                 "targetPath": "src/both/color",
                 "pageTitle": "src/both/color",
@@ -525,7 +522,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "foldPrefix": "^",
                   "name": "JavaScript"
                 },
-                "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/both/general.js",
                 "projectPath": "src/both/general.js",
                 "targetPath": "src/both/general",
                 "pageTitle": "src/both/general",
@@ -555,7 +551,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "foldPrefix": "^",
                   "name": "JavaScript"
                 },
-                "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/both/string.js",
                 "projectPath": "src/both/string.js",
                 "targetPath": "src/both/string",
                 "pageTitle": "src/both/string",
@@ -585,7 +580,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "foldPrefix": "^",
                   "name": "JavaScript"
                 },
-                "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/both/time.js",
                 "projectPath": "src/both/time.js",
                 "targetPath": "src/both/time",
                 "pageTitle": "src/both/time",
@@ -726,7 +720,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "foldPrefix": "^",
                   "name": "JavaScript"
                 },
-                "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/client/config.js",
                 "projectPath": "src/client/config.js",
                 "targetPath": "src/client/config",
                 "pageTitle": "src/client/config",
@@ -764,7 +757,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                       "foldPrefix": "^",
                       "name": "JavaScript"
                     },
-                    "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/client/shims/empty.js",
                     "projectPath": "src/client/shims/empty.js",
                     "targetPath": "src/client/shims/empty",
                     "pageTitle": "src/client/shims/empty",
@@ -784,7 +776,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                       "foldPrefix": "^",
                       "name": "JavaScript"
                     },
-                    "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/client/shims/empty2.js",
                     "projectPath": "src/client/shims/empty2.js",
                     "targetPath": "src/client/shims/empty2",
                     "pageTitle": "src/client/shims/empty2",
@@ -804,7 +795,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                       "foldPrefix": "^",
                       "name": "JavaScript"
                     },
-                    "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/client/shims/empty3.js",
                     "projectPath": "src/client/shims/empty3.js",
                     "targetPath": "src/client/shims/empty3",
                     "pageTitle": "src/client/shims/empty3",
@@ -824,7 +814,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                       "foldPrefix": "^",
                       "name": "JavaScript"
                     },
-                    "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/client/shims/empty4.js",
                     "projectPath": "src/client/shims/empty4.js",
                     "targetPath": "src/client/shims/empty4",
                     "pageTitle": "src/client/shims/empty4",
@@ -844,7 +833,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                       "foldPrefix": "^",
                       "name": "JavaScript"
                     },
-                    "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/client/shims/empty5.js",
                     "projectPath": "src/client/shims/empty5.js",
                     "targetPath": "src/client/shims/empty5",
                     "pageTitle": "src/client/shims/empty5",
@@ -864,7 +852,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                       "foldPrefix": "^",
                       "name": "JavaScript"
                     },
-                    "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/client/shims/util_shim.js",
                     "projectPath": "src/client/shims/util_shim.js",
                     "targetPath": "src/client/shims/util_shim",
                     "pageTitle": "src/client/shims/util_shim",
@@ -894,7 +881,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                       "foldPrefix": "^",
                       "name": "JavaScript"
                     },
-                    "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/client/shims/winston_shim.js",
                     "projectPath": "src/client/shims/winston_shim.js",
                     "targetPath": "src/client/shims/winston_shim",
                     "pageTitle": "src/client/shims/winston_shim",
@@ -936,7 +922,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "foldPrefix": "^",
                   "name": "JavaScript"
                 },
-                "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/server/env.js",
                 "projectPath": "src/server/env.js",
                 "targetPath": "src/server/env",
                 "pageTitle": "src/server/env",
@@ -966,7 +951,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "foldPrefix": "^",
                   "name": "JavaScript"
                 },
-                "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/server/index.js",
                 "projectPath": "src/server/index.js",
                 "targetPath": "src/server/index",
                 "pageTitle": "src/server/index",
@@ -996,7 +980,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "foldPrefix": "^",
                   "name": "JavaScript"
                 },
-                "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/src/server/logs.js",
                 "projectPath": "src/server/logs.js",
                 "targetPath": "src/server/logs",
                 "pageTitle": "src/server/logs",
@@ -1030,7 +1013,6 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "foldPrefix": "^",
           "name": "JavaScript"
         },
-        "sourcePath": "/Users/scottnonnenberg/Development/thehelp/thehelp-core/thehelp-core.js",
         "projectPath": "thehelp-core.js",
         "targetPath": "thehelp-core",
         "pageTitle": "thehelp-core",
