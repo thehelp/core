@@ -4,6 +4,8 @@
 'use strict';
 
 var GruntConfig = require('thehelp-project').GruntConfig;
+require('thehelp-client-project').mixin(GruntConfig);
+
 var grunt;
 
 // `injectTzInfo` injects all/min.json (timezone information) into src/both/time.js.
@@ -46,15 +48,15 @@ var generateDist = function(config, grunt) {
     empty: ['winston', 'util'],
     config: options
   };
-  config.registerOptimize(optimize);
+  config.registerOptimizeLibrary(optimize);
 
   options.paths['src/both/time'] = 'src/both/time-min';
   optimize.outName = 'thehelp-core-tz-min';
-  config.registerOptimize(optimize);
+  config.registerOptimizeLibrary(optimize);
 
   options.paths['src/both/time'] = 'src/both/time-all';
   optimize.outName = 'thehelp-core-tz-all';
-  config.registerOptimize(optimize);
+  config.registerOptimizeLibrary(optimize);
 
   grunt.config('copy.shims-to-dist', {
     files: [{
@@ -78,33 +80,33 @@ module.exports = function(g) {
   grunt = g;
   var config = new GruntConfig(grunt);
 
-  config.setupTimeGrunt();
-  config.registerWatch();
-  config.registerEnv();
-  config.registerClean();
-
-  config.registerTest();
-  var srcFiles = ['src/**/*.js', '*.js', '!src/both/time-*.js'];
-  config.registerStaticAnalysis(srcFiles);
-  config.registerStyle(srcFiles);
-  config.registerConnect();
-
-  config.registerDoc(['src/**/*.js', '*.js', 'README.md', '!src/both/time-*.js']);
+  config.standardSetup({
+    staticAnalysis: {
+      src: ['src/**/*.js', '*.js', '!src/both/time-*.js']
+    },
+    style: {
+      all: ['src/**/*.js', '*.js', 'test/**/*.js', '!src/both/time-*.js']
+    },
+    doc: {
+      all: ['src/**/*.js', '*.js', 'README.md', '!src/both/time-*.js']
+    }
+  });
 
   // ## Generate dist/ folder
   generateDist(config, grunt);
 
   // ## Client testing
-  config.registerMocha([
-    'http://localhost:3001/test/integration/dev.html',
-    'http://localhost:3001/test/integration/dist.html',
-    'http://localhost:3001/test/integration/dist_min.html',
-    'http://localhost:3001/test/integration/dist_all.html'
-  ]);
+  config.registerMocha({
+    urls: [
+      'http://localhost:3001/test/integration/dev.html',
+      'http://localhost:3001/test/integration/dist.html',
+      'http://localhost:3001/test/integration/dist_min.html',
+      'http://localhost:3001/test/integration/dist_all.html'
+    ]
+  });
   grunt.registerTask('client-test', ['connect:test', 'mocha']);
 
   // ## Pulling in dependencies
-  config.registerInstall();
   config.registerCopyFromDist(['thehelp-test']);
 
   config.bowerSpecialCases.jquery = 'dist/jquery.js';
@@ -116,7 +118,6 @@ module.exports = function(g) {
     }
   });
   grunt.registerTask('setup', [
-    'shell:npm-install', 'shell:bower-install',
     'copy:timezonejs', 'copy:from-bower', 'copy:from-dist'
   ]);
 

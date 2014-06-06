@@ -3,6 +3,8 @@
 <p>Automation for the project.</p></div></div><div class="code"><div class="wrapper"><span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
 
 <span class="kd">var</span> <span class="nx">GruntConfig</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;thehelp-project&#39;</span><span class="p">).</span><span class="nx">GruntConfig</span><span class="p">;</span>
+<span class="nx">require</span><span class="p">(</span><span class="s1">&#39;thehelp-client-project&#39;</span><span class="p">).</span><span class="nx">mixin</span><span class="p">(</span><span class="nx">GruntConfig</span><span class="p">);</span>
+
 <span class="kd">var</span> <span class="nx">grunt</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>injectTzInfo</code> injects all/min.json (timezone information) into src/both/time.js.
 This increases the size of the javascript (by a lot in the case of all.json)
 but reduces the number of client/server roundtrips.</p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">injectTzInfo</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
@@ -39,15 +41,15 @@ included, and with all.json included.</li>
     <span class="nx">empty</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;winston&#39;</span><span class="p">,</span> <span class="s1">&#39;util&#39;</span><span class="p">],</span>
     <span class="nx">config</span><span class="o">:</span> <span class="nx">options</span>
   <span class="p">};</span>
-  <span class="nx">config</span><span class="p">.</span><span class="nx">registerOptimize</span><span class="p">(</span><span class="nx">optimize</span><span class="p">);</span>
+  <span class="nx">config</span><span class="p">.</span><span class="nx">registerOptimizeLibrary</span><span class="p">(</span><span class="nx">optimize</span><span class="p">);</span>
 
   <span class="nx">options</span><span class="p">.</span><span class="nx">paths</span><span class="p">[</span><span class="s1">&#39;src/both/time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;src/both/time-min&#39;</span><span class="p">;</span>
   <span class="nx">optimize</span><span class="p">.</span><span class="nx">outName</span> <span class="o">=</span> <span class="s1">&#39;thehelp-core-tz-min&#39;</span><span class="p">;</span>
-  <span class="nx">config</span><span class="p">.</span><span class="nx">registerOptimize</span><span class="p">(</span><span class="nx">optimize</span><span class="p">);</span>
+  <span class="nx">config</span><span class="p">.</span><span class="nx">registerOptimizeLibrary</span><span class="p">(</span><span class="nx">optimize</span><span class="p">);</span>
 
   <span class="nx">options</span><span class="p">.</span><span class="nx">paths</span><span class="p">[</span><span class="s1">&#39;src/both/time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;src/both/time-all&#39;</span><span class="p">;</span>
   <span class="nx">optimize</span><span class="p">.</span><span class="nx">outName</span> <span class="o">=</span> <span class="s1">&#39;thehelp-core-tz-all&#39;</span><span class="p">;</span>
-  <span class="nx">config</span><span class="p">.</span><span class="nx">registerOptimize</span><span class="p">(</span><span class="nx">optimize</span><span class="p">);</span>
+  <span class="nx">config</span><span class="p">.</span><span class="nx">registerOptimizeLibrary</span><span class="p">(</span><span class="nx">optimize</span><span class="p">);</span>
 
   <span class="nx">grunt</span><span class="p">.</span><span class="nx">config</span><span class="p">(</span><span class="s1">&#39;copy.shims-to-dist&#39;</span><span class="p">,</span> <span class="p">{</span>
     <span class="nx">files</span><span class="o">:</span> <span class="p">[{</span>
@@ -69,25 +71,25 @@ number of methods on <code>config</code>.</p></div></div><div class="code"><div 
   <span class="nx">grunt</span> <span class="o">=</span> <span class="nx">g</span><span class="p">;</span>
   <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GruntConfig</span><span class="p">(</span><span class="nx">grunt</span><span class="p">);</span>
 
-  <span class="nx">config</span><span class="p">.</span><span class="nx">setupTimeGrunt</span><span class="p">();</span>
-  <span class="nx">config</span><span class="p">.</span><span class="nx">registerWatch</span><span class="p">();</span>
-  <span class="nx">config</span><span class="p">.</span><span class="nx">registerEnv</span><span class="p">();</span>
-  <span class="nx">config</span><span class="p">.</span><span class="nx">registerClean</span><span class="p">();</span>
-
-  <span class="nx">config</span><span class="p">.</span><span class="nx">registerTest</span><span class="p">();</span>
-  <span class="kd">var</span> <span class="nx">srcFiles</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;src/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!src/both/time-*.js&#39;</span><span class="p">];</span>
-  <span class="nx">config</span><span class="p">.</span><span class="nx">registerStaticAnalysis</span><span class="p">(</span><span class="nx">srcFiles</span><span class="p">);</span>
-  <span class="nx">config</span><span class="p">.</span><span class="nx">registerStyle</span><span class="p">(</span><span class="nx">srcFiles</span><span class="p">);</span>
-  <span class="nx">config</span><span class="p">.</span><span class="nx">registerConnect</span><span class="p">();</span>
-
-  <span class="nx">config</span><span class="p">.</span><span class="nx">registerDoc</span><span class="p">([</span><span class="s1">&#39;src/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;README.md&#39;</span><span class="p">,</span> <span class="s1">&#39;!src/both/time-*.js&#39;</span><span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="generate-dist-folder">Generate dist/ folder</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="nx">generateDist</span><span class="p">(</span><span class="nx">config</span><span class="p">,</span> <span class="nx">grunt</span><span class="p">);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="client-testing">Client testing</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="nx">config</span><span class="p">.</span><span class="nx">registerMocha</span><span class="p">([</span>
-    <span class="s1">&#39;http://localhost:3001/test/integration/dev.html&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;http://localhost:3001/test/integration/dist.html&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;http://localhost:3001/test/integration/dist_min.html&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;http://localhost:3001/test/integration/dist_all.html&#39;</span>
-  <span class="p">]);</span>
-  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;client-test&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;connect:test&#39;</span><span class="p">,</span> <span class="s1">&#39;mocha&#39;</span><span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="pulling-in-dependencies">Pulling in dependencies</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="nx">config</span><span class="p">.</span><span class="nx">registerInstall</span><span class="p">();</span>
-  <span class="nx">config</span><span class="p">.</span><span class="nx">registerCopyFromDist</span><span class="p">([</span><span class="s1">&#39;thehelp-test&#39;</span><span class="p">]);</span>
+  <span class="nx">config</span><span class="p">.</span><span class="nx">standardSetup</span><span class="p">({</span>
+    <span class="nx">staticAnalysis</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;src/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!src/both/time-*.js&#39;</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="nx">style</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">all</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;src/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;test/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!src/both/time-*.js&#39;</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="nx">doc</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">all</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;src/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;README.md&#39;</span><span class="p">,</span> <span class="s1">&#39;!src/both/time-*.js&#39;</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="generate-dist-folder">Generate dist/ folder</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="nx">generateDist</span><span class="p">(</span><span class="nx">config</span><span class="p">,</span> <span class="nx">grunt</span><span class="p">);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="client-testing">Client testing</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="nx">config</span><span class="p">.</span><span class="nx">registerMocha</span><span class="p">({</span>
+    <span class="nx">urls</span><span class="o">:</span> <span class="p">[</span>
+      <span class="s1">&#39;http://localhost:3001/test/integration/dev.html&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;http://localhost:3001/test/integration/dist.html&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;http://localhost:3001/test/integration/dist_min.html&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;http://localhost:3001/test/integration/dist_all.html&#39;</span>
+    <span class="p">]</span>
+  <span class="p">});</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;client-test&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;connect:test&#39;</span><span class="p">,</span> <span class="s1">&#39;mocha&#39;</span><span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="pulling-in-dependencies">Pulling in dependencies</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="nx">config</span><span class="p">.</span><span class="nx">registerCopyFromDist</span><span class="p">([</span><span class="s1">&#39;thehelp-test&#39;</span><span class="p">]);</span>
 
   <span class="nx">config</span><span class="p">.</span><span class="nx">bowerSpecialCases</span><span class="p">.</span><span class="nx">jquery</span> <span class="o">=</span> <span class="s1">&#39;dist/jquery.js&#39;</span><span class="p">;</span>
   <span class="nx">config</span><span class="p">.</span><span class="nx">registerCopyFromBower</span><span class="p">();</span>
@@ -98,7 +100,6 @@ number of methods on <code>config</code>.</p></div></div><div class="code"><div 
     <span class="p">}</span>
   <span class="p">});</span>
   <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;setup&#39;</span><span class="p">,</span> <span class="p">[</span>
-    <span class="s1">&#39;shell:npm-install&#39;</span><span class="p">,</span> <span class="s1">&#39;shell:bower-install&#39;</span><span class="p">,</span>
     <span class="s1">&#39;copy:timezonejs&#39;</span><span class="p">,</span> <span class="s1">&#39;copy:from-bower&#39;</span><span class="p">,</span> <span class="s1">&#39;copy:from-dist&#39;</span>
   <span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="default-task">Default task</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>This is what runs when you type just 'grunt' on the command line</p></div></div><div class="code"><div class="wrapper">  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span>
     <span class="s1">&#39;default&#39;</span><span class="p">,</span>
