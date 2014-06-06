@@ -17,7 +17,7 @@ define(function() {
 
   return {
     baseUrl: baseUrl,
-    name: 'thehelp-test',
+    name: 'thehelp-core',
     paths: {
       async: 'lib/vendor/async',
       lodash: 'lib/vendor/lodash.compat',
