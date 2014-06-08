@@ -1,16 +1,22 @@
 <!DOCTYPE html><html lang="en"><head><title>index</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="index"><meta name="groc-project-path" content="README.md"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path">README.md</div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="thehelp-core">thehelp-core</h1>
 
-<p>This project provides basic functionality that almost all javascript apps will need. In fact, all this should be included in future javascript implementations, in my humble opinion. :0)</p>
+<p>This project provides basic functionality that almost all javascript apps will need, available both on the server and in the client.</p>
 
 <h2 id="features">Features</h2>
 
 <ul>
-<li>some basic string manipulation functions</li>
-<li>some basic color manipulation functions</li>
+<li>date formatting and manipuation functions, including a Duration class to make it easy to track timings.</li>
 <li>timezone.js, and time zone data - min.json with a minimum set, and all.json with comprehensive data</li>
-<li>time.js date formatting and manipuation functions, including a Duration class to make it easy to track timings.</li>
-<li>methods for quick winston setup on the server</li>
-<li>winston and util shims for use on the client side</li>
+<li>basic string manipulation functions</li>
+<li>basic color manipulation functions</li>
+<li><code>winston</code> and <code>util</code> shims for use on the client side</li>
+</ul>
+
+<p>Server-only:</p>
+
+<ul>
+<li><code>logs.setupFile()/setupConsole()</code> for quick <code>winston</code> setup on the server</li>
+<li><code>env.merge()</code> method to merge data from 'env.json' with values already on <code>process.env</code></li>
 </ul>
 
 <h2 id="jump-in">Jump in!</h2>
@@ -22,24 +28,33 @@
 <pre><code>npm install thehelp-core --save
 </code></pre>
 
+<p>If you're using <code>thehelp-client-project</code> you'll want to pull in the contents of this project's dist folder for your client-side javascript by adding this line in your Gruntfile:</p>
+
+<pre><code>config.registerCopyFromDist({
+  modules: ['thehelp-core']
+})
+</code></pre>
+
 <h3 id="usage">Usage</h3>
 
-<p>On the server, just require it and start using it! You will likely need to set the HOST environment variable for everything to work smoothly.</p>
+<p>On the server, just require it and start using it!</p>
 
 <pre><code>var core = require('thehelp-core');
 var timezone = core.time.getTimezone();
 </code></pre>
 
-<p>On the client side, it's easiest to pull in <code>thehelp-core-tz-min.min.js</code> You can very quickly add it to lib/vendor with the <code>registerCopyFromDist()</code> method from <code>thehelp-project</code>. Lastly you'll need to ensure that <code>winston</code> and <code>util</code> are available - you can use the shim files in 'dist/shims.'</p>
+<p>On the client side, it's easiest to pull in <code>thehelp-core-tz-min.min.js</code> If you're using <code>registerCopyFromDist()</code> method described above, it's already in your 'lib/vendor' directory. Lastly you'll need to ensure that <code>winston</code> and <code>util</code> are available - you can use the shim files in 'dist/shims.'</p>
 
 <h2 id="development">Development</h2>
 
-<p>To successfully run tests, you'll need an 'env.json' file in the root directory with this in it:</p>
+<p>To successfully run tests, you'll need an 'env.json' file in the root directory with this in it - it's where <code>core.general.getHost()</code> gets its value on the client side:</p>
 
 <pre><code>{
   "HOST": "anything"
 }
 </code></pre>
+
+<p>On the client-side, <code>getHost()</code> returns the value of <code>window.host</code>.</p>
 
 <h2 id="history">History</h2>
 

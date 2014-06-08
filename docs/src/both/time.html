@@ -47,7 +47,7 @@ UTC values are are no longer correct.</p></div></div></div><div class="segment">
 or 'dist/tz.' We use a synchronous file load to avoid race conditions.</p></div></div><div class="code"><div class="wrapper">  <span class="k">else</span> <span class="p">{</span>
     <span class="nx">tz</span><span class="p">.</span><span class="nx">loadingScheme</span> <span class="o">=</span> <span class="nx">tz</span><span class="p">.</span><span class="nx">loadingSchemes</span><span class="p">.</span><span class="nx">PRELOAD_ALL</span><span class="p">;</span>
     <span class="nx">tz</span><span class="p">.</span><span class="nx">zoneFileBasePath</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">TIME_ZONE_DATA</span> <span class="o">||</span>
-      <span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/../../dist/tz&#39;</span><span class="p">;</span>
+      <span class="nx">__dirname</span> <span class="o">+</span> <span class="s1">&#39;/../../tz&#39;</span><span class="p">;</span>
     <span class="nx">tz</span><span class="p">.</span><span class="nx">transport</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="nx">options</span><span class="p">.</span><span class="nx">url</span><span class="p">).</span><span class="nx">toString</span><span class="p">();</span>
     <span class="p">};</span>

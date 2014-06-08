@@ -1,15 +1,19 @@
 # thehelp-core
 
-This project provides basic functionality that almost all javascript apps will need. In fact, all this should be included in future javascript implementations, in my humble opinion. :0)
+This project provides basic functionality that almost all javascript apps will need, available both on the server and in the client.
 
 ## Features
 
-* some basic string manipulation functions
-* some basic color manipulation functions
+* date formatting and manipuation functions, including a Duration class to make it easy to track timings.
 * timezone.js, and time zone data - min.json with a minimum set, and all.json with comprehensive data
-* time.js date formatting and manipuation functions, including a Duration class to make it easy to track timings.
-* methods for quick winston setup on the server
-* winston and util shims for use on the client side
+* basic string manipulation functions
+* basic color manipulation functions
+* `winston` and `util` shims for use on the client side
+
+Server-only:
+
+* `logs.setupFile()/setupConsole()` for quick `winston` setup on the server
+* `env.merge()` method to merge data from 'env.json' with values already on `process.env`
 
 ## Jump in!
 
@@ -21,26 +25,36 @@ Include the project in your dependencies:
 npm install thehelp-core --save
 ```
 
+If you're using `thehelp-client-project` you'll want to pull in the contents of this project's dist folder for your client-side javascript by adding this line in your Gruntfile:
+
+```
+config.registerCopyFromDist({
+  modules: ['thehelp-core']
+})
+```
+
 ### Usage
 
-On the server, just require it and start using it! You will likely need to set the HOST environment variable for everything to work smoothly.
+On the server, just require it and start using it!
 
 ```
 var core = require('thehelp-core');
 var timezone = core.time.getTimezone();
 ```
 
-On the client side, it's easiest to pull in `thehelp-core-tz-min.min.js` You can very quickly add it to lib/vendor with the `registerCopyFromDist()` method from `thehelp-project`. Lastly you'll need to ensure that `winston` and `util` are available - you can use the shim files in 'dist/shims.'
+On the client side, it's easiest to pull in `thehelp-core-tz-min.min.js` If you're using `registerCopyFromDist()` method described above, it's already in your 'lib/vendor' directory. Lastly you'll need to ensure that `winston` and `util` are available - you can use the shim files in 'dist/shims.'
 
 ## Development
 
-To successfully run tests, you'll need an 'env.json' file in the root directory with this in it:
+To successfully run tests, you'll need an 'env.json' file in the root directory with this in it - it's where `core.general.getHost()` gets its value on the client side:
 
 ```
 {
   "HOST": "anything"
 }
 ```
+
+On the client-side, `getHost()` returns the value of `window.host`.
 
 ## History
 
