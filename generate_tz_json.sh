@@ -1,7 +1,7 @@
 # the second items on the line are the 'real zones' behind the aliases, which are the first on the line.
 # really would have thought that the tool would pull those in for us...
 
-LIB=dist/tz/
+LIB=tz/
 
 node node_modules/timezone-js/src/node-preparse.js ${LIB} \
  "Pacific/Pago_Pago \

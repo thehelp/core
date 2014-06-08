@@ -13,8 +13,8 @@ var grunt;
 // but reduces the number of client/server roundtrips.
 var injectTzInfo = function() {
   var time = grunt.file.read('src/both/time.js');
-  var all = grunt.file.read('dist/tz/all.json').replace('\n', '');
-  var min = grunt.file.read('dist/tz/min.json').replace('\n', '');
+  var all = grunt.file.read('tz/all.json').replace('\n', '');
+  var min = grunt.file.read('tz/min.json').replace('\n', '');
 
   var start = 'var json = \'';
   var end = '\';\n' +
