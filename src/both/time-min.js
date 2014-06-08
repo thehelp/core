@@ -52,7 +52,7 @@ define([
   else {
     tz.loadingScheme = tz.loadingSchemes.PRELOAD_ALL;
     tz.zoneFileBasePath = process.env.TIME_ZONE_DATA ||
-      __dirname + '/../../dist/tz';
+      __dirname + '/../../tz';
     tz.transport = function(options) {
       return fs.readFileSync(options.url).toString();
     };
