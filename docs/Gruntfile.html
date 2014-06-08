@@ -5,36 +5,67 @@
 <span class="kd">var</span> <span class="nx">GruntConfig</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;thehelp-project&#39;</span><span class="p">).</span><span class="nx">GruntConfig</span><span class="p">;</span>
 <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;thehelp-client-project&#39;</span><span class="p">).</span><span class="nx">mixin</span><span class="p">(</span><span class="nx">GruntConfig</span><span class="p">);</span>
 
-<span class="kd">var</span> <span class="nx">grunt</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>injectTzInfo</code> injects all/min.json (timezone information) into src/both/time.js.
-This increases the size of the javascript (by a lot in the case of all.json)
-but reduces the number of client/server roundtrips.</p></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">injectTzInfo</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">time</span> <span class="o">=</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">read</span><span class="p">(</span><span class="s1">&#39;src/both/time.js&#39;</span><span class="p">);</span>
-  <span class="kd">var</span> <span class="nx">all</span> <span class="o">=</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">read</span><span class="p">(</span><span class="s1">&#39;dist/tz/all.json&#39;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
-  <span class="kd">var</span> <span class="nx">min</span> <span class="o">=</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">read</span><span class="p">(</span><span class="s1">&#39;dist/tz/min.json&#39;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">internals</span> <span class="o">=</span> <span class="p">{};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="overall-setup">Overall setup</h2>
 
-  <span class="kd">var</span> <span class="nx">start</span> <span class="o">=</span> <span class="s1">&#39;var json = \&#39;&#39;</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">end</span> <span class="o">=</span> <span class="s1">&#39;\&#39;;\n&#39;</span> <span class="o">+</span>
-    <span class="s1">&#39;    tz.transport = function() {\n&#39;</span> <span class="o">+</span>
-    <span class="s1">&#39;      return json;\n&#39;</span> <span class="o">+</span>
-    <span class="s1">&#39;    };\n&#39;</span> <span class="o">+</span>
-    <span class="s1">&#39;    tz.loadZoneJSONData(null, true);&#39;</span><span class="p">;</span>
-
-  <span class="kd">var</span> <span class="nx">replace</span> <span class="o">=</span> <span class="sr">/\/\/-----[\w\W]+\/\/-----/g</span><span class="p">;</span>
-
-  <span class="kd">var</span> <span class="nx">timeAll</span> <span class="o">=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">replace</span><span class="p">,</span> <span class="nx">start</span> <span class="o">+</span> <span class="nx">all</span> <span class="o">+</span> <span class="nx">end</span><span class="p">);</span>
-  <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;src/both/time-all.js&#39;</span><span class="p">,</span> <span class="nx">timeAll</span><span class="p">);</span>
-
-  <span class="kd">var</span> <span class="nx">timeMin</span> <span class="o">=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">replace</span><span class="p">,</span> <span class="nx">start</span> <span class="o">+</span> <span class="nx">min</span> <span class="o">+</span> <span class="nx">end</span><span class="p">);</span>
-  <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;src/both/time-min.js&#39;</span><span class="p">,</span> <span class="nx">timeMin</span><span class="p">);</span>
-<span class="p">};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>generateDist</code> contains all the grunt registration required to assemble
-the dist folder, for users of the-help on the client side:</p>
+<p>We need to customize set of files we process for documentation/style/jshint to exclude
+the generated time.js files:</p>
 
 <ol>
-<li>inject time zone information into src/client/time-all/min.js</li>
-<li>optimize thehelp-core.js into three different versions: raw, with min.json
-included, and with all.json included.</li>
-<li>copy all shims to dist/shims folder</li>
-</ol></div></div><div class="code"><div class="wrapper"><span class="kd">var</span> <span class="nx">generateDist</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">,</span> <span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+<li>they're dupes, copies of time.js</li>
+<li>they have really long lines (jshint/jscs errors, hangs groc)</li>
+</ol></div></div><div class="code"><div class="wrapper"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GruntConfig</span><span class="p">(</span><span class="nx">grunt</span><span class="p">);</span>
+
+  <span class="nx">config</span><span class="p">.</span><span class="nx">standardSetup</span><span class="p">({</span>
+    <span class="nx">staticAnalysis</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;src/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!src/both/time-*.js&#39;</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="nx">style</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">all</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;src/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;test/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!src/both/time-*.js&#39;</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="nx">doc</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">all</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;src/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;README.md&#39;</span><span class="p">,</span> <span class="s1">&#39;!src/both/time-*.js&#39;</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+
+  <span class="nx">internals</span><span class="p">.</span><span class="nx">setupDist</span><span class="p">(</span><span class="nx">config</span><span class="p">,</span> <span class="nx">grunt</span><span class="p">);</span>
+  <span class="nx">internals</span><span class="p">.</span><span class="nx">setupSetup</span><span class="p">(</span><span class="nx">config</span><span class="p">,</span> <span class="nx">grunt</span><span class="p">);</span>
+  <span class="nx">internals</span><span class="p">.</span><span class="nx">setupClientTest</span><span class="p">(</span><span class="nx">config</span><span class="p">,</span> <span class="nx">grunt</span><span class="p">);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>This is what runs when you type just 'grunt' on the command line</p></div></div><div class="code"><div class="wrapper">  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span>
+    <span class="s1">&#39;default&#39;</span><span class="p">,</span>
+    <span class="p">[</span><span class="s1">&#39;setup&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;staticanalysis&#39;</span><span class="p">,</span> <span class="s1">&#39;style&#39;</span><span class="p">,</span> <span class="s1">&#39;doc&#39;</span><span class="p">,</span> <span class="s1">&#39;dist&#39;</span><span class="p">,</span> <span class="s1">&#39;client-test&#39;</span><span class="p">]</span>
+  <span class="p">);</span>
+<span class="p">};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>injectTzInfo</code> returns a function which injects timezone information into
+'src/both/time.js'. This increases the size of the javascript (by a lot in the case of
+'all.json') but reduces the number of client/server roundtrips.</p></div></div><div class="code"><div class="wrapper"><span class="nx">internals</span><span class="p">.</span><span class="nx">injectTzInfo</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">time</span> <span class="o">=</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">read</span><span class="p">(</span><span class="s1">&#39;src/both/time.js&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">all</span> <span class="o">=</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">read</span><span class="p">(</span><span class="s1">&#39;tz/all.json&#39;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">min</span> <span class="o">=</span> <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">read</span><span class="p">(</span><span class="s1">&#39;tz/min.json&#39;</span><span class="p">).</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+
+    <span class="kd">var</span> <span class="nx">start</span> <span class="o">=</span> <span class="s1">&#39;var json = \&#39;&#39;</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">end</span> <span class="o">=</span> <span class="s1">&#39;\&#39;;\n&#39;</span> <span class="o">+</span>
+      <span class="s1">&#39;    tz.transport = function() {\n&#39;</span> <span class="o">+</span>
+      <span class="s1">&#39;      return json;\n&#39;</span> <span class="o">+</span>
+      <span class="s1">&#39;    };\n&#39;</span> <span class="o">+</span>
+      <span class="s1">&#39;    tz.loadZoneJSONData(null, true);&#39;</span><span class="p">;</span>
+
+    <span class="kd">var</span> <span class="nx">replace</span> <span class="o">=</span> <span class="sr">/\/\/-----[\w\W]+\/\/-----/g</span><span class="p">;</span>
+
+    <span class="kd">var</span> <span class="nx">timeAll</span> <span class="o">=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">replace</span><span class="p">,</span> <span class="nx">start</span> <span class="o">+</span> <span class="nx">all</span> <span class="o">+</span> <span class="nx">end</span><span class="p">);</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;src/both/time-all.js&#39;</span><span class="p">,</span> <span class="nx">timeAll</span><span class="p">);</span>
+
+    <span class="kd">var</span> <span class="nx">timeMin</span> <span class="o">=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">replace</span><span class="p">,</span> <span class="nx">start</span> <span class="o">+</span> <span class="nx">min</span> <span class="o">+</span> <span class="nx">end</span><span class="p">);</span>
+    <span class="nx">grunt</span><span class="p">.</span><span class="nx">file</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;src/both/time-min.js&#39;</span><span class="p">,</span> <span class="nx">timeMin</span><span class="p">);</span>
+  <span class="p">};</span>
+<span class="p">};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>setupDist</code> contains all the grunt registration required to assemble
+the dist folder, for users of <code>thehelp-core</code> on the client side:</p>
+
+<ol>
+<li>inject time zone information into 'src/client/time-all/min.js'</li>
+<li>optimize thehelp-core.js into three different versions: raw, with 'tz/min.json'
+included, and with 'tz/all.json' included.</li>
+<li>copy all shims to 'dist/shims' folder</li>
+</ol></div></div><div class="code"><div class="wrapper"><span class="nx">internals</span><span class="p">.</span><span class="nx">setupDist</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">,</span> <span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">options</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./src/client/config&#39;</span><span class="p">);</span>
   <span class="kd">var</span> <span class="nx">optimize</span> <span class="o">=</span> <span class="p">{</span>
     <span class="nx">name</span><span class="o">:</span> <span class="s1">&#39;thehelp-core&#39;</span><span class="p">,</span>
@@ -60,39 +91,14 @@ included, and with all.json included.</li>
     <span class="p">}]</span>
   <span class="p">});</span>
 
-  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;inject-tz-json&#39;</span><span class="p">,</span> <span class="nx">injectTzInfo</span><span class="p">);</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;inject-tz-json&#39;</span><span class="p">,</span> <span class="nx">internals</span><span class="p">.</span><span class="nx">injectTzInfo</span><span class="p">(</span><span class="nx">grunt</span><span class="p">));</span>
   <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;dist&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;inject-tz-json&#39;</span><span class="p">,</span> <span class="s1">&#39;copy:shims-to-dist&#39;</span><span class="p">,</span> <span class="s1">&#39;requirejs&#39;</span><span class="p">]);</span>
-<span class="p">};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="overall-setup">Overall setup</h2>
-
-<p>We can't call <code>config.standardSetup()</code> because we need to customize set of
-files we process for documentation (we have to exclude the generated time.js files
-- 1. they're dupes 2. they hang groc 3. they have really long lines). So we call a
-number of methods on <code>config</code>.</p></div></div><div class="code"><div class="wrapper"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">g</span><span class="p">)</span> <span class="p">{</span>
-  <span class="nx">grunt</span> <span class="o">=</span> <span class="nx">g</span><span class="p">;</span>
-  <span class="kd">var</span> <span class="nx">config</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GruntConfig</span><span class="p">(</span><span class="nx">grunt</span><span class="p">);</span>
-
-  <span class="nx">config</span><span class="p">.</span><span class="nx">standardSetup</span><span class="p">({</span>
-    <span class="nx">staticAnalysis</span><span class="o">:</span> <span class="p">{</span>
-      <span class="nx">src</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;src/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!src/both/time-*.js&#39;</span><span class="p">]</span>
-    <span class="p">},</span>
-    <span class="nx">style</span><span class="o">:</span> <span class="p">{</span>
-      <span class="nx">all</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;src/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;test/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;!src/both/time-*.js&#39;</span><span class="p">]</span>
-    <span class="p">},</span>
-    <span class="nx">doc</span><span class="o">:</span> <span class="p">{</span>
-      <span class="nx">all</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;src/**/*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;*.js&#39;</span><span class="p">,</span> <span class="s1">&#39;README.md&#39;</span><span class="p">,</span> <span class="s1">&#39;!src/both/time-*.js&#39;</span><span class="p">]</span>
-    <span class="p">}</span>
-  <span class="p">});</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="generate-dist-folder">Generate dist/ folder</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="nx">generateDist</span><span class="p">(</span><span class="nx">config</span><span class="p">,</span> <span class="nx">grunt</span><span class="p">);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="client-testing">Client testing</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="nx">config</span><span class="p">.</span><span class="nx">registerMocha</span><span class="p">({</span>
-    <span class="nx">urls</span><span class="o">:</span> <span class="p">[</span>
-      <span class="s1">&#39;http://localhost:3001/test/integration/dev.html&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;http://localhost:3001/test/integration/dist.html&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;http://localhost:3001/test/integration/dist_min.html&#39;</span><span class="p">,</span>
-      <span class="s1">&#39;http://localhost:3001/test/integration/dist_all.html&#39;</span>
-    <span class="p">]</span>
-  <span class="p">});</span>
-  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;client-test&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;connect:test&#39;</span><span class="p">,</span> <span class="s1">&#39;mocha&#39;</span><span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="pulling-in-dependencies">Pulling in dependencies</h2></div></div></div><div class="segment"><div class="code"><div class="wrapper">  <span class="nx">config</span><span class="p">.</span><span class="nx">registerCopyFromDist</span><span class="p">([</span><span class="s1">&#39;thehelp-test&#39;</span><span class="p">]);</span>
-
-  <span class="nx">config</span><span class="p">.</span><span class="nx">bowerSpecialCases</span><span class="p">.</span><span class="nx">jquery</span> <span class="o">=</span> <span class="s1">&#39;dist/jquery.js&#39;</span><span class="p">;</span>
+<span class="p">};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>setupSetup</code> captures the set of tasks that need to be run after new versions of
+dependencies are installed.</p></div></div><div class="code"><div class="wrapper"><span class="nx">internals</span><span class="p">.</span><span class="nx">setupSetup</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">,</span> <span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">config</span><span class="p">.</span><span class="nx">registerCopyFromBower</span><span class="p">();</span>
+  <span class="nx">config</span><span class="p">.</span><span class="nx">registerCopyFromDist</span><span class="p">({</span>
+    <span class="nx">modules</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;thehelp-test&#39;</span><span class="p">]</span>
+  <span class="p">});</span>
 
   <span class="nx">grunt</span><span class="p">.</span><span class="nx">config</span><span class="p">(</span><span class="s1">&#39;copy.timezonejs&#39;</span><span class="p">,</span> <span class="p">{</span>
     <span class="nx">files</span><span class="o">:</span> <span class="p">{</span>
@@ -101,8 +107,16 @@ number of methods on <code>config</code>.</p></div></div><div class="code"><div 
   <span class="p">});</span>
   <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;setup&#39;</span><span class="p">,</span> <span class="p">[</span>
     <span class="s1">&#39;copy:timezonejs&#39;</span><span class="p">,</span> <span class="s1">&#39;copy:from-bower&#39;</span><span class="p">,</span> <span class="s1">&#39;copy:from-dist&#39;</span>
-  <span class="p">]);</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="default-task">Default task</h2></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>This is what runs when you type just 'grunt' on the command line</p></div></div><div class="code"><div class="wrapper">  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span>
-    <span class="s1">&#39;default&#39;</span><span class="p">,</span>
-    <span class="p">[</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;staticanalysis&#39;</span><span class="p">,</span> <span class="s1">&#39;style&#39;</span><span class="p">,</span> <span class="s1">&#39;doc&#39;</span><span class="p">,</span> <span class="s1">&#39;dist&#39;</span><span class="p">,</span> <span class="s1">&#39;client-test&#39;</span><span class="p">]</span>
-  <span class="p">);</span>
+  <span class="p">]);</span>
+<span class="p">};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>setupClientTest</code> provides a 'client-test' task that runs client-side tests
+via <code>phantomjs</code>.</p></div></div><div class="code"><div class="wrapper"><span class="nx">internals</span><span class="p">.</span><span class="nx">setupClientTest</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">,</span> <span class="nx">grunt</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">config</span><span class="p">.</span><span class="nx">registerMocha</span><span class="p">({</span>
+    <span class="nx">urls</span><span class="o">:</span> <span class="p">[</span>
+      <span class="s1">&#39;http://localhost:3001/test/integration/dev.html&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;http://localhost:3001/test/integration/dist.html&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;http://localhost:3001/test/integration/dist_min.html&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;http://localhost:3001/test/integration/dist_all.html&#39;</span>
+    <span class="p">]</span>
+  <span class="p">});</span>
+  <span class="nx">grunt</span><span class="p">.</span><span class="nx">registerTask</span><span class="p">(</span><span class="s1">&#39;client-test&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;connect:test&#39;</span><span class="p">,</span> <span class="s1">&#39;mocha&#39;</span><span class="p">]);</span>
 <span class="p">};</span></div></div></div></div></body></html>
