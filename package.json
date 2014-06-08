@@ -1,6 +1,6 @@
 {
   "name": "thehelp-core",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "main": "src/server/index.js",
 
   "dependencies": {

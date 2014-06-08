@@ -58,6 +58,12 @@ On the client-side, `getHost()` returns the value of `window.host`.
 
 ## History
 
+### 1.5.4 (2014-06-08)
+
+* All time zone data moved from 'dist/tz' to 'tz' since many projects copy entire contents of 'dist/' directory into their 'lib/vendor' (and tz data is 1MB!)
+* Remove timezones.txt from npm package
+* Update dev dependencies
+
 ### 1.5.3 (2014-05-27)
 
 * Pare down what's in npm package
