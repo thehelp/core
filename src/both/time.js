@@ -57,13 +57,12 @@ define([
   // On the server we load timezone data at the TIME\_ZONE\_DATA environment variable
   // or 'dist/tz.' We use a synchronous file load to avoid race conditions.
   else {
-    tz.loadingScheme = tz.loadingSchemes.PRELOAD_ALL;
-    tz.zoneFileBasePath = process.env.TIME_ZONE_DATA ||
-      __dirname + '/../../tz';
+    var path = process.env.TIME_ZONE_DATA || __dirname + '/../../tz/min.json';
+    tz.loadingScheme = tz.loadingSchemes.MANUAL_LOAD;
     tz.transport = function(options) {
       return fs.readFileSync(options.url).toString();
     };
-    tz.init({async: false});
+    tz.loadZoneJSONData(path, true);
   }
 
   // Duration
