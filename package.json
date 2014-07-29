@@ -13,9 +13,9 @@
     "blanket": "1.1.6",
     "grunt": "0.4.5",
     "lodash": "2.4.1",
-    "thehelp-client-project": "0.1.0",
-    "thehelp-project": "3.0.0",
-    "thehelp-test": "2.0.11"
+    "thehelp-client-project": "0.2.0",
+    "thehelp-project": "3.2.0",
+    "thehelp-test": "2.0.13"
   },
 
   "config": {
