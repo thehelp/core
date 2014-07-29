@@ -58,6 +58,11 @@ On the client-side, `getHost()` returns the value of `window.host`.
 
 ## History
 
+### 1.5.5 (2014-07-28)
+
+* Streamlined implementation of `time.getTimezone()` (no more ugly lookup list), which should also make it more reliable
+* New method: `time.getTimezones()` returns a list of timezones, good for user select boxes
+
 ### 1.5.4 (2014-06-08)
 
 * All time zone data moved from 'dist/tz' to 'tz' since many projects copy entire contents of 'dist/' directory into their 'lib/vendor' (and tz data is 1MB!)
