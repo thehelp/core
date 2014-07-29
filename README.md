@@ -58,6 +58,14 @@ On the client-side, `getHost()` returns the value of `window.host`.
 
 ## History
 
+### 1.6.0  (2014-07-29)
+
+* Default set of time zones on the server is now taken from tz/min.json. To return to the comprehensive set of timezones, set the TIME\_ZONE\_DATA environment variable to point to tz/all.json.
+* Minor version update: `moment` (client and server)
+* Update to latest timezone data
+* Remove source map files from npm package
+* Update dev dependencies
+
 ### 1.5.5 (2014-07-28)
 
 * Streamlined implementation of `time.getTimezone()` (no more ugly lookup list), which should also make it more reliable
