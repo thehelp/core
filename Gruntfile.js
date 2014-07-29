@@ -83,7 +83,7 @@ internals.setupDist = function(config, grunt) {
   var options = require('./src/client/config');
   var optimize = {
     name: 'thehelp-core',
-    empty: ['winston', 'util'],
+    empty: ['winston', 'util', 'lodash'],
     config: options
   };
   config.registerOptimizeLibrary(optimize);

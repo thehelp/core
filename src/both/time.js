@@ -28,9 +28,9 @@ if (typeof define !== 'function') {
 }
 
 define([
-  'moment', 'winston', 'util', 'fs', 'timezone-js', './string'
+  'lodash', 'moment', 'winston', 'util', 'fs', 'timezone-js', './string'
 ], function(
-  moment, winston, util, fs, timezonejs, string
+  _, moment, winston, util, fs, timezonejs, string
 ) {
 
   'use strict';
@@ -303,62 +303,116 @@ define([
     },
 
     /*
-    `getTimezone` looks up the current timezone. Because timezonejs doesn't
-    have a reverse timezone lookup function, we set up a reverse lookup table
-    first:
+    `getTimezone` looks up the current timezone. Because by default PDT/PST will resolve
+    to America/Los_Angeles, we put a set of preferred timzones in place, which we look
+    through before falling through to the complete list. It uses three approaches:
 
-    _TODO: Build this reverse lookup table from timezone data itself._
+    1. Attempt to parse timezone signifier out of a date string. The '(PDT)' in
+    'Mon Jul 28 2014 18:53:49 GMT-0700 (PDT)'.
+    2. Use the timezone offset provided by the browser.
+    3. Fall back to 'US/Pacific'
     */
     getTimezone: function() {
-      if (!time.timezoneLookup) {
-        var t = {};
-        t[-11] = ['Pacific/Pago_Pago'];
-        t[-10] = ['US/Hawaii', 'US/Aleutian'];
-        t[-9] = ['US/Aleutian', 'Pacific/Gambier', 'US/Alaska'];
-        t[-8] = ['US/Pacific', 'US/Alaska', 'Pacific/Pitcairn'];
-        t[-7] = ['US/Mountain', 'US/Pacific', 'US/Arizona'];
-        t[-6] = ['US/Central', 'US/Mountain', 'America/Costa_Rica'];
-        t[-5] = ['US/Eastern', 'US/Central', 'EST'];
-        t[-4] = ['US/Eastern', 'Brazil/West', 'Canada/Atlantic'];
-        t[-3] = ['Canada/Atlantic', 'Atlantic/Stanley', 'Brazil/East'];
-        t[-2] = ['Brazil/East', 'America/Noronha'];
-        t[-1] = ['Atlantic/Cape_Verde', 'Atlantic/Azores'];
-        t[0] = ['Europe/London', 'UTC', 'Atlantic/Azores'];
-        t[1] = ['Europe/London', 'Europe/Rome', 'Africa/Algiers'];
-        t[2] = ['Europe/Rome', 'Africa/Cairo', 'Europe/Istanbul'];
-        t[3] = ['Europe/Istanbul', 'Africa/Asmara'];
-        t[4] = ['Asia/Dubai', 'Asia/Baku'];
-        t[5] = ['Asia/Baku', 'Indian/Maldives'];
-        t[6] = ['Asia/Almaty'];
-        t[7] = ['Asia/Bangkok'];
-        t[8] = ['Australia/West'];
-        t[9] = ['Asia/Tokyo'];
-        t[10] = ['Australia/Sydney', 'Pacific/Guam'];
-        t[11] = ['Australia/Sydney', 'Asia/Vladivostok'];
-        t[12] = ['Pacific/Auckland', 'Asia/Kamchatka'];
-        t[13] = ['Pacific/Auckland', 'Pacific/Enderbury'];
-        t[14] = ['Pacific/Kiritimati'];
+      var result;
+      var preferred = [
+        'US/Pacific',
+        'US/Hawaii',
+        'US/Aleutian',
+        'US/Mountain',
+        'US/Central',
+        'US/Eastern',
+        'Brazil/West',
+        'Brazil/East',
+        'Europe/London',
+        'Europe/Rome',
+        'Europe/Istanbul',
+        'Asia/Dubai',
+        'Asia/Baku',
+        'Australia/Sydney',
+        'Pacific/Auckland'
+      ];
+      var zones = this.getTimezones();
+      var preferredZones = _.filter(zones, function(zone) {
+        return _.contains(preferred, zone.name);
+      });
 
-        time.timezoneLookup = t;
-      }
+      //first, try to parse out timezone abbreviation
+      var now = new Date();
+      var string = now.toString();
+      var regex = /\((.+)\)/;
+      var match = string.match(regex);
+      if (match && match[1]) {
+        var abbrev = match[1];
 
-      // Then we go through the potential timezones, changing the current
-      // date to that timezone to see if it is changed. If it didn't change,
-      // it'll work!
-      var date = new Date();
-      var tzDate = new timezonejs.Date(date);
-      var offsetHours = -(tzDate.getTimezoneOffset() / 60);
-      var timezones = time.timezoneLookup[offsetHours];
+        result = _.where(preferredZones, {abbreviation: abbrev});
+        if (result && result.length) {
+          return result[0].name;
+        }
 
-      for (var i = 0; i < timezones.length; i += 1) {
-        var z = timezones[i];
-        var offsetDate = time.toTimezone(date, z);
-
-        if (offsetDate.getTime() === date.getTime()) {
-          return z;
+        result = _.where(zones, {abbreviation: abbrev});
+        if (result && result.length) {
+          return result[0].name;
         }
       }
-      return null;
+
+      //second, use the timezone offset
+      var offset = new Date().getTimezoneOffset();
+
+      result = _.where(preferredZones, {rawOffset: offset});
+      if (result && result.length) {
+        return result[0].name;
+      }
+
+      result = _.where(zones, {rawOffset: offset});
+      if (result && result.length) {
+        return result[0].name;
+      }
+
+      //finally, backup - just return the first preferred timezone
+      return preferred[0];
+    },
+
+    /*
+    `getTimezones` returns an array of objects assembled from the list of timezones known
+    to timezonejs. Additional processing is done to make each object look like this:
+
+    ```
+    {
+      abbreviation: "PDT"
+      name: "US/Pacific"
+      offset: 7
+      pretty: "+7 US/Pacific"
+      rawOffset: 420
+    }
+    ```
+
+    Very useful for timezone select boxes.
+    */
+    getTimezones: function() {
+      var zones = tz.getAllZones();
+      var now = Date.now();
+
+      return _(zones)
+        .map(function(zone) {
+          var info = tz.getTzInfo(now, zone, zone === 'UTC');
+          var rawOffset = parseInt(info.tzOffset, 10);
+          var offset = rawOffset / 60;
+
+          var result = '';
+          if (offset > 0) {
+            result += '+';
+          }
+
+          return {
+            pretty: result + offset + ' ' + zone,
+            abbreviation: info.tzAbbr,
+            name: zone,
+            rawOffset: rawOffset,
+            offset: offset
+          };
+        })
+        .sortBy('offset')
+        .value();
     },
 
     // Date Manipulation

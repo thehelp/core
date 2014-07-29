@@ -3,9 +3,9 @@ if (typeof define !== 'function') {
 }
 
 define([
-  'thehelp-test', 'util', 'winston', 'thehelp-core'
+  'lodash', 'thehelp-test', 'util', 'winston', 'thehelp-core'
 ], function(
-  test, util, winston, core
+  _, test, util, winston, core
 ) {
 
   'use strict';
@@ -342,6 +342,18 @@ define([
     describe('#getTimezone', function() {
       it('returns current time zone (ONLY PASSES IN PACIFIC TIME)', function() {
         time.getTimezone().should.equal('US/Pacific');
+      });
+    });
+
+    describe('#getTimezones', function() {
+      it('returns all available timezones, with name and pretty name', function() {
+        var timezones = time.getTimezones();
+
+        var names = _.pluck(timezones, 'name');
+        expect(names).to.contain('US/Pacific');
+
+        var pretty = _.pluck(timezones, 'pretty');
+        expect(pretty).to.contain('0 UTC');
       });
     });
 
