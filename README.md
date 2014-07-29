@@ -42,7 +42,7 @@ var core = require('thehelp-core');
 var timezone = core.time.getTimezone();
 ```
 
-On the client side, it's easiest to pull in `thehelp-core-tz-min.min.js` If you're using `registerCopyFromDist()` method described above, it's already in your 'lib/vendor' directory. Lastly you'll need to ensure that `winston` and `util` are available - you can use the shim files in 'dist/shims.'
+On the client side, it's easiest to pull in `thehelp-core-tz-min.min.js` If you're using `registerCopyFromDist()` method described above, it's already in your 'lib/vendor' directory. Lastly you'll need to ensure that `lodash`, `winston` and `util` are available - you can use the shim files in 'dist/shims.'
 
 ## Development
 
