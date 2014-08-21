@@ -19,6 +19,8 @@
         "logs"
       ],
       "file_exclude_patterns": [
+        "time-min.js",
+        "time-all.js",
         "*.sublime-workspace",
         "*.log",
         "*.rdb",
