@@ -3,7 +3,7 @@
 // built-in node module.
 
 // Dependencies and [strict mode](http://mzl.la/1fRhnam)
-define([], function() {
+define(function() {
 
   'use strict';
 
@@ -26,19 +26,11 @@ define([], function() {
         [error: You can't do that!]
     */
     inspect: function inspect(obj, maxDepth, depth) {
-      /*jshint maxcomplexity: 13 */
+      /*jshint maxcomplexity: 16 */
 
       if (typeof maxDepth === 'undefined') {
         maxDepth = 2;
         depth = 1;
-      }
-      else if (maxDepth <= 0) {
-        try {
-          return JSON.stringify(obj);
-        }
-        catch (e) {
-          return '<' + e.message + '>';
-        }
       }
 
       if (obj === null) {
@@ -48,13 +40,29 @@ define([], function() {
         return 'undefined';
       }
 
+      if (typeof obj.inspect === 'function') {
+        return obj.inspect();
+      }
+
       var indentation = this.repeat('  ', depth);
       var indentMinusOne = this.repeat('  ', depth - 1);
-      var properties = this.getProperties(obj, maxDepth, depth).join(',\n' + indentation);
+      var properties = this.getProperties(obj, maxDepth, depth);
 
       if (obj.constructor && obj.constructor.name === 'Error') {
         if (properties.length) {
-          return '{ [Error: ' + obj.message + ']\n  ' + properties + '\n}';
+          var filtered = [];
+          for (var i = 0, max = properties.length; i < max; i += 1) {
+            var property = properties[i];
+            if (!/^message:/.exec(property)) {
+              filtered.push(property);
+            }
+          }
+
+          if (filtered.length) {
+            return '{ [Error: ' + obj.message + ']\n  ' +
+              filtered.join(',\n' + indentation) +
+              '\n}';
+          }
         }
 
         return '[Error: ' + obj.message + ']';
@@ -69,19 +77,30 @@ define([], function() {
         return '"' + obj.toJSON() + '"';
       }
       else if (typeof obj !== 'object') {
-        return JSON.stringify(obj);
+        return String(obj);
       }
 
-      return '{\n' + indentation + properties + '\n' + indentMinusOne + '}';
+      if (properties.length) {
+        return '{\n' + indentation + properties.join(',\n' + indentation) + '\n' +
+          indentMinusOne + '}';
+      }
+      else {
+        return obj.toString();
+      }
     },
 
     // `getProperties` recursively pulls properties out of an object, returning an array
     // of full rendered keys, ready for the final string.
     getProperties: function getProperties(obj, maxDepth, depth) {
       var properties = [];
+      if (maxDepth <= 0) {
+        return properties;
+      }
+
       for (var key in obj) {
-        /*jshint forin: false */
-        properties.push(key + ': ' + this.inspect(obj[key], maxDepth - 1, depth + 1));
+        if (obj.hasOwnProperty(key)) {
+          properties.push(key + ': ' + this.inspect(obj[key], maxDepth - 1, depth + 1));
+        }
       }
       return properties;
     },
