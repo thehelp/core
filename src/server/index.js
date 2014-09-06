@@ -5,8 +5,9 @@
 'use strict';
 
 module.exports = {
+  isNode: true,
+  isClient: false,
   color: require('../both/color'),
-  general: require('../both/general'),
   string: require('../both/string'),
   time: require('../both/time'),
   logs: require('./logs.js'),

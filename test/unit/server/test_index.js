@@ -12,6 +12,14 @@ describe('index', function() {
     expect(index).to.have.property('logs').that.exist;
   });
 
+  it('isNode should be true', function() {
+    expect(index).to.have.property('isNode', true);
+  });
+
+  it('isClient should be false', function() {
+    expect(index).to.have.property('isClient', false);
+  });
+
   it('setupConsole should not crash', function() {
     expect(function() {
       index.logs.setupConsole();

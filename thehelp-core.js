@@ -9,12 +9,10 @@ if (typeof define !== 'function') {
 
 define([
   'src/both/color',
-  'src/both/general',
   'src/both/string',
   'src/both/time'
 ], function(
   color,
-  general,
   string,
   time
 ) {
@@ -22,8 +20,9 @@ define([
   'use strict';
 
   return {
+    isNode: false,
+    isClient: true,
     color: color,
-    general: general,
     string: string,
     time: time
   };
