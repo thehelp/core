@@ -1,7 +1,7 @@
 {
   "name": "thehelp",
   "dependencies": {
-    "moment": "2.7.0"
+    "moment": "2.8.3"
   },
   "devDependencies": {
     "jquery": "1.11.1",
