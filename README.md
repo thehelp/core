@@ -58,6 +58,11 @@ On the client-side, `getHost()` returns the value of `window.host`.
 
 ## History
 
+### 2.0.0
+
+* Breaking: Remove `general` root key and all of its methods
+* New: `isNode` and `isClient` keys on root `thehelp-core` object client and server
+
 ### 1.6.1  (2014-07-31)
 
 * Really get rid of the old source map files in npm package
