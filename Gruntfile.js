@@ -32,15 +32,15 @@ module.exports = function(grunt) {
     }
   });
 
+  config.registerCopy();
+
   internals.setupDist(config, grunt);
   internals.setupSetup(config, grunt);
   internals.setupClientTest(config, grunt);
 
   // This is what runs when you type just 'grunt' on the command line
-  grunt.registerTask(
-    'default',
-    ['setup', 'test', 'staticanalysis', 'style', 'doc', 'dist', 'client-test']
-  );
+  var tasks = config.defaultTasks.concat(['dist', 'client-test']);
+  grunt.registerTask('default', tasks);
 };
 
 // `injectTzInfo` returns a function which injects timezone information into
@@ -80,20 +80,21 @@ included, and with 'tz/all.json' included.
 3. copy all shims to 'dist/shims' folder
 */
 internals.setupDist = function(config, grunt) {
-  var options = require('./src/client/config');
+  var requireJsOptions = require('./src/client/config');
   var optimize = {
-    name: 'thehelp-core',
+    source: 'thehelp-core',
+    targetPath: 'dist',
     empty: ['winston', 'util', 'lodash'],
-    config: options
+    config: requireJsOptions
   };
   config.registerOptimizeLibrary(optimize);
 
-  options.paths['src/both/time'] = 'src/both/time-min';
-  optimize.outName = 'thehelp-core-tz-min';
+  requireJsOptions.paths['src/both/time'] = 'src/both/time-min';
+  optimize.target = 'thehelp-core-tz-min';
   config.registerOptimizeLibrary(optimize);
 
-  options.paths['src/both/time'] = 'src/both/time-all';
-  optimize.outName = 'thehelp-core-tz-all';
+  requireJsOptions.paths['src/both/time'] = 'src/both/time-all';
+  optimize.target = 'thehelp-core-tz-all';
   config.registerOptimizeLibrary(optimize);
 
   grunt.config('copy.shims-to-dist', {
@@ -112,19 +113,12 @@ internals.setupDist = function(config, grunt) {
 // `setupSetup` captures the set of tasks that need to be run after new versions of
 // dependencies are installed.
 internals.setupSetup = function(config, grunt) {
-  config.registerCopyFromBower();
-  config.registerCopyFromDist({
-    modules: ['thehelp-test']
-  });
-
   grunt.config('copy.timezonejs', {
     files: {
       'lib/vendor/timezone.js': 'node_modules/timezone-js/src/date.js'
     }
   });
-  grunt.registerTask('setup', [
-    'copy:timezonejs', 'copy:from-bower', 'copy:from-dist'
-  ]);
+  grunt.registerTask('setup', ['copy:timezonejs']);
 };
 
 // `setupClientTest` provides a 'client-test' task that runs client-side tests

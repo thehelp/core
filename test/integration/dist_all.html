@@ -5,24 +5,27 @@
 
 </body>
 <script>
-  window.tests = [
-    'test/unit/client/shims/test_winston_shim',
-    'test/unit/client/shims/test_util_shim',
+  window.entrypoint = '../../node_modules/thehelp-test/dist/thehelp-test-harness.js';
 
-    'test/unit/both/test_color',
-    'test/unit/both/test_general',
-    'test/unit/both/test_string',
-    'test/unit/both/test_time'
-  ];
-  window.mochaCss = '../../lib/vendor/mocha.css';
-  window.entrypoint = '../../lib/vendor/thehelp-test-harness.js';
-  window.coverage = true;
-  // window.waitToRun = true;
+  window.thehelp = {
+    test: {
+      files: [
+        'test/unit/client/shims/test_winston_shim',
+        'test/unit/client/shims/test_util_shim',
+
+        'test/unit/both/test_color',
+        'test/unit/both/test_general',
+        'test/unit/both/test_string',
+        'test/unit/both/test_time'
+      ],
+      mochaCss: '../../node_modules/thehelp-test/dist/mocha.css'
+    }
+  };
 
   window.winstonLevel = 'verbose';
   window.host = 'localhost:3000';
 
 </script>
-<script data-main='client/dist_all_setup.js' src="../../lib/vendor/require.js"></script>
+<script data-main='client/dist_all_setup.js' src="../../bower_components/requirejs/require.js"></script>
 
 </html>

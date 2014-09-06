@@ -19,13 +19,12 @@ define(function() {
     baseUrl: baseUrl,
     name: 'thehelp-core',
     paths: {
-      async: 'lib/vendor/async',
-      lodash: 'lib/vendor/lodash.compat',
+      lodash: 'bower_components/lodash/dist/lodash',
 
-      moment: 'lib/vendor/moment',
+      moment: 'bower_components/moment/moment',
       'timezone-js': 'lib/vendor/timezone',
-      fs: 'src/client/shims/empty',
 
+      fs: 'src/client/shims/empty',
       winston: 'src/client/shims/winston_shim',
       util: 'src/client/shims/util_shim'
     },

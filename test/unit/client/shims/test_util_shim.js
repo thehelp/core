@@ -7,6 +7,7 @@ define(['thehelp-test', 'winston', 'util'], function(test, winston, util) {
   'use strict';
 
   var sinon = test.sinon;
+  var expect = test.expect;
 
   describe('util_shim', function() {
 
@@ -30,7 +31,7 @@ define(['thehelp-test', 'winston', 'util'], function(test, winston, util) {
         '  , date: "' + dateString + '"\n' +
         '}';
         var actual = util.inspect(target);
-        actual.should.equal(expected);
+        expect(actual).to.equal(expected);
       });
 
       it('prints out a property on prototype', function() {
@@ -45,14 +46,14 @@ define(['thehelp-test', 'winston', 'util'], function(test, winston, util) {
         '}';
 
         var actual = util.inspect(obj);
-        actual.should.equal(expected);
+        expect(actual).to.equal(expected);
       });
 
       it('prints out the innards of an Error', function() {
         var error = new Error('this is the error message');
         var expected = '[error: this is the error message]';
         var actual = util.inspect(error);
-        actual.should.equal(expected);
+        expect(actual).to.equal(expected);
       });
 
       it('handles a circular object', function() {
@@ -73,7 +74,7 @@ define(['thehelp-test', 'winston', 'util'], function(test, winston, util) {
         '}';
         var actual = util.inspect(obj);
         actual = actual.replace(/<.*>/, '<>');
-        actual.should.equal(expected);
+        expect(actual).to.equal(expected);
       });
 
       it('prints out a tree of properties', function() {
@@ -92,7 +93,7 @@ define(['thehelp-test', 'winston', 'util'], function(test, winston, util) {
         '  }\n' +
         '}';
         var actual = util.inspect(obj);
-        actual.should.equal(expected);
+        expect(actual).to.equal(expected);
       });
     });
 
@@ -109,7 +110,7 @@ define(['thehelp-test', 'winston', 'util'], function(test, winston, util) {
         var target = new Target();
         target.source();
 
-        Source.prototype.source.callCount.should.equal(1, 'source should be called');
+        expect(Source).to.have.deep.property('prototype.source.callCount', 1);
       });
     });
 

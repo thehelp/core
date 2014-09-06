@@ -13,6 +13,7 @@ define([
   describe('color', function() {
 
     var color = core.color;
+    var expect = test.expect;
 
     describe('#parse', function() {
       it('handles an rgb color', function() {
@@ -22,7 +23,7 @@ define([
           blue: 9
         };
         var actual = color.parse('rgb(3, 6, 9)');
-        actual.should.deep.equal(expected);
+        expect(actual).to.deep.equal(expected);
       });
 
       it('handles a hex color', function() {
@@ -32,7 +33,7 @@ define([
           blue: 0
         };
         var actual = color.parse('#FF8000');
-        actual.should.deep.equal(expected);
+        expect(actual).to.deep.equal(expected);
       });
     });
 
@@ -44,7 +45,7 @@ define([
           blue: 9
         };
         var actual = color.parseRgb('rgb(3, 6, 9)');
-        actual.should.deep.equal(expected);
+        expect(actual).to.deep.equal(expected);
       });
 
       it('handles an rgba color', function() {
@@ -55,17 +56,17 @@ define([
           alpha: 0.4
         };
         var actual = color.parseRgb('rgba(3, 6, 9, 0.4)');
-        actual.should.deep.equal(expected);
+        expect(actual).to.deep.equal(expected);
       });
 
       it('returns null if given null', function() {
         var actual = color.parseRgb(null);
-        (actual === null).should.equal(true);
+        expect(actual).to.be.null;
       });
 
       it('returns null if no match', function() {
         var actual = color.parseRgb('rgb');
-        (actual === null).should.equal(true);
+        expect(actual).to.be.null;
       });
     });
 
@@ -73,14 +74,14 @@ define([
       it('returns original color if it is hex', function() {
         var hex = '#ffffff';
         var actual = color.rgbToHex(hex);
-        actual.should.deep.equal(hex);
+        expect(actual).to.deep.equal(hex);
       });
 
       it('properly converts', function() {
         var rgb = 'rgb(255, 128, 0)';
         var expected = '#ff8000';
         var actual = color.rgbToHex(rgb);
-        actual.should.deep.equal(expected);
+        expect(actual).to.deep.equal(expected);
       });
     });
 
@@ -93,7 +94,7 @@ define([
           blue: 0
         };
         var actual = color.parseHex(hex);
-        actual.should.deep.equal(expected);
+        expect(actual).to.deep.equal(expected);
       });
 
       it('properly converts a color', function() {
@@ -104,17 +105,17 @@ define([
           blue: 255
         };
         var actual = color.parseHex(hex);
-        actual.should.deep.equal(expected);
+        expect(actual).to.deep.equal(expected);
       });
 
       it('returns null if given null', function() {
         var actual = color.parseHex(null);
-        (actual === null).should.equal(true);
+        expect(actual).to.be.null;
       });
 
       it('returns null if no match', function() {
         var actual = color.parseHex('rgb');
-        (actual === null).should.equal(true);
+        expect(actual).to.be.null;
       });
     });
 
@@ -122,14 +123,14 @@ define([
       it('returns original color if it is rgb', function() {
         var rgb = 'rgb(255, 128, 0)';
         var actual = color.hexToRgb(rgb);
-        actual.should.deep.equal(rgb);
+        expect(actual).to.deep.equal(rgb);
       });
 
       it('properly converts', function() {
         var hex = '#ff8000';
         var expected = 'rgb(255, 128, 0)';
         var actual = color.hexToRgb(hex);
-        actual.should.deep.equal(expected);
+        expect(actual).to.deep.equal(expected);
       });
     });
 
@@ -138,14 +139,14 @@ define([
         var rgb = 'rgb(255, 128, 0)';
         var expected = 'rgba(255, 128, 0, 0.25)';
         var actual = color.addTransparency(rgb, 0.25);
-        actual.should.equal(expected);
+        expect(actual).to.equal(expected);
       });
 
       it('adds transparency (to hex)', function() {
         var hex = '#FF8000';
         var expected = 'rgba(255, 128, 0, 0.25)';
         var actual = color.addTransparency(hex, 0.25);
-        actual.should.equal(expected);
+        expect(actual).to.equal(expected);
       });
     });
 
@@ -154,7 +155,7 @@ define([
         var rgb = 'rgba(255, 128, 0, 0.25)';
         var expected = 'rgb(255, 128, 0)';
         var actual = color.removeTransparency(rgb);
-        actual.should.equal(expected);
+        expect(actual).to.equal(expected);
       });
     });
 

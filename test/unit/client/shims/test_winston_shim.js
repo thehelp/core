@@ -6,36 +6,38 @@ define(['thehelp-test', 'winston'], function(test, winston) {
 
   'use strict';
 
+  var expect = test.expect;
+
   describe('winston_shim', function() {
     describe('#error', function() {
       it('should not crash', function() {
-        (function() {
+        expect(function() {
           winston.error('something');
-        }).should.not['throw']();
+        }).not.to['throw']();
       });
     });
 
     describe('#warn', function() {
       it('should not crash', function() {
-        (function() {
+        expect(function() {
           winston.warn('something');
-        }).should.not['throw']();
+        }).not.to['throw']();
       });
     });
 
     describe('#info', function() {
       it('should not crash', function() {
-        (function() {
+        expect(function() {
           winston.info('something');
-        }).should.not['throw']();
+        }).not.to['throw']();
       });
     });
 
     describe('#verbose', function() {
       it('should not crash', function() {
-        (function() {
+        expect(function() {
           winston.verbose('something');
-        }).should.not['throw']();
+        }).not.to['throw']();
       });
     });
 
