@@ -14,10 +14,10 @@ define([], function() {
     go deeper into an object. Strings returned look like this:
 
         {
-          left: "yes"
-          , right: {
-            left: "yes"
-            , right: "no"
+          left: "yes",
+          right: {
+            left: "yes",
+            right: 'no'
           }
         }
 
@@ -25,8 +25,8 @@ define([], function() {
 
         [error: You can't do that!]
     */
-    inspect: function(obj, maxDepth, depth) {
-      /*jshint maxcomplexity: 12 */
+    inspect: function inspect(obj, maxDepth, depth) {
+      /*jshint maxcomplexity: 13 */
 
       if (typeof maxDepth === 'undefined') {
         maxDepth = 2;
@@ -48,46 +48,63 @@ define([], function() {
         return 'undefined';
       }
 
+      var indentation = this.repeat('  ', depth);
+      var indentMinusOne = this.repeat('  ', depth - 1);
+      var properties = this.getProperties(obj, maxDepth, depth).join(',\n' + indentation);
+
       if (obj.constructor && obj.constructor.name === 'Error') {
-        return '[error: ' + obj.message + ']';
+        if (properties.length) {
+          return '{ [Error: ' + obj.message + ']\n  ' + properties + '\n}';
+        }
+
+        return '[Error: ' + obj.message + ']';
       }
       else if (obj instanceof RegExp) {
         return obj.toString();
       }
-      else if (obj instanceof Date || obj instanceof String ||
-        typeof obj !== 'object') {
+      else if (typeof obj === 'string' || obj instanceof String) {
+        return '"' + obj + '"';
+      }
+      else if (obj instanceof Date) {
+        return '"' + obj.toJSON() + '"';
+      }
+      else if (typeof obj !== 'object') {
         return JSON.stringify(obj);
       }
 
-      var indentation = this.repeat('  ', depth);
-      var indentMinusOne = this.repeat('  ', depth - 1);
+      return '{\n' + indentation + properties + '\n' + indentMinusOne + '}';
+    },
 
+    // `getProperties` recursively pulls properties out of an object, returning an array
+    // of full rendered keys, ready for the final string.
+    getProperties: function getProperties(obj, maxDepth, depth) {
       var properties = [];
       for (var key in obj) {
         /*jshint forin: false */
         properties.push(key + ': ' + this.inspect(obj[key], maxDepth - 1, depth + 1));
       }
-      properties = properties.join('\n' + indentation + ', ');
-
-      return '{\n' + indentation + properties + '\n' + indentMinusOne + '}';
+      return properties;
     },
 
     // `repeat` repeats the first parameter `n` times. This method is
     // duplicated here because when this module is pulled in with 'util'
     // (as a shim for the 'util' node module), we can't use relative pathing
     // to pull in string. Boo.
-    repeat: function(target, n) {
-      if (n > 0) {
-        return target + this.repeat(target, n - 1);
+    repeat: function repeat(target, n) {
+      var result = '';
+      if (n <= 0) {
+        return result;
       }
-      else {
-        return '';
+
+      for (var i = 0, max = n; i < max; i += 1) {
+        result += target;
       }
+      return result;
     },
 
     // `inherits` does "proper" inheritance. For reference:
     // [node's util.inherits](http://bit.ly/1fRjdYX)
-    inherits: function(Child, Parent) {
+    inherits: function inherits(Child, Parent) {
       Child.prototype = Object.create(Parent.prototype, {
         constructor: {
           value: Child,
