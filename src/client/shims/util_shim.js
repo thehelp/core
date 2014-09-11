@@ -48,12 +48,17 @@ define(function() {
       var indentMinusOne = this.repeat('  ', depth - 1);
       var properties = this.getProperties(obj, maxDepth, depth);
 
-      if (obj.constructor && obj.constructor.name === 'Error') {
+      if (obj instanceof Error) {
         if (properties.length) {
           var filtered = [];
           for (var i = 0, max = properties.length; i < max; i += 1) {
             var property = properties[i];
-            if (!/^message:/.exec(property)) {
+
+            if (!/^message:/.exec(property) &&
+              !/^description:/.exec(property) &&
+              !/^stack/.exec(property) &&
+              !/^sourceURL:/.exec(property)) {
+
               filtered.push(property);
             }
           }
