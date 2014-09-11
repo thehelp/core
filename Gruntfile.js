@@ -15,7 +15,7 @@ module.exports = function(grunt) {
   config.registerCopy();
 
   internals.setupDist(config, grunt);
-  internals.setupClientTest(config, grunt);
+  internals.setupClientTesting(config, grunt);
 
   // This is what runs when you type just 'grunt' on the command line
   var tasks = config.defaultTasks.concat(['dist', 'client-test']);
@@ -48,12 +48,13 @@ internals.setupDist = function(config, grunt) {
     }]
   });
 
-  grunt.registerTask('dist', ['copy:shims-to-dist', 'requirejs']);
+  config.registerPreambleForDist();
+  grunt.registerTask('dist', ['copy:shims-to-dist', 'requirejs', 'preamble-for-dist']);
 };
 
 // `setupClientTest` provides a 'client-test' task that runs client-side tests
 // via `phantomjs`.
-internals.setupClientTest = function(config, grunt) {
+internals.setupClientTesting = function(config, grunt) {
   config.registerMocha({
     urls: [
       'http://localhost:3001/test/integration/dev.html',
@@ -61,4 +62,11 @@ internals.setupClientTest = function(config, grunt) {
     ]
   });
   grunt.registerTask('client-test', ['connect:test', 'mocha']);
+
+  config.registerSauce({
+    urls: [
+      'http://localhost:3001/test/integration/dist.html'
+    ]
+  });
+  grunt.registerTask('cross-browser', ['client-test', 'sauce']);
 };
