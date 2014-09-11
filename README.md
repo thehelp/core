@@ -23,131 +23,41 @@ Include the project in your dependencies:
 npm install thehelp-core --save
 ```
 
-If you're using `thehelp-client-project` you'll want to pull in the contents of this project's dist folder for your client-side javascript by adding this line in your Gruntfile:
-
-```
-config.registerCopyFromDist({
-  modules: ['thehelp-core']
-})
-```
-
 ### Usage
 
 On the server, just require it and start using it!
 
 ```
 var core = require('thehelp-core');
-var timezone = core.time.getTimezone();
+core.env.merge();
 ```
 
-On the client side, it's easiest to pull in `thehelp-core-tz-min.min.js` If you're using `registerCopyFromDist()` method described above, it's already in your 'lib/vendor' directory. Lastly you'll need to ensure that `lodash`, `winston` and `util` are available - you can use the shim files which were also copied in to 'lib/vendor' - in the 'shims' subdirectory.
-
-## Development
-
-To successfully run tests, you'll need an 'env.json' file in the root directory with this in it - it's where `core.general.getHost()` gets its value on the client side:
+On the client side, you'll just need to tell `requirejs` a few things:
 
 ```
-{
-  "HOST": "anything"
-}
+requirejs.config({
+  baseUrl: '/',
+  paths: {
+    'thehelp-core': 'node_modules/thehelp-core/dist/thehelp-core',
+
+    // you can use the provided shims like this:
+    util: 'node_modules/thehelp-core/dist/shims/util_shim',
+    winston: 'node_modules/thehelp-core/dist/shims/winston_shim'
+  }
+})
 ```
 
-On the client-side, `getHost()` returns the value of `window.host`.
+## Contributing changes
 
-## History
+The client-side `dev` and `dist` tests under 'test/integration' will be your friend. :0) They'll help you ensure that the client-side part of this library is working properly. Use `grunt connect:keepalive` to test it in your browser.
 
-### 2.0.0
+Please cover as many browsers as you can, or use `grunt cross-browser` with your [Sauce Credentials in env.json](https://github.com/thehelp/client-project). When you have some changes ready, please submit a pull request with:
 
-* Breaking: Remove `general` root key and all of its methods
-* New: `isNode` and `isClient` keys on root `thehelp-core` object client and server
+* Justification - why is this change worthwhile? Link to issues, use code samples, etc.
+* Documentation changes for your code updates. Be sure to check the groc-generated HTML with `grunt doc`
+* A description of how you tested the change. Don't forget about the very-useful `npm link` command :0)
 
-### 1.6.1  (2014-07-31)
-
-* Really get rid of the old source map files in npm package
-
-### 1.6.0  (2014-07-29)
-
-* Default set of time zones on the server is now taken from tz/min.json. To return to the comprehensive set of timezones, set the TIME\_ZONE\_DATA environment variable to point to tz/all.json.
-* Minor version update: `moment` (client and server)
-* Update to latest timezone data
-* Remove source map files from npm package
-* Update dev dependencies
-
-### 1.5.5 (2014-07-28)
-
-* Streamlined implementation of `time.getTimezone()` (no more ugly lookup list), which should also make it more reliable
-* New method: `time.getTimezones()` returns a list of timezones, good for user select boxes
-
-### 1.5.4 (2014-06-08)
-
-* All time zone data moved from 'dist/tz' to 'tz' since many projects copy entire contents of 'dist/' directory into their 'lib/vendor' (and tz data is 1MB!)
-* Remove timezones.txt from npm package
-* Update dev dependencies
-
-### 1.5.3 (2014-05-27)
-
-* Pare down what's in npm package
-* All time zone data moved from 'lib/vendor/tz' to 'dist/tz' since 'lib' is now excluded from npm package
-
-### 1.5.2 (2014-05-24)
-
-* Patch version update: `timezone-js` (both client and server)
-* Update timezone data
-* Update dev dependencies
-
-### 1.5.1 (2014-05-02)
-
-* Minor version update: `moment` (both npm and bower)
-* Bower dev dependency update: `jquery`
-* Update to gruntfile to copy jquery into 'lib/vendor'
-
-### 1.5.0 (2014-05-01)
-
-* New: server methods to merge environment variables with data in 'env.json' (preferring real environment): `env.merge()`
-
-### 1.4.0 (2014-04-23)
-
-* New: server methods to set up logs easily: `logs.setupConsole()` and `logs.setupFile()`
-
-### 1.3.0 (2014-04-11)
-
-* Updated time zone data
-* Patch version update to `timezone-js`
-* General version numbers for `winston` and `amdefine`
-* Updates of dev dependencies: `blanket`,`thehelp-project`, `thehelp-test`
-
-### 1.2.3 (2014-03-21)
-
-* Patch upgrades (bower): moment
-* Dev dependencies: lodash, jquery, requirejs, grunt, thehelp-project, thehelp-test
-
-### 1.2.2 (2014-03-09)
-
-* Source maps now in dist/ with an upgrade to `thehelp-project` dependency
-
-### 1.2.1 (2014-03-08)
-
-* Patch version updates: timezone-js, grunt, lodash
-* Minor version updates: moment, thehelp-project, thehelp-test
-* Fixing too-long lines
-
-### 1.2.0 (2013-12-02)
-
-* instead of looking for timezone data at '[cwd]/lib/vendor/tz' if TIME\_ZONE\_DATA environment variable is not set, we now look inside this node module
-* dist/tz folder no longer has server time zone data
-* expose moment and timezone js on the time object for direct use
-* adding readme
-
-### 1.1.0 (2013-11-19)
-
-* dist/ now has three final versions of thehelp-core - one with all.json timezone data injected, one with min.json timezone data injected, and one that requires jquery/zepto/other to load it dynamically.
-* including server timezone data in dist/tz folder
-
-### 1.0.0 (2013-11-18)
-
-* Initial release
-* Core logic is all there!
-
+I may ask you to use a `git rebase` to ensure that your commits are not interleaved with commits already in the history. And of course, make sure `grunt` completes successfully. :0)
 
 ## License
 
