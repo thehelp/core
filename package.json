@@ -24,8 +24,12 @@
   },
 
   "author": "Scott Nonnenberg",
+  "license": "MIT",
+
+  "homepage": "https://github.com/thehelp/core",
   "repository": {
     "type": "git",
-    "url": "git@infra/thehelp-core"
-  }
+    "url": "git@github.com:thehelp/core.git"
+  },
+  "bugs": "https://github.com/thehelp/test/issues"
 }
