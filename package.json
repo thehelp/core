@@ -11,9 +11,9 @@
   "devDependencies": {
     "blanket": "1.1.6",
     "grunt": "0.4.5",
-    "thehelp-client-project": "0.3.0",
+    "thehelp-client-project": "0.4.0",
     "thehelp-project": "3.3.1",
-    "thehelp-test": "3.0.2"
+    "thehelp-test": "3.1.0"
   },
 
   "config": {
