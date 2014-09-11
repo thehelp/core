@@ -48,7 +48,9 @@ internals.setupDist = function(config, grunt) {
     }]
   });
 
-  config.registerPreambleForDist();
+  config.registerPreambleForDist({
+    src: ['dist/thehelp-core*', 'dist/shims/*shim.js']
+  });
   grunt.registerTask('dist', ['copy:shims-to-dist', 'requirejs', 'preamble-for-dist']);
 };
 
