@@ -5,7 +5,6 @@ define(['../../../src/client/config'], function(config) {
 
   config.baseUrl = '/';
 
-  config.paths.jquery = 'bower_components/jquery/dist/jquery';
   config.paths['thehelp-test'] = 'node_modules/thehelp-test/dist/thehelp-test';
   config.paths['thehelp-test-coverage'] =
     'node_modules/thehelp-test/dist/thehelp-test-coverage';
@@ -14,6 +13,6 @@ define(['../../../src/client/config'], function(config) {
 
   requirejs.config(config);
 
-  require(['jquery', window.entrypoint], function() {});
+  require([window.entrypoint], function() {});
 
 });
