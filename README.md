@@ -4,8 +4,6 @@ This project provides basic functionality that almost all javascript apps will n
 
 ## Features
 
-* date formatting and manipuation functions, including a Duration class to make it easy to track timings.
-* timezone.js, and time zone data - min.json with a minimum set, and all.json with comprehensive data
 * basic string manipulation functions
 * basic color manipulation functions
 * `winston` and `util` shims for use on the client side

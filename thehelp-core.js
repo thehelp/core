@@ -1,5 +1,5 @@
 // # thehelp-core
-// This file pulls in color, general, string and time for the client side.
+// This file pulls in components for the client side.
 
 // [RequireJS](http://requirejs.org/) boilerplate, dependencies and
 // [strict mode](http://mzl.la/1fRhnam)
@@ -9,12 +9,10 @@ if (typeof define !== 'function') {
 
 define([
   'src/both/color',
-  'src/both/string',
-  'src/both/time'
+  'src/both/string'
 ], function(
   color,
-  string,
-  time
+  string
 ) {
 
   'use strict';
@@ -23,8 +21,7 @@ define([
     isNode: false,
     isClient: true,
     color: color,
-    string: string,
-    time: time
+    string: string
   };
 
 });

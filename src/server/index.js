@@ -9,7 +9,6 @@ module.exports = {
   isClient: false,
   color: require('../both/color'),
   string: require('../both/string'),
-  time: require('../both/time'),
   logs: require('./logs.js'),
   env: require('./env.js')
 };

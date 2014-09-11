@@ -1,8 +1,6 @@
 bower_components
 node_modules
 
-src/both/time-min.js
-src/both/time-all.js
 dist
 docs
 public

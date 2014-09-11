@@ -21,6 +21,3 @@ env.json
 config.json
 
 /thehelp-core.js
-generate_tz_json.sh
-get_latest_tz_data.sh
-timezones.txt
