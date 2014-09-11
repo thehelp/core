@@ -19,8 +19,6 @@ define(function() {
     baseUrl: baseUrl,
     name: 'thehelp-core',
     paths: {
-      lodash: 'bower_components/lodash/dist/lodash',
-
       winston: 'src/client/shims/winston_shim',
       util: 'src/client/shims/util_shim'
     }

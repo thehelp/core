@@ -5,12 +5,12 @@
 
   "dependencies": {
     "amdefine": "0.1.x",
+    "lodash": "2.4.1",
     "winston": "0.7.x"
   },
   "devDependencies": {
     "blanket": "1.1.6",
     "grunt": "0.4.5",
-    "lodash": "2.4.1",
     "thehelp-client-project": "0.3.0",
     "thehelp-project": "3.3.1",
     "thehelp-test": "3.0.2"

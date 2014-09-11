@@ -3,9 +3,9 @@ if (typeof define !== 'function') {
 }
 
 define([
-  'thehelp-test', 'winston', 'util', 'lodash', 'thehelp-core'
+  'thehelp-test', 'winston', 'util', 'thehelp-core'
 ], function(
-  test, winston, util, _, core
+  test, winston, util, core
 ) {
 
   'use strict';

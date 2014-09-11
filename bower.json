@@ -1,7 +1,6 @@
 {
   "name": "thehelp",
   "devDependencies": {
-    "lodash": "2.4.1",
     "requirejs": "2.1.14"
   }
 }

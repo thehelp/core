@@ -34,7 +34,7 @@ internals.setupDist = function(config, grunt) {
   var optimize = {
     source: 'thehelp-core',
     targetPath: 'dist',
-    empty: ['winston', 'util', 'lodash'],
+    empty: ['winston', 'util'],
     config: requireJsOptions
   };
   config.registerOptimizeLibrary(optimize);
