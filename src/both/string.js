@@ -75,12 +75,16 @@ define(function() {
 
     // `repeat` repeats the first parameter `n` times.
     repeat: function(target, n) {
-      if (n > 0) {
-        return target + this.repeat(target, n - 1);
-      }
-      else {
+      if (n <= 0) {
         return '';
       }
+
+      var result = '';
+      for (var i = 0, max = n; i < max; i += 1) {
+        result += target;
+      }
+
+      return result;
     }
   };
 });
