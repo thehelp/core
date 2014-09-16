@@ -108,7 +108,7 @@ define(['util'], function(util) {
       return '';
     }
 
-    var result = util.inspect(err);
+    var result = util.inspect(err, {depth: 5});
 
     if (!err.log || err.log === 'warn' || err.log === 'error') {
       result += '\n' + this.prepareStack(err);
