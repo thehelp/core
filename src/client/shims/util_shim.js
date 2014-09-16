@@ -8,6 +8,19 @@ define(function() {
   'use strict';
 
   return {
+    // `inherits` does "proper" inheritance. For reference:
+    // [node's util.inherits](http://bit.ly/1fRjdYX)
+    inherits: function inherits(Child, Parent) {
+      Child.prototype = Object.create(Parent.prototype, {
+        constructor: {
+          value: Child,
+          enumerable: false,
+          writable: true,
+          configurable: true
+        }
+      });
+    },
+
     /*
     `inspect` gives you a way better representation of an object
     than `JSON.stringify`. You can provide a higher `maxDepth` to
@@ -26,7 +39,7 @@ define(function() {
         [error: You can't do that!]
     */
     inspect: function inspect(obj, options) {
-      /*jshint maxcomplexity: 18 */
+      /*jshint maxcomplexity: 15 */
       options = options || {};
 
       if (typeof options.depth === 'undefined') {
@@ -47,33 +60,11 @@ define(function() {
         return obj.inspect();
       }
 
-      var indentation = this.repeat('  ', options.currentDepth);
-      var indentMinusOne = this.repeat('  ', options.currentDepth - 1);
-      var properties = this.getProperties(obj, options.depth, options.currentDepth);
+      var indentation = this._repeat('  ', options.currentDepth);
+      var indentMinusOne = this._repeat('  ', options.currentDepth - 1);
 
-      if (obj instanceof Error) {
-        if (properties.length) {
-          var filtered = [];
-          for (var i = 0, max = properties.length; i < max; i += 1) {
-            var property = properties[i];
-
-            if (!/^message:/.exec(property) &&
-              !/^description:/.exec(property) &&
-              !/^stack/.exec(property) &&
-              !/^sourceURL:/.exec(property)) {
-
-              filtered.push(property);
-            }
-          }
-
-          if (filtered.length) {
-            return '{ [Error: ' + obj.message + ']\n  ' +
-              filtered.join(',\n' + indentation) +
-              '\n}';
-          }
-        }
-
-        return '[Error: ' + obj.message + ']';
+      if (obj instanceof Array) {
+        return this._renderArray(obj, options);
       }
       else if (obj instanceof RegExp) {
         return obj.toString();
@@ -83,6 +74,12 @@ define(function() {
       }
       else if (obj instanceof Date) {
         return '"' + obj.toJSON() + '"';
+      }
+
+      var properties = this._getProperties(obj, options.depth, options.currentDepth);
+
+      if (obj instanceof Error) {
+        return this._renderError(obj, properties, indentation);
       }
       else if (typeof obj !== 'object') {
         return String(obj);
@@ -97,9 +94,13 @@ define(function() {
       }
     },
 
-    // `getProperties` recursively pulls properties out of an object, returning an array
+    // Utility methods
+    // =======
+    // Changes in these may be made at any time.
+
+    // `_getProperties` recursively pulls properties out of an object, returning an array
     // of full rendered keys, ready for the final string.
-    getProperties: function getProperties(obj, depth, currentDepth) {
+    _getProperties: function _getProperties(obj, depth, currentDepth) {
       var properties = [];
       if (depth <= 0) {
         return properties;
@@ -116,11 +117,44 @@ define(function() {
       return properties;
     },
 
-    // `repeat` repeats the first parameter `n` times. This method is
-    // duplicated here because when this module is pulled in with 'util'
-    // (as a shim for the 'util' node module), we can't use relative pathing
-    // to pull in string. Boo.
-    repeat: function repeat(target, n) {
+    _renderArray: function _renderArray(obj, options) {
+      var items = [];
+      for (var i = 0, max = obj.length; i < max; i += 1) {
+        items.push(this.inspect(obj[i], {
+          depth: options.depth - 1,
+          currentDepth: options.currentDepth + 1
+        }));
+      }
+      return '[' + items.join(', ') + ']';
+    },
+
+    _renderError: function _renderError(obj, properties, indentation) {
+      if (properties.length) {
+        var filtered = [];
+        for (var i = 0, max = properties.length; i < max; i += 1) {
+          var property = properties[i];
+
+          if (!/^message:/.exec(property) &&
+            !/^description:/.exec(property) &&
+            !/^stack/.exec(property) &&
+            !/^sourceURL:/.exec(property)) {
+
+            filtered.push(property);
+          }
+        }
+
+        if (filtered.length) {
+          return '{ [Error: ' + obj.message + ']\n  ' +
+            filtered.join(',\n' + indentation) +
+            '\n}';
+        }
+      }
+
+      return '[Error: ' + obj.message + ']';
+    },
+
+    // `_repeat` repeats the first parameter `n` times.
+    _repeat: function _repeat(target, n) {
       var result = '';
       if (n <= 0) {
         return result;
@@ -130,19 +164,6 @@ define(function() {
         result += target;
       }
       return result;
-    },
-
-    // `inherits` does "proper" inheritance. For reference:
-    // [node's util.inherits](http://bit.ly/1fRjdYX)
-    inherits: function inherits(Child, Parent) {
-      Child.prototype = Object.create(Parent.prototype, {
-        constructor: {
-          value: Child,
-          enumerable: false,
-          writable: true,
-          configurable: true
-        }
-      });
     }
   };
 

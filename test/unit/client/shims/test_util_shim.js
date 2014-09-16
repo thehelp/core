@@ -140,6 +140,13 @@ define(['thehelp-test', 'util'], function(test, util) {
         var actual = util.inspect(obj, {depth: 2});
         expect(actual).to.equal(expected);
       });
+
+      it('handles an array', function() {
+        var obj = ['one', 'two', 'three'];
+        var expected = '["one", "two", "three"]';
+        var actual = util.inspect(obj);
+        expect(actual).to.equal(expected);
+      });
     });
 
     describe('#inherits', function() {
@@ -158,8 +165,5 @@ define(['thehelp-test', 'util'], function(test, util) {
         expect(Source).to.have.deep.property('prototype.source.callCount', 1);
       });
     });
-
-
-
   });
 });
