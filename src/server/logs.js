@@ -42,6 +42,12 @@ module.exports = {
     options.level = options.level || 'verbose';
     options.maxsize = options.maxsize || 50000000;
 
+    //so we don't crash if File transport is already registered
+    try {
+      winston.remove(winston.transports.File);
+    }
+    catch (e) {}
+
     winston.add(winston.transports.File, {
       level: options.level,
       filename: path,

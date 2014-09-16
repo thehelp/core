@@ -20,17 +20,21 @@ describe('index', function() {
     expect(index).to.have.property('isClient', false);
   });
 
-  it('setupConsole should not crash', function() {
+  it('setupConsole should not crash, even when called twice', function() {
     expect(function() {
       index.logs.setupConsole();
+      index.logs.setupConsole();
     }).not.to.throw();
+
     winston.info('test info log!');
   });
 
-  it('setupFile should not crash', function() {
+  it('setupFile should not crash, even when called twice', function() {
     expect(function() {
       index.logs.setupFile('logs/verbose.log');
+      index.logs.setupFile('logs/verbose.log');
     }).not.to.throw();
+
     winston.warn('test warn log!');
   });
 });
