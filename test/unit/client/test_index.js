@@ -18,5 +18,9 @@ define(['thehelp-test', 'thehelp-core'], function(test, index) {
       expect(index).to.have.property('isClient', true);
     });
 
+    it('has property breadcrumbs', function() {
+      expect(index).to.have.property('breadcrumbs').that.exist;
+    });
+
   });
 });

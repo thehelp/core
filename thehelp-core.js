@@ -9,10 +9,12 @@ if (typeof define !== 'function') {
 
 define([
   'src/both/color',
-  'src/both/string'
+  'src/both/string',
+  'src/both/breadcrumbs'
 ], function(
   color,
-  string
+  string,
+  breadcrumbs
 ) {
 
   'use strict';
@@ -21,7 +23,8 @@ define([
     isNode: false,
     isClient: true,
     color: color,
-    string: string
+    string: string,
+    breadcrumbs: breadcrumbs
   };
 
 });
