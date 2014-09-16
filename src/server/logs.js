@@ -6,6 +6,8 @@
 
 var winston = require('winston');
 
+winston.stripColors = true;
+
 module.exports = {
   // `timestamp` is a helper function used to ensure that winston timestamps aren't
   // timezone-specific.
