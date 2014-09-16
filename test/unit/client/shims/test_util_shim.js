@@ -88,14 +88,45 @@ define(['thehelp-test', 'util'], function(test, util) {
         expect(actual).to.equal(expected);
       });
 
-      it('prints out a tree of properties', function() {
+      it('prints out a tree of properties, default depth is three', function() {
         var obj = {
           left: 'yes',
           right: {
             left: 'yes',
             right: {
               left: 'yes',
-              right: 'no'
+              right: {
+                left: 'yes',
+                right: 'no'
+              }
+            }
+          }
+        };
+        var expected = '{\n' +
+        '  left: "yes",\n' +
+        '  right: {\n' +
+        '    left: "yes",\n' +
+        '    right: {\n' +
+        '      left: "yes",\n' +
+        '      right: [object Object]\n' +
+        '    }\n' +
+        '  }\n' +
+        '}';
+        var actual = util.inspect(obj);
+        expect(actual).to.equal(expected);
+      });
+
+      it('can set depth to less', function() {
+        var obj = {
+          left: 'yes',
+          right: {
+            left: 'yes',
+            right: {
+              left: 'yes',
+              right: {
+                left: 'yes',
+                right: 'no'
+              }
             }
           }
         };
@@ -106,7 +137,7 @@ define(['thehelp-test', 'util'], function(test, util) {
         '    right: [object Object]\n' +
         '  }\n' +
         '}';
-        var actual = util.inspect(obj);
+        var actual = util.inspect(obj, {depth: 2});
         expect(actual).to.equal(expected);
       });
     });
@@ -127,6 +158,8 @@ define(['thehelp-test', 'util'], function(test, util) {
         expect(Source).to.have.deep.property('prototype.source.callCount', 1);
       });
     });
+
+
 
   });
 });

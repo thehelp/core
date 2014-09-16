@@ -25,12 +25,15 @@ define(function() {
 
         [error: You can't do that!]
     */
-    inspect: function inspect(obj, maxDepth, depth) {
-      /*jshint maxcomplexity: 16 */
+    inspect: function inspect(obj, options) {
+      /*jshint maxcomplexity: 18 */
+      options = options || {};
 
-      if (typeof maxDepth === 'undefined') {
-        maxDepth = 2;
-        depth = 1;
+      if (typeof options.depth === 'undefined') {
+        options.depth = 3;
+      }
+      if (typeof options.currentDepth === 'undefined') {
+        options.currentDepth = 1;
       }
 
       if (obj === null) {
@@ -44,9 +47,9 @@ define(function() {
         return obj.inspect();
       }
 
-      var indentation = this.repeat('  ', depth);
-      var indentMinusOne = this.repeat('  ', depth - 1);
-      var properties = this.getProperties(obj, maxDepth, depth);
+      var indentation = this.repeat('  ', options.currentDepth);
+      var indentMinusOne = this.repeat('  ', options.currentDepth - 1);
+      var properties = this.getProperties(obj, options.depth, options.currentDepth);
 
       if (obj instanceof Error) {
         if (properties.length) {
@@ -96,15 +99,18 @@ define(function() {
 
     // `getProperties` recursively pulls properties out of an object, returning an array
     // of full rendered keys, ready for the final string.
-    getProperties: function getProperties(obj, maxDepth, depth) {
+    getProperties: function getProperties(obj, depth, currentDepth) {
       var properties = [];
-      if (maxDepth <= 0) {
+      if (depth <= 0) {
         return properties;
       }
 
       for (var key in obj) {
         if (obj.hasOwnProperty(key)) {
-          properties.push(key + ': ' + this.inspect(obj[key], maxDepth - 1, depth + 1));
+          properties.push(key + ': ' + this.inspect(obj[key], {
+            depth: depth - 1,
+            currentDepth: currentDepth + 1
+          }));
         }
       }
       return properties;
