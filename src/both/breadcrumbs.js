@@ -6,9 +6,6 @@ define(['util'], function(util) {
 
   'use strict';
 
-  // use something like this on the client-side to get comprehensive?
-  //    https://github.com/stacktracejs/stacktrace.js
-
   var breadcrumbs = {};
 
   breadcrumbs.prefix = '**breadcrumb: ';
@@ -36,8 +33,8 @@ define(['util'], function(util) {
     var stack = lines.join('\n');
     var standard = /^Error/;
 
-    //stack depth between this method and original caller
-    depth = (depth || 0) + this.layerSize + 1;
+    //stack depth between getStackTrace() and original caller
+    depth = (depth || 0) + this.layerSize + this.layerSize;
 
     //looking for the V8 method of rendering an error
     if (standard.test(stack)) {
