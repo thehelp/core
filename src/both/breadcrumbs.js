@@ -14,35 +14,45 @@ define(['util'], function(util) {
   breadcrumbs.prefix = '**breadcrumb: ';
   breadcrumbs.layerSize = 1;
 
-  breadcrumbs.get = function(depth) {
-    var err;
-    try {
-      throw new Error('Something');
+  breadcrumbs.getStackTrace = function getStackTrace() {
+    var err = new Error('Something');
+
+    if (!err.stack) {
+      try {
+        throw err;
+      }
+      catch (e) {
+        err = e;
+      }
     }
-    catch (e) {
-      err = e;
-    }
+
     var stack = err.stack || '';
-    var lines = stack.split('\n');
+    return stack.split('\n');
+  };
+
+  breadcrumbs.get = function get(depth) {
+    var result = this.prefix + '<empty>\n';
+    var lines = this.getStackTrace();
+    var stack = lines.join('\n');
     var standard = /^Error/;
 
     //stack depth between this method and original caller
-    depth = (depth || 0) + this.layerSize;
+    depth = (depth || 0) + this.layerSize + 1;
 
     //looking for the V8 method of rendering an error
     if (standard.test(stack)) {
       if (lines && lines[depth + 1]) {
         var line = lines[depth + 1] + '\n';
         line = line.replace(/^ +at /, this.prefix);
-        return line;
+        result = line;
       }
     }
     //Firefox callstacks don't include the error message on the first line
     else if (lines && lines[depth]) {
-      return this.prefix + lines[depth];
+      result = this.prefix + lines[depth];
     }
 
-    return this.prefix + '<empty>\n';
+    return result;
   };
 
   breadcrumbs.insert = function(err, depth) {
