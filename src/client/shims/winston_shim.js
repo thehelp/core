@@ -11,7 +11,7 @@ define(function() {
   // with a no-op.
   if (typeof window !== 'undefined' && typeof window.console === 'undefined') {
     window.console = {
-      log: function() {}
+      log: function log() {}
     };
   }
 

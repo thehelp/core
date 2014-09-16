@@ -9,14 +9,14 @@ var winston = require('winston');
 module.exports = {
   // `timestamp` is a helper function used to ensure that winston timestamps aren't
   // timezone-specific.
-  timestamp: function() {
+  timestamp: function timestamp() {
     var date = new Date();
     return date.toISOString();
   },
 
   // `setupConsole` has just one optional options parameter. Default for `level` is
   // 'info', default for `colorize` is `true`.
-  setupConsole: function(options) {
+  setupConsole: function setupConsole(options) {
     options = options || {};
     options.level = options.level || 'info';
     if (typeof options.colorize === 'undefined') {
@@ -37,7 +37,7 @@ module.exports = {
 
   _Note: assumes that no file setup has been done previously in this process._
   */
-  setupFile: function(path, options) {
+  setupFile: function setupFile(path, options) {
     options = options || {};
     options.level = options.level || 'verbose';
     options.maxsize = options.maxsize || 50000000;

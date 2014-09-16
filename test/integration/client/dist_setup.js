@@ -4,5 +4,5 @@ require(['dist_config'], function(config) {
 
   requirejs.config(config);
 
-  require([window.entrypoint], function() {});
+  require([window.entrypoint], function noop() {});
 });

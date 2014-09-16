@@ -55,7 +55,7 @@ define(['util'], function(util) {
     return result;
   };
 
-  breadcrumbs.insert = function(err, depth) {
+  breadcrumbs.insert = function insert(err, depth) {
     if (!err) {
       return;
     }
@@ -77,7 +77,7 @@ define(['util'], function(util) {
     }
   };
 
-  breadcrumbs.add = function(err, cb, data, depth) {
+  breadcrumbs.add = function add(err, cb, data, depth) {
     if (!err) {
       return false;
     }
@@ -103,7 +103,7 @@ define(['util'], function(util) {
     return true;
   };
 
-  breadcrumbs.toString = function(err) {
+  breadcrumbs.toString = function toString(err) {
     if (!err) {
       return '';
     }
@@ -117,7 +117,7 @@ define(['util'], function(util) {
     return result;
   };
 
-  breadcrumbs.prepareStack = function(err) {
+  breadcrumbs.prepareStack = function prepareStack(err) {
     var prefix = '  at ';
     var stack = err.stack || '';
 
