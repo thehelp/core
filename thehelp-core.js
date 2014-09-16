@@ -8,12 +8,8 @@ if (typeof define !== 'function') {
 }
 
 define([
-  'src/both/color',
-  'src/both/string',
   'src/both/breadcrumbs'
 ], function(
-  color,
-  string,
   breadcrumbs
 ) {
 
@@ -22,8 +18,6 @@ define([
   return {
     isNode: false,
     isClient: true,
-    color: color,
-    string: string,
     breadcrumbs: breadcrumbs
   };
 
