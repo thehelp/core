@@ -29,7 +29,7 @@ define(function() {
     //  a no-op without the dev tools active)
     addLevel: function(level) {
       this[level] = function(text) {
-        if (this.levels[level] >= this.levels[window.winstonLevel]) {
+        if (this.levels[level] >= (this.levels[window.winstonLevel] || 0)) {
           var now = new Date();
           console.log(now.toISOString() + ' ' + level + ': ' + text);
         }
