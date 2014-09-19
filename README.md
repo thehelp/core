@@ -22,7 +22,7 @@ Server-only:
 
 First install the project as a dependency:
 
-```
+```bash
 npm install thehelp-core --save
 ```
 
@@ -30,14 +30,14 @@ npm install thehelp-core --save
 
 On the server, just require it and start using it!
 
-```
+```javascript
 var core = require('thehelp-core');
 core.env.merge();
 ```
 
 On the client side, you'll just need to tell `requirejs` a few things:
 
-```
+```javascript
 requirejs.config({
   baseUrl: '/',
   paths: {
@@ -48,6 +48,29 @@ requirejs.config({
     winston: 'node_modules/thehelp-core/dist/shims/winston_shim'
   }
 })
+```
+
+Then you can use `thehelp-core` in your client code (or code that works client/server):
+
+```javascript
+if (typeof define !== 'function') {
+  var define = require('amdefine')(module);
+}
+
+define(['thehelp-core'], function(core) {
+
+  return function(param, cb) {
+    asyncMethod(param, function(err, result) {
+      if (core.breadcrumbs.add(err, cb, {param: param})) {
+        return;
+      }
+
+      return cb(null, result):
+    });
+
+  };
+
+});
 ```
 
 ## Detailed Documentation
