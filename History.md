@@ -1,7 +1,7 @@
 ## 2.0.0
 
-* Breaking: Remove `general` root key and all of its methods
-* Breaking: Remove `time` root key and all of its methods
+* Breaking: Remove `general`, `time`, `string` and `color` root keys and all of their methods
+* New: `breadcrumbs` key, available client and server
 * New: `isNode` and `isClient` keys on root `thehelp-core` object client and server
 
 ## 1.6.1  (2014-07-31)
