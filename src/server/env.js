@@ -1,7 +1,6 @@
 // # env
 // Functionality to help you deal with environment variables
 
-// [strict mode](http://mzl.la/1fRhnam)
 'use strict';
 
 var fs = require('fs');

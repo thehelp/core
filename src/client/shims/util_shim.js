@@ -2,7 +2,6 @@
 // Kinda replicates some of the most oft-used methods of the `util`
 // built-in node module.
 
-// Dependencies and [strict mode](http://mzl.la/1fRhnam)
 define(function() {
 
   'use strict';

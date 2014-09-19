@@ -1,7 +1,6 @@
 // # logs
 // Makes it a little quicker/easier to set up winston logging for a process.
 
-// [strict mode](http://mzl.la/1fRhnam)
 'use strict';
 
 var winston = require('winston');
