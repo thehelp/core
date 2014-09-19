@@ -13,7 +13,7 @@ Basic logging, environment and error management functionality for javascript cli
 
 #### Client-only:
 
-* `winston` and `util` shims for use with [`requirejs`](http://requirejs.org/)
+* Basic `winston` and `util` shims for use with [`requirejs`](http://requirejs.org/)
 
 #### Server-only:
 
