@@ -6,12 +6,27 @@ define(['util'], function(util) {
 
   'use strict';
 
-  var breadcrumbs = {};
+  function Breadcrumbs() {}
 
-  breadcrumbs.prefix = '**breadcrumb: ';
-  breadcrumbs.layerSize = 1;
+  Breadcrumbs.prototype.prefix = '**breadcrumb: ';
+  Breadcrumbs.prototype.layerSize = 1;
 
-  breadcrumbs.getStackTrace = function getStackTrace() {
+  Breadcrumbs.prototype.newError = function newError(message, options, depth) {
+    depth = (depth || 0) + this.layerSize;
+
+    var err = new Error(message);
+    err.stack = this.getStackTrace(depth).join('\n');
+
+    if (options) {
+      this.merge(err, options);
+    }
+
+    return err;
+  };
+
+  Breadcrumbs.prototype.getStackTrace = function getStackTrace(depth) {
+    depth = (depth || 0) + this.layerSize;
+
     var err = new Error('Something');
 
     if (!err.stack) {
@@ -24,74 +39,87 @@ define(['util'], function(util) {
     }
 
     var stack = err.stack || '';
-    return stack.split('\n');
+    var lines = stack.split('\n');
+
+    if (lines && lines.length && /^Error/.test(lines[0])) {
+      depth += 1;
+    }
+
+    return lines.slice(depth);
   };
 
-  breadcrumbs.get = function get(depth) {
+  Breadcrumbs.prototype.get = function get(depth) {
     var result = this.prefix + '<empty>\n';
-    var lines = this.getStackTrace();
-    var stack = lines.join('\n');
-    var standard = /^Error/;
+    var v8 = /^ +at /;
 
     //stack depth between getStackTrace() and original caller
-    depth = (depth || 0) + this.layerSize + this.layerSize;
+    depth = (depth || 0) + this.layerSize;
 
-    //looking for the V8 method of rendering an error
-    if (standard.test(stack)) {
-      if (lines && lines[depth + 1]) {
-        var line = lines[depth + 1] + '\n';
-        line = line.replace(/^ +at /, this.prefix);
-        result = line;
+    var lines = this.getStackTrace(depth);
+
+    if (lines && lines.length) {
+      result = lines[0];
+
+      if (v8.test(result)) {
+        result = result.replace(v8, this.prefix)  + '\n';
       }
-    }
-    //Firefox callstacks don't include the error message on the first line
-    else if (lines && lines[depth]) {
-      result = this.prefix + lines[depth];
+      else {
+        result = this.prefix + result + '\n';
+      }
     }
 
     return result;
   };
 
-  breadcrumbs.insert = function insert(err, depth) {
+  Breadcrumbs.prototype.insert = function insert(err, depth) {
     if (!err) {
       return;
     }
 
     var stack = err.stack || '';
-    var lines = stack.split(/ +at /);
+    var v8 = / +at /;
 
     depth = (depth || 0) + this.layerSize;
     var breadcrumb = this.get(depth);
 
-    if (lines.length) {
+    if (this.startsWithError(stack)) {
+      var lines = stack.split(v8);
       var updated = [lines[0], breadcrumb];
       updated = updated.concat(lines.slice(1));
 
       err.stack = updated.join('  at ');
     }
+    else if (this.hasAts(stack)) {
+      err.stack = '  at ' + breadcrumb + err.stack;
+    }
     else {
-      err.stack = '  at: ' + breadcrumb + err.stack;
+      err.stack = breadcrumb + err.stack;
     }
   };
 
-  breadcrumbs.add = function add(err, cb, data, depth) {
+  Breadcrumbs.prototype.merge = function merge(target, source) {
+    if (target && source && typeof source === 'object') {
+      var keys = Object.keys(source);
+
+      for (var i = 0, max = keys.length; i < max; i += 1) {
+        var key = keys[i];
+
+        if (typeof target[key] === 'undefined') {
+          target[key] = source[key];
+        }
+      }
+    }
+  };
+
+  Breadcrumbs.prototype.add = function add(err, cb, data, depth) {
     if (!err) {
       return false;
     }
 
     depth = (depth || 0) + this.layerSize;
-    this.insert(err, depth);
+    this.insert(err, depth, data && data.backup);
 
-    if (data && typeof data === 'object') {
-      var keys = Object.keys(data);
-
-      for (var i = 0, max = keys.length; i < max; i += 1) {
-        var key = keys[i];
-        if (typeof err[key] === 'undefined') {
-          err[key] = data[key];
-        }
-      }
-    }
+    this.merge(err, data);
 
     if (cb) {
       cb(err);
@@ -100,7 +128,7 @@ define(['util'], function(util) {
     return true;
   };
 
-  breadcrumbs.toString = function toString(err) {
+  Breadcrumbs.prototype.toString = function toString(err) {
     if (!err) {
       return '';
     }
@@ -114,7 +142,17 @@ define(['util'], function(util) {
     return result;
   };
 
-  breadcrumbs.prepareStack = function prepareStack(err) {
+  Breadcrumbs.prototype.startsWithError = function(stack) {
+    var v8 = /^Error: /;
+    return Boolean(v8.test(stack));
+  };
+
+  Breadcrumbs.prototype.hasAts = function(stack) {
+    var v8 = / +at /;
+    return Boolean(v8.test(stack));
+  };
+
+  Breadcrumbs.prototype.prepareStack = function prepareStack(err) {
     var prefix = '  at ';
     var stack = err.stack || '';
 
@@ -123,14 +161,17 @@ define(['util'], function(util) {
       stack = stack.split(process.cwd()).join('');
     }
 
-    //V8-style stacks include the error message before showing the actual stack; remove it
-    var lines = stack.split(/ +at /);
-    if (lines.length > 1) {
-      stack = prefix + lines.slice(1).join(prefix);
+    //V8-style stacks include the error message before showing the actual stack;
+    //remove it, even if it has newlines in it, by using each line's prefix to split it
+    if (this.startsWithError(stack)) {
+      var lines = stack.split(/ +at /);
+      if (lines && lines.length) {
+        stack = prefix + lines.slice(1).join(prefix);
+      }
     }
 
     return stack;
   };
 
-  return breadcrumbs;
+  return Breadcrumbs;
 });

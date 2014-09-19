@@ -10,7 +10,7 @@ if (typeof define !== 'function') {
 define([
   'src/both/breadcrumbs'
 ], function(
-  breadcrumbs
+  Breadcrumbs
 ) {
 
   'use strict';
@@ -18,7 +18,7 @@ define([
   return {
     isNode: false,
     isClient: true,
-    breadcrumbs: breadcrumbs
+    breadcrumbs: new Breadcrumbs()
   };
 
 });
