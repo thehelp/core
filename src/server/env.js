@@ -14,27 +14,13 @@ module.exports = {
   failing to '<CWD>/env.json'), `require()`s it, then merges it with `process.env`
   favoring values already in place.
 
-  Config can be structured like this, with different values for different environments:
-  ```
-  {
-    "NODE_ENV": "development"
-    "development": {
-      "VAR": "value",
-      "VAR2": "value"
-    },
-    "production": {
-      "VAR": "productionValue",
-      "VAR2": "productionValue"
-    }
-  }
-  ```
-
-  Or flat like this:
+  Config can be structured like this, either in raw JSON or a commonjs-style .js file
+  (providing values via `module.exports`):
   ```
   {
     "NODE_ENV": "development"
     "VAR": "value",
-    "VAR2": "value"
+    "VAR2": "value2"
   }
   ```
 
