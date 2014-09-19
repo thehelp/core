@@ -26,6 +26,20 @@
     }
   },
 
+  "description": "Basic logging, environment and error management functionality for javascript client/server applications.",
+  "keywords": [
+    "thehelp",
+    "core",
+    "breadcrumbs",
+    "errors",
+    "winston",
+    "logging",
+    "env",
+    "shim",
+    "util",
+    "requirejs"
+  ],
+
   "author": "Scott Nonnenberg",
   "license": "MIT",
 
