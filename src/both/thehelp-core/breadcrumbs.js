@@ -5,7 +5,7 @@ if (typeof define !== 'function') {
   var define = require('amdefine')(module);
 }
 
-define(['util'], function(util) {
+define(['util', './merge'], function(util, merge) {
 
   'use strict';
 
@@ -36,7 +36,7 @@ define(['util'], function(util) {
     err.stack = this._getStackTrace(depth).join('\n');
 
     if (options) {
-      this._merge(err, options);
+      merge(err, options);
     }
 
     return err;
@@ -92,7 +92,7 @@ define(['util'], function(util) {
     depth = (depth || 0) + this._layerSize;
 
     this._insert(err, depth, data && data.backup);
-    this._merge(err, data);
+    merge(err, data);
 
     if (cb) {
       cb(err);
@@ -237,16 +237,6 @@ define(['util'], function(util) {
     }
 
     return stack;
-  };
-
-  Breadcrumbs.prototype._merge = function _merge(target, source) {
-    if (target && source && typeof source === 'object') {
-      for (var key in source) {
-        if (source.hasOwnProperty(key) && typeof target[key] === 'undefined') {
-          target[key] = source[key];
-        }
-      }
-    }
   };
 
   Breadcrumbs.prototype.startsWithError = function(stack) {

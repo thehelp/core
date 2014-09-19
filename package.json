@@ -5,7 +5,6 @@
 
   "dependencies": {
     "amdefine": "0.1.x",
-    "lodash": "2.4.1",
     "winston": "0.7.x"
   },
   "devDependencies": {

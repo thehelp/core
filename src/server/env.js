@@ -5,7 +5,8 @@
 
 var fs = require('fs');
 
-var _ = require('lodash');
+var mergeObjects = require('../both/thehelp-core/merge');
+
 
 module.exports = {
   // `merge` loads a json file at the path you specify ('./env.json' by default), parses
@@ -14,6 +15,7 @@ module.exports = {
     path = path || './env.json';
     var contents = fs.readFileSync(path);
     var data = JSON.parse(contents);
-    process.env = _.merge(data, process.env);
+
+    mergeObjects(process.env, data);
   }
 };
