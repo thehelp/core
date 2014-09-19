@@ -9,14 +9,20 @@ Basic logging, environment and error management functionality for javascript cli
   * `newError()` ensuring callstacks on the client
   * `toString()` preparing them for logs
 
-Client-only:
+#### Client-only:
 
 * `winston` and `util` shims for use with [`requirejs`](http://requirejs.org/)
 
-Server-only:
+#### Server-only:
 
 * `logs.setupFile()/setupConsole()` for quick `winston` setup on the server
 * `env.merge()` method to merge data from '<CWD>/env.js' (or '<CWD>/env.json', or a path you specify) with values already on `process.env`
+
+## Supported browsers
+
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/thehelp-core.svg)](https://saucelabs.com)
+
+Sadly, IE9 and Safari5 are both unwilling to give us callstacks. We won't crash, but you'll get empty strings for stacks and breadcrumbs like this: '**breadcrumb: &lt;empty>'.
 
 ## Setup
 
