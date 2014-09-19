@@ -1,0 +1,126 @@
+<!DOCTYPE html><html lang="en"><head><title>History</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="History"><meta name="groc-project-path" content="History.md"><meta name="groc-github-url" content="https://github.com/thehelp/core"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/thehelp/core/blob/master/History.md">History.md</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h2 id="200">2.0.0</h2>
+
+<ul>
+<li>Breaking: Remove <code>general</code>, <code>time</code>, <code>string</code> and <code>color</code> root keys and all of their methods</li>
+<li>New: <code>breadcrumbs</code> key, available client and server</li>
+<li>New: <code>isNode</code> and <code>isClient</code> keys on root <code>thehelp-core</code> object client and server</li>
+</ul>
+
+<h2 id="161-2014-07-31">1.6.1  (2014-07-31)</h2>
+
+<ul>
+<li>Really get rid of the old source map files in npm package</li>
+</ul>
+
+<h2 id="160-2014-07-29">1.6.0  (2014-07-29)</h2>
+
+<ul>
+<li>Default set of time zones on the server is now taken from tz/min.json. To return to the comprehensive set of timezones, set the TIME_ZONE_DATA environment variable to point to tz/all.json.</li>
+<li>Minor version update: <code>moment</code> (client and server)</li>
+<li>Update to latest timezone data</li>
+<li>Remove source map files from npm package</li>
+<li>Update dev dependencies</li>
+</ul>
+
+<h2 id="155-2014-07-28">1.5.5 (2014-07-28)</h2>
+
+<ul>
+<li>Streamlined implementation of <code>time.getTimezone()</code> (no more ugly lookup list), which should also make it more reliable</li>
+<li>New method: <code>time.getTimezones()</code> returns a list of timezones, good for user select boxes</li>
+</ul>
+
+<h2 id="154-2014-06-08">1.5.4 (2014-06-08)</h2>
+
+<ul>
+<li>All time zone data moved from 'dist/tz' to 'tz' since many projects copy entire contents of 'dist/' directory into their 'lib/vendor' (and tz data is 1MB!)</li>
+<li>Remove timezones.txt from npm package</li>
+<li>Update dev dependencies</li>
+</ul>
+
+<h2 id="153-2014-05-27">1.5.3 (2014-05-27)</h2>
+
+<ul>
+<li>Pare down what's in npm package</li>
+<li>All time zone data moved from 'lib/vendor/tz' to 'dist/tz' since 'lib' is now excluded from npm package</li>
+</ul>
+
+<h2 id="152-2014-05-24">1.5.2 (2014-05-24)</h2>
+
+<ul>
+<li>Patch version update: <code>timezone-js</code> (both client and server)</li>
+<li>Update timezone data</li>
+<li>Update dev dependencies</li>
+</ul>
+
+<h2 id="151-2014-05-02">1.5.1 (2014-05-02)</h2>
+
+<ul>
+<li>Minor version update: <code>moment</code> (both npm and bower)</li>
+<li>Bower dev dependency update: <code>jquery</code></li>
+<li>Update to gruntfile to copy jquery into 'lib/vendor'</li>
+</ul>
+
+<h2 id="150-2014-05-01">1.5.0 (2014-05-01)</h2>
+
+<ul>
+<li>New: server methods to merge environment variables with data in 'env.json' (preferring real environment): <code>env.merge()</code></li>
+</ul>
+
+<h2 id="140-2014-04-23">1.4.0 (2014-04-23)</h2>
+
+<ul>
+<li>New: server methods to set up logs easily: <code>logs.setupConsole()</code> and <code>logs.setupFile()</code></li>
+</ul>
+
+<h2 id="130-2014-04-11">1.3.0 (2014-04-11)</h2>
+
+<ul>
+<li>Updated time zone data</li>
+<li>Patch version update to <code>timezone-js</code></li>
+<li>General version numbers for <code>winston</code> and <code>amdefine</code></li>
+<li>Updates of dev dependencies: <code>blanket</code>,<code>thehelp-project</code>, <code>thehelp-test</code></li>
+</ul>
+
+<h2 id="123-2014-03-21">1.2.3 (2014-03-21)</h2>
+
+<ul>
+<li>Patch upgrades (bower): moment</li>
+<li>Dev dependencies: lodash, jquery, requirejs, grunt, thehelp-project, thehelp-test</li>
+</ul>
+
+<h2 id="122-2014-03-09">1.2.2 (2014-03-09)</h2>
+
+<ul>
+<li>Source maps now in dist/ with an upgrade to <code>thehelp-project</code> dependency</li>
+</ul>
+
+<h2 id="121-2014-03-08">1.2.1 (2014-03-08)</h2>
+
+<ul>
+<li>Patch version updates: timezone-js, grunt, lodash</li>
+<li>Minor version updates: moment, thehelp-project, thehelp-test</li>
+<li>Fixing too-long lines</li>
+</ul>
+
+<h2 id="120-2013-12-02">1.2.0 (2013-12-02)</h2>
+
+<ul>
+<li>instead of looking for timezone data at '[cwd]/lib/vendor/tz' if TIME_ZONE_DATA environment variable is not set, we now look inside this node module</li>
+<li>dist/tz folder no longer has server time zone data</li>
+<li>expose moment and timezone js on the time object for direct use</li>
+<li>adding readme</li>
+</ul>
+
+<h2 id="110-2013-11-19">1.1.0 (2013-11-19)</h2>
+
+<ul>
+<li>dist/ now has three final versions of thehelp-core - one with all.json timezone data injected, one with min.json timezone data injected, and one that requires jquery/zepto/other to load it dynamically.</li>
+<li>including server timezone data in dist/tz folder</li>
+</ul>
+
+<h2 id="100-2013-11-18">1.0.0 (2013-11-18)</h2>
+
+<ul>
+<li>Initial release</li>
+<li>Core logic is all there!</li>
+</ul></div></div></div></div></body></html>

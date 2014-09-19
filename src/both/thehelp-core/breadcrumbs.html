@@ -1,0 +1,208 @@
+<!DOCTYPE html><html lang="en"><head><title>src/both/thehelp-core/breadcrumbs</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../"><meta name="groc-document-path" content="src/both/thehelp-core/breadcrumbs"><meta name="groc-project-path" content="src/both/thehelp-core/breadcrumbs.js"><meta name="groc-github-url" content="https://github.com/thehelp/core"><link rel="stylesheet" type="text/css" media="all" href="../../../assets/style.css"><script type="text/javascript" src="../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/thehelp/core/blob/master/src/both/thehelp-core/breadcrumbs.js">src/both/thehelp-core/breadcrumbs.js</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="breadcrumbs">Breadcrumbs</h1>
+
+<p>Helping client and server javascript deal with errors.</p></div></div><div class="code"><div class="wrapper"><span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">define</span> <span class="o">!==</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">define</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;amdefine&#39;</span><span class="p">)(</span><span class="nx">module</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">define</span><span class="p">([</span><span class="s1">&#39;util&#39;</span><span class="p">,</span> <span class="s1">&#39;./merge&#39;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">util</span><span class="p">,</span> <span class="nx">merge</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+
+  <span class="kd">function</span> <span class="nx">Breadcrumbs</span><span class="p">()</span> <span class="p">{}</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="public-api">Public API</h1></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>newError</code> simplifies the creation of <code>Error</code> objects in all javascript contexts.
+In v8, you get a stack by default, but quite a few other platforms require a <code>throw</code>
+to get the callstack.</p>
+
+<p><em>Note: we're keeping it simple; we don't do anything for the sad, old browsers which
+need <code>window.onerror()</code> or <code>arguments.callee</code>-walking hacks to get a callstack.</em></p>
+
+<p>Three optional parameters:</p>
+
+<ul>
+<li><code>message</code> is passed directly in the error construction: <code>new Error(message)</code></li>
+<li><code>options</code> will have its keys merged into the returned error</li>
+<li><code>depth</code> allows you to put this method in your own helper, just set the depth to the
+number of steps between the code you want to capture.</li>
+</ul></div></div><div class="code"><div class="wrapper">  <span class="nx">Breadcrumbs</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">newError</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">newError</span><span class="p">(</span><span class="nx">message</span><span class="p">,</span> <span class="nx">options</span><span class="p">,</span> <span class="nx">depth</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">depth</span> <span class="o">=</span> <span class="p">(</span><span class="nx">depth</span> <span class="o">||</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">_layerSize</span><span class="p">;</span>
+
+    <span class="kd">var</span> <span class="nx">err</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">message</span><span class="p">);</span>
+    <span class="nx">err</span><span class="p">.</span><span class="nx">stack</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_getStackTrace</span><span class="p">(</span><span class="nx">depth</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">merge</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">err</span><span class="p">;</span>
+  <span class="p">};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>add</code> is a new alternative to the these two methods of dealing with errors in
+javascript:</p>
+
+<pre><code>if (err) {
+  return cb(err);
+}
+</code></pre>
+
+<p>and</p>
+
+<pre><code>if (err) {
+  myFavoriteLogger.error('methodName: strange situation! ' +
+    JSON.stringify(user));
+
+  return cb(err);
+}
+</code></pre>
+
+<p>Now you can do this, to accomplish the same thing. We attach the user to the error for
+future log output, and <code>add()</code> adds the current file and line to the top of the stack.
+So after an error happens deep in some library, you know how it propagated through your
+code afterwards.</p>
+
+<pre><code>if (breadcrumbs.add(err, cb, {user: user})) {
+  return;
+}
+</code></pre>
+
+<p>The first parameter, <code>err</code> is required. If <code>err</code> is truthy, any provided callback will
+be called and <code>add()</code> will return true.</p>
+
+<p>There are three more optional parameters:</p>
+
+<ul>
+<li><code>cb</code> is called with <code>err</code> if <code>err</code> is truthy.</li>
+<li><code>data</code> will have its keys merged into the returned error</li>
+<li><code>depth</code> allows you to put this method in your own helper, just set the depth to the
+number of steps between the code you want to capture.</li>
+</ul></div></div><div class="code"><div class="wrapper">  <span class="nx">Breadcrumbs</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">add</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">add</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">cb</span><span class="p">,</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">depth</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">depth</span> <span class="o">=</span> <span class="p">(</span><span class="nx">depth</span> <span class="o">||</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">_layerSize</span><span class="p">;</span>
+
+    <span class="k">this</span><span class="p">.</span><span class="nx">_insert</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">depth</span><span class="p">,</span> <span class="nx">data</span> <span class="o">&amp;&amp;</span> <span class="nx">data</span><span class="p">.</span><span class="nx">backup</span><span class="p">);</span>
+    <span class="nx">merge</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">cb</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>toString()</code> prints out errors. Now that you're using <code>breadcrumbs.add()</code> to annotate
+your errors as they propagate through your system, it's time to print them out properly.</p>
+
+<p>First we do a <code>util.inspect()</code> of the error, grabbing all of those keys we've merged
+into it for debugging purposes, and then we print out the stack after removing all
+instances of <code>process.cwd()</code> (if we're on the server).</p>
+
+<p>You can prevent the stack from being printed by setting <code>err.log</code> to something other
+than 'warn' or 'error'.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">Breadcrumbs</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">toString</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">toString</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nx">util</span><span class="p">.</span><span class="nx">inspect</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="p">{</span><span class="nx">depth</span><span class="o">:</span> <span class="mi">5</span><span class="p">});</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">err</span><span class="p">.</span><span class="nx">log</span> <span class="o">||</span> <span class="nx">err</span><span class="p">.</span><span class="nx">log</span> <span class="o">===</span> <span class="s1">&#39;warn&#39;</span> <span class="o">||</span> <span class="nx">err</span><span class="p">.</span><span class="nx">log</span> <span class="o">===</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">result</span> <span class="o">+=</span> <span class="s1">&#39;\n&#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">_prepareStack</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+  <span class="p">};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="helper-functions">Helper functions</h1></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>What goes in front of all breadcrumbs added to the stack.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">Breadcrumbs</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">_prefix</span> <span class="o">=</span> <span class="s1">&#39;**breadcrumb: &#39;</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>The stack steps consumed for each functional call inside <code>Breadcrumbs</code>. For example
+if we ever do a <code>_.bindAll()</code>, the <code>_layerSize</code> can be set to 2 to make everything
+work again.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">Breadcrumbs</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">_layerSize</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>_getStackTrace</code> allows the platform to provide a stack before resorting to a
+<code>throw</code>. Then it slices off the top to get rid of everything but the code calling
+this library.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">Breadcrumbs</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">_getStackTrace</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">_getStackTrace</span><span class="p">(</span><span class="nx">depth</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">err</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s1">&#39;Something&#39;</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">err</span><span class="p">.</span><span class="nx">stack</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">try</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="nx">err</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">err</span> <span class="o">=</span> <span class="nx">e</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kd">var</span> <span class="nx">stack</span> <span class="o">=</span> <span class="nx">err</span><span class="p">.</span><span class="nx">stack</span> <span class="o">||</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">lines</span> <span class="o">=</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39;\n&#39;</span><span class="p">);</span>
+
+    <span class="c1">//stack depth between _getStackTrace() and original caller</span>
+    <span class="nx">depth</span> <span class="o">=</span> <span class="p">(</span><span class="nx">depth</span> <span class="o">||</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">_layerSize</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">lines</span> <span class="o">&amp;&amp;</span> <span class="nx">lines</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span> <span class="sr">/^Error/</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="p">{</span>
+      <span class="nx">depth</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">lines</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">depth</span><span class="p">);</span>
+  <span class="p">};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>_get</code> constructs the actual breadcrumb from the top of the stack.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">Breadcrumbs</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">_get</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">_get</span><span class="p">(</span><span class="nx">depth</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_prefix</span> <span class="o">+</span> <span class="s1">&#39;&lt;empty&gt;\n&#39;</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">v8</span> <span class="o">=</span> <span class="sr">/^ +at /</span><span class="p">;</span>
+
+    <span class="c1">//stack depth between _getStackTrace() and original caller</span>
+    <span class="nx">depth</span> <span class="o">=</span> <span class="p">(</span><span class="nx">depth</span> <span class="o">||</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">_layerSize</span><span class="p">;</span>
+
+    <span class="kd">var</span> <span class="nx">lines</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_getStackTrace</span><span class="p">(</span><span class="nx">depth</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">lines</span> <span class="o">&amp;&amp;</span> <span class="nx">lines</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">result</span> <span class="o">=</span> <span class="nx">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="nx">v8</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">result</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nx">result</span> <span class="o">=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">v8</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">_prefix</span><span class="p">)</span>  <span class="o">+</span> <span class="s1">&#39;\n&#39;</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">result</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_prefix</span> <span class="o">+</span> <span class="nx">result</span> <span class="o">+</span> <span class="s1">&#39;\n&#39;</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+  <span class="p">};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>_insert</code> injects a breadcrumb into <code>err.stack</code>.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">Breadcrumbs</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">_insert</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">_insert</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">depth</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kd">var</span> <span class="nx">stack</span> <span class="o">=</span> <span class="nx">err</span><span class="p">.</span><span class="nx">stack</span> <span class="o">||</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">v8</span> <span class="o">=</span> <span class="sr">/ +at /</span><span class="p">;</span>
+
+    <span class="c1">//stack depth between _getStackTrace() and original caller</span>
+    <span class="nx">depth</span> <span class="o">=</span> <span class="p">(</span><span class="nx">depth</span> <span class="o">||</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">_layerSize</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">breadcrumb</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_get</span><span class="p">(</span><span class="nx">depth</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">startsWithError</span><span class="p">(</span><span class="nx">stack</span><span class="p">))</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">lines</span> <span class="o">=</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="nx">v8</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">updated</span> <span class="o">=</span> <span class="p">[</span><span class="nx">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">breadcrumb</span><span class="p">];</span>
+      <span class="nx">updated</span> <span class="o">=</span> <span class="nx">updated</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">lines</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>
+
+      <span class="nx">err</span><span class="p">.</span><span class="nx">stack</span> <span class="o">=</span> <span class="nx">updated</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;  at &#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">hasAts</span><span class="p">(</span><span class="nx">stack</span><span class="p">))</span> <span class="p">{</span>
+      <span class="nx">err</span><span class="p">.</span><span class="nx">stack</span> <span class="o">=</span> <span class="s1">&#39;  at &#39;</span> <span class="o">+</span> <span class="nx">breadcrumb</span> <span class="o">+</span> <span class="nx">err</span><span class="p">.</span><span class="nx">stack</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+      <span class="nx">err</span><span class="p">.</span><span class="nx">stack</span> <span class="o">=</span> <span class="nx">breadcrumb</span> <span class="o">+</span> <span class="nx">err</span><span class="p">.</span><span class="nx">stack</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">};</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>_prepareStack</code> does some stack massage to make it more printable.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">Breadcrumbs</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">_prepareStack</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">_prepareStack</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">prefix</span> <span class="o">=</span> <span class="s1">&#39;  at &#39;</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">stack</span> <span class="o">=</span> <span class="nx">err</span><span class="p">.</span><span class="nx">stack</span> <span class="o">||</span> <span class="s1">&#39;&#39;</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Remove any instances of working directory</p></div></div><div class="code"><div class="wrapper">    <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">process</span> <span class="o">!==</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">stack</span> <span class="o">=</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">()).</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+    <span class="p">}</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>V8-style stacks include the error message before showing the actual stack;
+remove it, even if it has newlines in it, by using each line's prefix to split it.</p></div></div><div class="code"><div class="wrapper">    <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">startsWithError</span><span class="p">(</span><span class="nx">stack</span><span class="p">))</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">lines</span> <span class="o">=</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/ +at /</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">lines</span> <span class="o">&amp;&amp;</span> <span class="nx">lines</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">stack</span> <span class="o">=</span> <span class="nx">prefix</span> <span class="o">+</span> <span class="nx">lines</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">join</span><span class="p">(</span><span class="nx">prefix</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nx">stack</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="nx">Breadcrumbs</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">startsWithError</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">stack</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">v8</span> <span class="o">=</span> <span class="sr">/^Error: /</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">Boolean</span><span class="p">(</span><span class="nx">v8</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">stack</span><span class="p">));</span>
+  <span class="p">};</span>
+
+  <span class="nx">Breadcrumbs</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">hasAts</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">stack</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">v8</span> <span class="o">=</span> <span class="sr">/ +at /</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">Boolean</span><span class="p">(</span><span class="nx">v8</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">stack</span><span class="p">));</span>
+  <span class="p">};</span>
+
+  <span class="k">return</span> <span class="nx">Breadcrumbs</span><span class="p">;</span>
+<span class="p">});</span></div></div></div></div></body></html>

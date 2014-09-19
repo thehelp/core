@@ -1,0 +1,155 @@
+<!DOCTYPE html><html lang="en"><head><title>src/client/shims/util_shim</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content="../../../"><meta name="groc-document-path" content="src/client/shims/util_shim"><meta name="groc-project-path" content="src/client/shims/util_shim.js"><meta name="groc-github-url" content="https://github.com/thehelp/core"><link rel="stylesheet" type="text/css" media="all" href="../../../assets/style.css"><script type="text/javascript" src="../../../assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/thehelp/core/blob/master/src/client/shims/util_shim.js">src/client/shims/util_shim.js</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h1 id="util-shim">util_shim</h1>
+
+<p>Kinda replicates some of the most oft-used methods of the <code>util</code>
+built-in node module.</p></div></div><div class="code"><div class="wrapper"><span class="nx">define</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>inherits</code> does "proper" inheritance. For reference:
+<a href="http://bit.ly/1fRjdYX">node's util.inherits</a></p></div></div><div class="code"><div class="wrapper">    <span class="nx">inherits</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">inherits</span><span class="p">(</span><span class="nx">Child</span><span class="p">,</span> <span class="nx">Parent</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">Child</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">Parent</span><span class="p">.</span><span class="nx">prototype</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">constructor</span><span class="o">:</span> <span class="p">{</span>
+          <span class="nx">value</span><span class="o">:</span> <span class="nx">Child</span><span class="p">,</span>
+          <span class="nx">enumerable</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+          <span class="nx">writable</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+          <span class="nx">configurable</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">}</span>
+      <span class="p">});</span>
+    <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>inspect</code> gives you a way better representation of an object
+than <code>JSON.stringify</code>. You can provide a higher <code>maxDepth</code> to
+go deeper into an object. Strings returned look like this:</p>
+
+<pre><code>{
+  left: "yes",
+  right: {
+    left: "yes",
+    right: 'no'
+  }
+}
+</code></pre>
+
+<p>or, special-cased output for Error objects:</p>
+
+<pre><code>[error: You can't do that!]
+</code></pre></div></div><div class="code"><div class="wrapper">    <span class="nx">inspect</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">inspect</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+      <span class="cm">/*jshint maxcomplexity: 15 */</span>
+      <span class="nx">options</span> <span class="o">=</span> <span class="nx">options</span> <span class="o">||</span> <span class="p">{};</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">options</span><span class="p">.</span><span class="nx">depth</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">options</span><span class="p">.</span><span class="nx">depth</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">options</span><span class="p">.</span><span class="nx">currentDepth</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">options</span><span class="p">.</span><span class="nx">currentDepth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="nx">obj</span> <span class="o">===</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;null&#39;</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">obj</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;undefined&#39;</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">inspect</span> <span class="o">===</span> <span class="s1">&#39;function&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">inspect</span><span class="p">();</span>
+      <span class="p">}</span>
+
+      <span class="kd">var</span> <span class="nx">indentation</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_repeat</span><span class="p">(</span><span class="s1">&#39;  &#39;</span><span class="p">,</span> <span class="nx">options</span><span class="p">.</span><span class="nx">currentDepth</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">indentMinusOne</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_repeat</span><span class="p">(</span><span class="s1">&#39;  &#39;</span><span class="p">,</span> <span class="nx">options</span><span class="p">.</span><span class="nx">currentDepth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="nx">obj</span> <span class="k">instanceof</span> <span class="nb">Array</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_renderArray</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>
+      <span class="p">}</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">obj</span> <span class="k">instanceof</span> <span class="nb">RegExp</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+      <span class="p">}</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">obj</span> <span class="o">===</span> <span class="s1">&#39;string&#39;</span> <span class="o">||</span> <span class="nx">obj</span> <span class="k">instanceof</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nx">obj</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">obj</span> <span class="k">instanceof</span> <span class="nb">Date</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;&quot;&#39;</span> <span class="o">+</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">toJSON</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="kd">var</span> <span class="nx">properties</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">_getProperties</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">options</span><span class="p">.</span><span class="nx">depth</span><span class="p">,</span> <span class="nx">options</span><span class="p">.</span><span class="nx">currentDepth</span><span class="p">);</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="nx">obj</span> <span class="k">instanceof</span> <span class="nb">Error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">_renderError</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">properties</span><span class="p">,</span> <span class="nx">indentation</span><span class="p">);</span>
+      <span class="p">}</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">obj</span> <span class="o">!==</span> <span class="s1">&#39;object&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">String</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+      <span class="p">}</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="nx">properties</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;{\n&#39;</span> <span class="o">+</span> <span class="nx">indentation</span> <span class="o">+</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;,\n&#39;</span> <span class="o">+</span> <span class="nx">indentation</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;\n&#39;</span> <span class="o">+</span>
+          <span class="nx">indentMinusOne</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">toString</span><span class="p">();</span>
+      <span class="p">}</span>
+    <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="utility-methods">Utility methods</h1>
+
+<p>Changes in these may be made at any time.</p></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>_getProperties</code> recursively pulls properties out of an object, returning an array
+of full rendered keys, ready for the final string.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">_getProperties</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">_getProperties</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">depth</span><span class="p">,</span> <span class="nx">currentDepth</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">properties</span> <span class="o">=</span> <span class="p">[];</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">depth</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">properties</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">obj</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">obj</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">key</span><span class="p">))</span> <span class="p">{</span>
+          <span class="nx">properties</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">key</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">inspect</span><span class="p">(</span><span class="nx">obj</span><span class="p">[</span><span class="nx">key</span><span class="p">],</span> <span class="p">{</span>
+            <span class="nx">depth</span><span class="o">:</span> <span class="nx">depth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="nx">currentDepth</span><span class="o">:</span> <span class="nx">currentDepth</span> <span class="o">+</span> <span class="mi">1</span>
+          <span class="p">}));</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="nx">properties</span><span class="p">;</span>
+    <span class="p">},</span>
+
+    <span class="nx">_renderArray</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">_renderArray</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">items</span> <span class="o">=</span> <span class="p">[];</span>
+      <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">max</span><span class="p">;</span> <span class="nx">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">items</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">inspect</span><span class="p">(</span><span class="nx">obj</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="p">{</span>
+          <span class="nx">depth</span><span class="o">:</span> <span class="nx">options</span><span class="p">.</span><span class="nx">depth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+          <span class="nx">currentDepth</span><span class="o">:</span> <span class="nx">options</span><span class="p">.</span><span class="nx">currentDepth</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="p">}));</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="s1">&#39;[&#39;</span> <span class="o">+</span> <span class="nx">items</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span><span class="p">;</span>
+    <span class="p">},</span>
+
+    <span class="nx">_renderError</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">_renderError</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">properties</span><span class="p">,</span> <span class="nx">indentation</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">properties</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">filtered</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">properties</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">max</span><span class="p">;</span> <span class="nx">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+          <span class="kd">var</span> <span class="nx">property</span> <span class="o">=</span> <span class="nx">properties</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+
+          <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="sr">/^message:/</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">property</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+            <span class="o">!</span><span class="sr">/^description:/</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">property</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+            <span class="o">!</span><span class="sr">/^stack/</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">property</span><span class="p">)</span> <span class="o">&amp;&amp;</span>
+            <span class="o">!</span><span class="sr">/^sourceURL:/</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">property</span><span class="p">))</span> <span class="p">{</span>
+
+            <span class="nx">filtered</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">property</span><span class="p">);</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">filtered</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">return</span> <span class="s1">&#39;{ [Error: &#39;</span> <span class="o">+</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">message</span> <span class="o">+</span> <span class="s1">&#39;]\n  &#39;</span> <span class="o">+</span>
+            <span class="nx">filtered</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;,\n&#39;</span> <span class="o">+</span> <span class="nx">indentation</span><span class="p">)</span> <span class="o">+</span>
+            <span class="s1">&#39;\n}&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+
+      <span class="k">return</span> <span class="s1">&#39;[Error: &#39;</span> <span class="o">+</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">message</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span><span class="p">;</span>
+    <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>_repeat</code> repeats the first parameter <code>n</code> times.</p></div></div><div class="code"><div class="wrapper">    <span class="nx">_repeat</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">_repeat</span><span class="p">(</span><span class="nx">target</span><span class="p">,</span> <span class="nx">n</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">n</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+      <span class="p">}</span>
+
+      <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">n</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">max</span><span class="p">;</span> <span class="nx">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">result</span> <span class="o">+=</span> <span class="nx">target</span><span class="p">;</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">};</span>
+
+<span class="p">});</span></div></div></div></div></body></html>
