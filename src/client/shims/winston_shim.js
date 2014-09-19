@@ -27,7 +27,7 @@ define(function() {
     // `addLevel` puts a function on `winston` for the `level` specified. Each of those
     // functions logs if the current log level permits it. On Internet Explorer that's
     // a no-op without the dev tools active. Boo IE.
-    addLevel: function(level) {
+    _addLevel: function(level) {
       this[level] = function(text) {
         if (this.levels[level] >= (this.levels[window.winstonLevel] || 0)) {
           var now = new Date();
@@ -46,7 +46,7 @@ define(function() {
   // Here we set up all five default logging methods.
   for (var level in winston.levels) {
     if (winston.levels.hasOwnProperty(level)) {
-      winston.addLevel(level);
+      winston._addLevel(level);
     }
   }
 
