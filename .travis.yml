@@ -7,3 +7,4 @@ install:
   - npm install -g bower
   - bower install
   - sudo easy_install Pygments
+  - echo '{"HOST": "anything"}' > env.json
