@@ -1,23 +1,26 @@
 # thehelp-core
 
-This project provides basic functionality that almost all javascript apps will need, available both on the server and in the client.
+Basic logging, environment and error management functionality for javascript client/server applications.
 
 ## Features
 
-* basic string manipulation functions
-* basic color manipulation functions
-* `winston` and `util` shims for use on the client side
+* `breadcrumbs` to help with errors:
+  * `add()` tracking them propagating through your callbacks
+  * `newError()` ensuring callstacks on the client
+  * `toString()` preparing them for logs
+
+Client-only:
+
+* `winston` and `util` shims for use with [`requirejs`](http://requirejs.org/)
 
 Server-only:
 
 * `logs.setupFile()/setupConsole()` for quick `winston` setup on the server
 * `env.merge()` method to merge data from 'env.json' with values already on `process.env`
 
-## Jump in!
+## Setup
 
-### Install
-
-Include the project in your dependencies:
+First install the project as a dependency:
 
 ```
 npm install thehelp-core --save
@@ -46,6 +49,11 @@ requirejs.config({
   }
 })
 ```
+
+## Detailed Documentation
+
+Detailed docs be found at this project's GitHub Pages, thanks to `groc`: [http://thehelp.github.io/core](http://thehelp.github.io/core)
+
 
 ## Contributing changes
 
