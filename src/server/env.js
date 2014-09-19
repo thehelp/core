@@ -14,6 +14,34 @@ module.exports = {
   failing to '<CWD>/env.json'), `require()`s it, then merges it with `process.env`
   favoring values already in place.
 
+  Config can be structured like this, with different values for different environments:
+  ```
+  {
+    "NODE_ENV": "development"
+    "development": {
+      "VAR": "value",
+      "VAR2": "value"
+    },
+    "production": {
+      "VAR": "productionValue",
+      "VAR2": "productionValue"
+    }
+  }
+  ```
+
+  Or flat like this:
+  ```
+  {
+    "NODE_ENV": "development"
+    "VAR": "value",
+    "VAR2": "value"
+  }
+  ```
+
+  All values will be coerced to string as part of being attached to `process.env`.
+  However, after loading configuration data, you can access it at `env.data` in its
+  original form, exactly how it was specified in your js/json file.
+
   _Note: we prefer .js files over .json because you can actually put comments in .js
   files. That's the worst thing about JSON. No comments._
   */
@@ -47,5 +75,9 @@ module.exports = {
     }
 
     mergeObjects(process.env, data);
-  }
+    module.exports.data = data;
+  },
+
+  // default data to something
+  data: {}
 };

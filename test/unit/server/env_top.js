@@ -4,5 +4,9 @@
 module.exports = {
   one: 1,
   two: 'two',
-  four: 'four'
+  four: 'four',
+  nested: {
+    left: 'yes',
+    right: 'no'
+  }
 };

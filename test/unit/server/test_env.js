@@ -7,7 +7,11 @@ var expect = test.expect;
 var env = require('../../../src/server/env');
 
 describe('env', function() {
-  it('should not overwrite existing env', function() {
+  it('#data is empty to start', function() {
+    expect(env.data).to.deep.equal({});
+  });
+
+  it('doesn\'t overwrite existing env', function() {
     process.env.HOST = 'something';
     env.merge();
 
@@ -15,7 +19,7 @@ describe('env', function() {
     expect(process.env).to.have.property('NODE_ENV', 'development');
   });
 
-  it('should load value', function() {
+  it('loads value', function() {
     delete process.env.HOST;
     env.merge();
 
@@ -23,13 +27,13 @@ describe('env', function() {
     expect(process.env).to.have.property('NODE_ENV', 'development');
   });
 
-  it('should throw exception if it can\'t find user-provided path', function() {
+  it('throws exception if it can\'t find user-provided path', function() {
     expect(function() {
       env.merge('nonexistent.json');
     }).to['throw']().that.match(/nonexistent\.json/);
   });
 
-  it('should load from custom path', function() {
+  it('loads from custom path', function() {
     env.merge(__dirname + '/custom.json');
 
     expect(process.env).to.have.property('CUSTOM', 'value');
@@ -56,5 +60,13 @@ describe('env', function() {
     expect(process.env).to.have.property('one', '1');
     expect(process.env).to.have.property('two', 'two');
     expect(process.env).to.have.property('four', 'four');
+  });
+
+  it('makes loaded data available', function() {
+    env.merge(__dirname + '/env_top.js');
+
+    expect(process.env).to.have.property('NODE_ENV', 'development');
+    expect(env).to.have.deep.property('data.nested.left', 'yes');
+    expect(env).to.have.deep.property('data.nested.right', 'no');
   });
 });
