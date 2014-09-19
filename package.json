@@ -15,6 +15,10 @@
     "thehelp-test": "3.1.0"
   },
 
+  "scripts": {
+    "test": "grunt"
+  },
+
   "config": {
     "blanket": {
       "data-cover-only": "src",
