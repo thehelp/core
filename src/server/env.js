@@ -39,8 +39,6 @@ module.exports = {
   ```
 
   All values will be coerced to string as part of being attached to `process.env`.
-  However, after loading configuration data, you can access it at `env.data` in its
-  original form, exactly how it was specified in your js/json file.
 
   _Note: we prefer .js files over .json because you can actually put comments in .js
   files. That's the worst thing about JSON. No comments._
@@ -63,21 +61,6 @@ module.exports = {
       }
     }
 
-    // NODE_ENV is set to 'development' by default. But we try `process.env` then the
-    // results of the `require()` first.
-    var env = process.NODE_ENV || data.NODE_ENV || 'development';
-    process.env.NODE_ENV = env;
-
-    // We support sub-configuration - just put development/production config into the
-    // right sub-key named for the NODE_ENV value in question.
-    if (data[env]) {
-      data = data[env];
-    }
-
     mergeObjects(process.env, data);
-    module.exports.data = data;
-  },
-
-  // default data to something
-  data: {}
+  }
 };
