@@ -24,6 +24,9 @@ define([
       breadcrumbs = new Breadcrumbs();
     });
 
+    // Public API
+    // ========
+
     describe('#newError', function() {
       it('is well-formed', function wellFormed() {
         var err = breadcrumbs.newError('random', {x: 1, y: 2});
@@ -46,69 +49,6 @@ define([
         else {
           expect(lines[0]).to.match(/test_breadcrumbs.js/);
         }
-      });
-    });
-
-    describe('#get', function() {
-      it('returns the current line', function currentLine() {
-        var actual = breadcrumbs.get();
-        winston.info(actual);
-        expect(actual).to.match(/test_breadcrumbs.js/);
-      });
-
-      it('removes " at " at start of breadcrumb', function() {
-        breadcrumbs.getStackTrace = sinon.stub().returns([' at blah']);
-        var actual = breadcrumbs.get();
-        expect(actual).to.equal('**breadcrumb: blah\n');
-      });
-
-      it('handles a no " at " breadcrumb', function() {
-        breadcrumbs.getStackTrace = sinon.stub().returns(['blah']);
-        var actual = breadcrumbs.get();
-        expect(actual).to.equal('**breadcrumb: blah\n');
-      });
-
-      it('empty returned if no stacktrace', function() {
-        breadcrumbs.getStackTrace = sinon.stub().returns([]);
-        var actual = breadcrumbs.get();
-        expect(actual).to.equal('**breadcrumb: <empty>\n');
-      });
-    });
-
-    describe('#insert', function() {
-      var toInsert;
-
-      beforeEach(function() {
-        toInsert = 'randomString\n';
-        breadcrumbs.get = sinon.stub().returns(toInsert);
-      });
-
-      it('puts current file into stack', function() {
-        var err = {
-          stack: 'Error: something\n' +
-            '   at line 1\n' +
-            '   at line 2\n'
-        };
-        breadcrumbs.insert(err);
-
-        expect(err).to.have.property('stack').that.match(/randomString/);
-        var lines = err.stack.split('\n');
-        expect(lines).to.have.property('1', '  at randomString');
-      });
-
-      it('does just fine with an err with no " at " lines', function() {
-        var err = {
-          stack: 'some random text'
-        };
-        breadcrumbs.insert(err);
-
-        expect(err).to.have.property('stack').that.match(/randomString/);
-        var lines = err.stack.split('\n');
-        expect(lines).to.have.property('0', 'randomString');
-      });
-
-      it('does just fine with no err', function() {
-        breadcrumbs.insert();
       });
     });
 
@@ -171,42 +111,6 @@ define([
       });
     });
 
-    describe('#prepareStack', function() {
-      it('removes everything up to first at "Error:"', function() {
-        var err = {
-          stack: 'Error: error message\nsecond part of error\nthird part of error\n' +
-            '  at second line\n' +
-            '  at third line'
-        };
-        var expected = '  at second line\n' +
-            '  at third line';
-
-        var actual = breadcrumbs.prepareStack(err);
-        expect(actual).to.equal(expected);
-      });
-
-      it('doesn\'t remove first line if no "Error"', function() {
-        var err = {
-          stack: '  at second line\n' +
-            '  at third line'
-        };
-
-        var actual = breadcrumbs.prepareStack(err);
-        expect(actual).to.equal(err.stack);
-      });
-
-      if (typeof process !== 'undefined') {
-        it('removes process.cwd()', function() {
-          var err = {
-            stack: process.cwd() + '  ' + process.cwd() + '  ' + process.cwd()
-          };
-
-          var actual = breadcrumbs.prepareStack(err);
-          expect(actual).to.equal('    ');
-        });
-      }
-    });
-
     describe('#toString', function() {
       var err;
 
@@ -251,6 +155,108 @@ define([
 
         expect(actual).not.to.match(/overridden stack/);
       });
+    });
+
+    // Helper functions
+    // ========
+
+    describe('#_get', function() {
+      it('returns the current line', function currentLine() {
+        var actual = breadcrumbs._get();
+        winston.info(actual);
+        expect(actual).to.match(/test_breadcrumbs.js/);
+      });
+
+      it('removes " at " at start of breadcrumb', function() {
+        breadcrumbs._getStackTrace = sinon.stub().returns([' at blah']);
+        var actual = breadcrumbs._get();
+        expect(actual).to.equal('**breadcrumb: blah\n');
+      });
+
+      it('handles a no " at " breadcrumb', function() {
+        breadcrumbs._getStackTrace = sinon.stub().returns(['blah']);
+        var actual = breadcrumbs._get();
+        expect(actual).to.equal('**breadcrumb: blah\n');
+      });
+
+      it('empty returned if no stacktrace', function() {
+        breadcrumbs._getStackTrace = sinon.stub().returns([]);
+        var actual = breadcrumbs._get();
+        expect(actual).to.equal('**breadcrumb: <empty>\n');
+      });
+    });
+
+    describe('#_insert', function() {
+      var toInsert;
+
+      beforeEach(function() {
+        toInsert = 'randomString\n';
+        breadcrumbs._get = sinon.stub().returns(toInsert);
+      });
+
+      it('puts current file into stack', function() {
+        var err = {
+          stack: 'Error: something\n' +
+            '   at line 1\n' +
+            '   at line 2\n'
+        };
+        breadcrumbs._insert(err);
+
+        expect(err).to.have.property('stack').that.match(/randomString/);
+        var lines = err.stack.split('\n');
+        expect(lines).to.have.property('1', '  at randomString');
+      });
+
+      it('does just fine with an err with no " at " lines', function() {
+        var err = {
+          stack: 'some random text'
+        };
+        breadcrumbs._insert(err);
+
+        expect(err).to.have.property('stack').that.match(/randomString/);
+        var lines = err.stack.split('\n');
+        expect(lines).to.have.property('0', 'randomString');
+      });
+
+      it('does just fine with no err', function() {
+        breadcrumbs._insert();
+      });
+    });
+
+    describe('#_prepareStack', function() {
+      it('removes everything up to first at "Error:"', function() {
+        var err = {
+          stack: 'Error: error message\nsecond part of error\nthird part of error\n' +
+            '  at second line\n' +
+            '  at third line'
+        };
+        var expected = '  at second line\n' +
+            '  at third line';
+
+        var actual = breadcrumbs._prepareStack(err);
+        expect(actual).to.equal(expected);
+      });
+
+      it('doesn\'t remove first line if no "Error"', function() {
+        var err = {
+          stack: '  at second line\n' +
+            '  at third line'
+        };
+
+        var actual = breadcrumbs._prepareStack(err);
+        expect(actual).to.equal(err.stack);
+      });
+
+      if (typeof process !== 'undefined') {
+        it('removes process.cwd()', function() {
+          var err = {
+            stack: process.cwd() + '  ' + process.cwd() + '  ' + process.cwd()
+          };
+
+          var actual = breadcrumbs._prepareStack(err);
+          expect(actual).to.equal('    ');
+        });
+      }
     });
 
   });
