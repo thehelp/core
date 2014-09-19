@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/thehelp/core.svg?branch=master)](https://travis-ci.org/thehelp/core)
+
 # thehelp-core
 
 Basic logging, environment and error management functionality for javascript client/server applications.
