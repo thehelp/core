@@ -16,7 +16,7 @@ Client-only:
 Server-only:
 
 * `logs.setupFile()/setupConsole()` for quick `winston` setup on the server
-* `env.merge()` method to merge data from 'env.json' with values already on `process.env`
+* `env.merge()` method to merge data from '<CWD>/env.js' (or '<CWD>/env.json', or a path you specify) with values already on `process.env`
 
 ## Setup
 
