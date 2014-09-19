@@ -8,7 +8,7 @@ if (typeof define !== 'function') {
 }
 
 define([
-  'src/both/breadcrumbs'
+  'src/both/thehelp-core/breadcrumbs'
 ], function(
   Breadcrumbs
 ) {

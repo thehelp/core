@@ -4,7 +4,7 @@ if (typeof define !== 'function') {
 
 define([
   'thehelp-test',
-  '../../../src/both/breadcrumbs',
+  '../../../src/both/thehelp-core/breadcrumbs',
   'winston'
 ], function(
   test,
