@@ -96,7 +96,7 @@ Please cover as many browsers as you can, or use `grunt cross-browser` with your
 * Documentation changes for your code updates. Be sure to check the groc-generated HTML with `grunt doc`
 * A description of how you tested the change. Don't forget about the very-useful `npm link` command :0)
 
-I may ask you to use a `git rebase` to ensure that your commits are not interleaved with commits already in the history. And of course, make sure `grunt` completes successfully. :0)
+I may ask you to use a `git rebase` to ensure that your commits are not interleaved with commits already in the history. And of course, make sure `grunt` completes successfully (take a look at the requirements for [`thehelp-project`](https://github.com/thehelp/project)). :0)
 
 ## License
 
