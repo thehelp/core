@@ -68,7 +68,8 @@ internals.setupClientTesting = function(config, grunt) {
   config.registerSauce({
     urls: [
       'http://localhost:3001/test/integration/dist.html'
-    ]
+    ],
+    browsers: config.saucePlatforms.all
   });
   grunt.registerTask('cross-browser', ['client-test', 'sauce']);
 };
