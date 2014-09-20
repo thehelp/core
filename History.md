@@ -1,7 +1,10 @@
 ## 2.0.0
 
 * Breaking: Remove `general`, `time`, `string` and `color` root keys and all of their methods
-* New: `breadcrumbs` key, available client and server
+* Breaking: `env.merge()` no longer supports relative paths
+* New: `breadcrumbs` key and three public methods on it, available client and server
+* New: `env.merge()` first looks for env.js and then env.json in `process.cwd()`
+* New: `env.merge()` supports js files in addition to json files
 * New: `isNode` and `isClient` keys on root `thehelp-core` object client and server
 
 ## 1.6.1  (2014-07-31)
