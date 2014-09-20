@@ -1,4 +1,4 @@
-## 2.0.0
+## 2.0.0 (2014-09-19)
 
 * Breaking: Remove `general`, `time`, `string` and `color` root keys and all of their methods
 * Breaking: `env.merge()` no longer supports relative paths
