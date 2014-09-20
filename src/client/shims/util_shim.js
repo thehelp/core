@@ -133,6 +133,7 @@ define(function() {
         for (var i = 0, max = properties.length; i < max; i += 1) {
           var property = properties[i];
 
+          // android 4.0 has arguments and type properties too; won't filter out for now
           if (!/^message:/.exec(property) &&
             !/^description:/.exec(property) &&
             !/^stack/.exec(property) &&

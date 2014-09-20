@@ -24,7 +24,9 @@ Basic logging, environment and error management functionality for javascript cli
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/thehelp-core.svg)](https://saucelabs.com)
 
-Sadly, IE9 and Safari5 are both unwilling to give us callstacks. We won't crash, but you'll get empty strings for stacks and breadcrumbs like this: '**breadcrumb: &lt;empty>'.
+Sadly, IE9 and Safari5 are both unwilling to give us callstacks. We won't crash, but you'll get empty strings for stacks and breadcrumbs like this: '**breadcrumb: &lt;empty>'. Android 4.0 has two extra keys printed out from exceptions: `arguments` and `type`.
+
+(please pardon the sauce labs bug - errors in these downlevel browsers aren't resulting in highlights for the right versions...)
 
 ## Setup
 
