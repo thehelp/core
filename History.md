@@ -1,6 +1,10 @@
+## 2.0.2 (2014-09-29)
+
+* `breadcrumbs` on the server is now an instance instead of the class. Long day.
+
 ## 2.0.1 (2014-09-29)
 
-* Actually expose `breadcrumbs` on on the server
+* Actually expose `breadcrumbs` on the server
 
 ## 2.0.0 (2014-09-19)
 
