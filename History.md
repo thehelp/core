@@ -1,3 +1,7 @@
+## 2.0.1 (2014-09-29)
+
+* Actually expose `breadcrumbs` on on the server
+
 ## 2.0.0 (2014-09-19)
 
 * Breaking: Remove `general`, `time`, `string` and `color` root keys and all of their methods
