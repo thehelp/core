@@ -12,6 +12,14 @@ describe('index', function() {
     expect(index).to.have.property('logs').that.exist;
   });
 
+  it('should have logs property', function() {
+    expect(index).to.have.property('logs').that.exist;
+  });
+
+  it('should have env property', function() {
+    expect(index).to.have.property('env').that.exist;
+  });
+
   it('isNode should be true', function() {
     expect(index).to.have.property('isNode', true);
   });
