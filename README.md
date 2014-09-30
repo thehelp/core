@@ -85,7 +85,7 @@ define(['thehelp-core'], function(core) {
 
 ## Detailed Documentation
 
-Detailed docs be found at this project's GitHub Pages, thanks to `groc`: [http://thehelp.github.io/core](http://thehelp.github.io/core)
+Detailed docs be found at this project's GitHub Pages, thanks to [`groc`](https://github.com/nevir/groc): [http://thehelp.github.io/core](http://thehelp.github.io/core)
 
 
 ## Contributing changes
