@@ -1,8 +1,23 @@
-<!DOCTYPE html><html lang="en"><head><title>History</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="History"><meta name="groc-project-path" content="History.md"><meta name="groc-github-url" content="https://github.com/thehelp/core"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/thehelp/core/blob/master/History.md">History.md</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h2 id="200">2.0.0</h2>
+<!DOCTYPE html><html lang="en"><head><title>History</title></head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0"><meta name="groc-relative-root" content=""><meta name="groc-document-path" content="History"><meta name="groc-project-path" content="History.md"><meta name="groc-github-url" content="https://github.com/thehelp/core"><link rel="stylesheet" type="text/css" media="all" href="assets/style.css"><script type="text/javascript" src="assets/behavior.js"></script><body><div id="meta"><div class="file-path"><a href="https://github.com/thehelp/core/blob/master/History.md">History.md</a></div></div><div id="document"><div class="segment"><div class="comments "><div class="wrapper"><h2 id="202-2014-09-29">2.0.2 (2014-09-29)</h2>
+
+<ul>
+<li><code>breadcrumbs</code> on the server is now an instance instead of the class. Long day.</li>
+</ul>
+
+<h2 id="201-2014-09-29">2.0.1 (2014-09-29)</h2>
+
+<ul>
+<li>Actually expose <code>breadcrumbs</code> on the server</li>
+</ul>
+
+<h2 id="200-2014-09-19">2.0.0 (2014-09-19)</h2>
 
 <ul>
 <li>Breaking: Remove <code>general</code>, <code>time</code>, <code>string</code> and <code>color</code> root keys and all of their methods</li>
-<li>New: <code>breadcrumbs</code> key, available client and server</li>
+<li>Breaking: <code>env.merge()</code> no longer supports relative paths</li>
+<li>New: <code>breadcrumbs</code> key and three public methods on it, available client and server</li>
+<li>New: <code>env.merge()</code> first looks for env.js and then env.json in <code>process.cwd()</code></li>
+<li>New: <code>env.merge()</code> supports js files in addition to json files</li>
 <li>New: <code>isNode</code> and <code>isClient</code> keys on root <code>thehelp-core</code> object client and server</li>
 </ul>
 

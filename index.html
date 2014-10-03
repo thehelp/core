@@ -23,14 +23,16 @@
 
 <ul>
 <li><code>logs.setupFile()/setupConsole()</code> for quick <code>winston</code> setup on the server</li>
-<li><code>env.merge()</code> method to merge data from '<CWD>/env.js' (or '<CWD>/env.json', or a path you specify) with values already on <code>process.env</code></li>
+<li><code>env.merge()</code> method to merge data from '&lt;CWD>/env.js' (or '&lt;CWD>/env.json', or a path you specify) with values already on <code>process.env</code></li>
 </ul>
 
 <h2 id="supported-browsers">Supported browsers</h2>
 
 <p><a href="https://saucelabs.com"><img src="https://saucelabs.com/browser-matrix/thehelp-core.svg" alt="Sauce Test Status" title="" /></a></p>
 
-<p>Sadly, IE9 and Safari5 are both unwilling to give us callstacks. We won't crash, but you'll get empty strings for stacks and breadcrumbs like this: '**breadcrumb: &lt;empty>'.</p>
+<p>Sadly, IE9 and Safari5 are both unwilling to give us callstacks. We won't crash, but you'll get empty strings for stacks and breadcrumbs like this: '**breadcrumb: &lt;empty>'. Android 4.0 has two extra keys printed out from exceptions: <code>arguments</code> and <code>type</code>.</p>
+
+<p>(please pardon the sauce labs bug - errors in these downlevel browsers aren't resulting in highlights for the right versions...)</p>
 
 <h2 id="setup">Setup</h2>
 
@@ -85,7 +87,7 @@ define(['thehelp-core'], function(core) {
 
 <h2 id="detailed-documentation">Detailed Documentation</h2>
 
-<p>Detailed docs be found at this project's GitHub Pages, thanks to <code>groc</code>: <a href="http://thehelp.github.io/core">http://thehelp.github.io/core</a></p>
+<p>Detailed docs be found at this project's GitHub Pages, thanks to <a href="https://github.com/nevir/groc"><code>groc</code></a>: <a href="http://thehelp.github.io/core">http://thehelp.github.io/core</a></p>
 
 <h2 id="contributing-changes">Contributing changes</h2>
 

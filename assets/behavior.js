@@ -159,8 +159,24 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "type": "heading",
           "data": {
             "level": 2,
-            "title": "2.0.0",
-            "slug": "200"
+            "title": "2.0.2 (2014-09-29)",
+            "slug": "202-2014-09-29"
+          },
+          "depth": 2
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "2.0.1 (2014-09-29)",
+            "slug": "201-2014-09-29"
+          },
+          "depth": 2
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "2.0.0 (2014-09-19)",
+            "slug": "200-2014-09-19"
           },
           "depth": 2
         }, {
