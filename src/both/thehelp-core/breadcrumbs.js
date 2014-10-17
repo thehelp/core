@@ -204,7 +204,7 @@ define(['util', './merge'], function(util, merge) {
     depth = (depth || 0) + this._layerSize;
     var breadcrumb = this._get(depth);
 
-    if (this.startsWithError(stack)) {
+    if (this.hasAts(stack)) {
       var lines = stack.split(v8);
       var updated = [lines[0], breadcrumb];
       updated = updated.concat(lines.slice(1));
