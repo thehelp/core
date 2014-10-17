@@ -12,7 +12,7 @@
     "grunt": "0.4.5",
     "thehelp-client-project": "0.4.0",
     "thehelp-project": "3.3.1",
-    "thehelp-test": "3.1.0"
+    "thehelp-test": "3.2.0"
   },
 
   "scripts": {
