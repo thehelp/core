@@ -92,6 +92,7 @@ define(['util', './merge'], function(util, merge) {
     depth = (depth || 0) + this._layerSize;
 
     this._insert(err, depth, data && data.backup);
+
     merge(err, data);
 
     if (cb) {
@@ -204,14 +205,14 @@ define(['util', './merge'], function(util, merge) {
     depth = (depth || 0) + this._layerSize;
     var breadcrumb = this._get(depth);
 
-    if (this.hasAts(stack)) {
+    if (this._hasAts(stack)) {
       var lines = stack.split(v8);
       var updated = [lines[0], breadcrumb];
       updated = updated.concat(lines.slice(1));
 
       err.stack = updated.join(this._at);
     }
-    else if (this.hasAts(stack)) {
+    else if (this._hasAts(stack)) {
       err.stack = this._at + breadcrumb + err.stack;
     }
     else {
@@ -221,6 +222,7 @@ define(['util', './merge'], function(util, merge) {
 
   // `_prepareStack` does some stack massage to make it more printable.
   Breadcrumbs.prototype._prepareStack = function _prepareStack(err) {
+    err = err || {};
     var stack = err.stack || '';
 
     // Remove any instances of working directory
@@ -230,7 +232,7 @@ define(['util', './merge'], function(util, merge) {
 
     // V8-style stacks include the error message before showing the actual stack;
     // remove it, even if it has newlines in it, by using each line's prefix to split it.
-    if (this.startsWithError(stack)) {
+    if (this._startsWithError(stack)) {
       var lines = stack.split(/ +at /);
       if (lines && lines.length) {
         stack = this._at + lines.slice(1).join(this._at);
@@ -240,12 +242,12 @@ define(['util', './merge'], function(util, merge) {
     return stack;
   };
 
-  Breadcrumbs.prototype.startsWithError = function(stack) {
+  Breadcrumbs.prototype._startsWithError = function _startsWithError(stack) {
     var v8 = /^[a-zA-z]+rror: /;
     return Boolean(v8.test(stack));
   };
 
-  Breadcrumbs.prototype.hasAts = function(stack) {
+  Breadcrumbs.prototype._hasAts = function _hasAts(stack) {
     var v8 = / +at /;
     return Boolean(v8.test(stack));
   };
