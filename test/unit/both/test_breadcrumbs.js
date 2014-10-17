@@ -4,12 +4,10 @@ if (typeof define !== 'function') {
 
 define([
   'thehelp-test',
-  '../../../src/both/thehelp-core/breadcrumbs',
-  'winston'
+  '../../../src/both/thehelp-core/breadcrumbs'
 ], function(
   test,
-  Breadcrumbs,
-  winston
+  Breadcrumbs
 ) {
 
   'use strict';
@@ -27,10 +25,16 @@ define([
     // Public API
     // ========
 
+    if (typeof console === 'undefined' || typeof console.log === 'undefined') {
+      window.console = {
+        log: function() {}
+      };
+    }
+
     describe('#newError', function() {
       it('is well-formed', function wellFormed() {
         var err = breadcrumbs.newError('random', {x: 1, y: 2});
-        winston.info(err.stack);
+        console.log(err.stack);
 
         var message = err.message || err.description;
         expect(message).to.equal('random');
@@ -56,7 +60,7 @@ define([
       it('adds current file into error\'s stack', function addCurrent() {
         var err = breadcrumbs.newError('something');
         breadcrumbs.add(err, null, {left: 1, right: 2});
-        winston.info(err.stack);
+        console.log(err.stack);
 
         expect(err).to.have.property('stack').that.match(/test_breadcrumbs.js/);
 
@@ -127,8 +131,8 @@ define([
 
       it('includes callstack when log is not set', function() {
         var actual = breadcrumbs.toString(err);
+        console.log(actual);
 
-        winston.info(actual);
         expect(actual).to.match(/overridden stack/);
       });
 
@@ -163,7 +167,8 @@ define([
     describe('#_get', function() {
       it('returns the current line', function currentLine() {
         var actual = breadcrumbs._get();
-        winston.info(actual);
+        console.log(actual);
+
         expect(actual).to.match(/test_breadcrumbs.js/);
       });
 

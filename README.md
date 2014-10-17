@@ -17,7 +17,7 @@ Basic logging, environment and error management functionality for javascript cli
 
 #### Server-only:
 
-* `logs.setupFile()/setupConsole()` for quick `winston` setup on the server
+* `logs.setupFile()/setupConsole()` for quick `winston` setup on the server (if `winston` is installed - if not, these methods do nothing. Tested with `winston@0.7.x` and `winston@0.8.x`)
 * `env.merge()` method to merge data from '&lt;CWD>/env.js' (or '&lt;CWD>/env.json', or a path you specify) with values already on `process.env`
 
 ## Supported browsers

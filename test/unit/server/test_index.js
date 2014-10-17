@@ -1,9 +1,14 @@
 
 'use strict';
 
-var winston = require('winston');
 var test = require('thehelp-test');
 var expect = test.expect;
+var winston;
+
+try {
+  winston = require('winston');
+}
+catch (e) {}
 
 var index = require('../../../src/server/index');
 
@@ -42,7 +47,9 @@ describe('index', function() {
       index.logs.setupConsole();
     }).not.to.throw();
 
-    winston.info('test info log!');
+    if (winston) {
+      winston.info('test info log!');
+    }
   });
 
   it('setupFile should not crash, even when called twice', function() {
@@ -51,6 +58,8 @@ describe('index', function() {
       index.logs.setupFile('logs/verbose.log');
     }).not.to.throw();
 
-    winston.warn('test warn log!');
+    if (winston) {
+      winston.warn('test warn log!');
+    }
   });
 });

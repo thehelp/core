@@ -3,9 +3,14 @@
 
 'use strict';
 
-var winston = require('winston');
+var winston;
 
-winston.stripColors = true;
+// Don't blow up if winston isn't installed
+try {
+  winston = require('winston');
+  winston.stripColors = true;
+}
+catch (e) {}
 
 module.exports = {
   // `timestamp` is a helper function used to ensure that winston timestamps aren't
@@ -18,6 +23,11 @@ module.exports = {
   // `setupConsole` has just one optional options parameter. Default for `level` is
   // 'info', default for `colorize` is `true`.
   setupConsole: function setupConsole(options) {
+    if (!winston) {
+      console.error('warning: install winston node module to call logs.setupConsole()');
+      return;
+    }
+
     options = options || {};
     options.level = options.level || 'info';
     if (typeof options.colorize === 'undefined') {
@@ -39,6 +49,11 @@ module.exports = {
   _Note: assumes that no file setup has been done previously in this process._
   */
   setupFile: function setupFile(path, options) {
+    if (!winston) {
+      console.error('warning: install winston node module to call logs.setupFile()');
+      return;
+    }
+
     options = options || {};
     options.level = options.level || 'verbose';
     options.maxsize = options.maxsize || 50000000;

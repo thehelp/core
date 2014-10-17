@@ -4,10 +4,10 @@
   "main": "src/server/index.js",
 
   "dependencies": {
-    "amdefine": "0.1.x",
-    "winston": "0.7.x"
+    "amdefine": "0.1.x"
   },
   "devDependencies": {
+    "winston": "0.8.1",
     "blanket": "1.1.6",
     "grunt": "0.4.5",
     "thehelp-client-project": "0.4.0",
