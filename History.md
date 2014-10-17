@@ -1,3 +1,9 @@
+## 2.0.3 (2014-10-17)
+
+* `breadcrumbs.toString()` no longer prints out error name and message twice for non-vanilla Error objects
+* remove `winston` as a dependency (`logs.setupConsole()` and `logs.setupFile()` both log to stderr if called without `winston` installed in the project)
+* `breadcrumbs._startsWithError` and `breadcrumbs._hasAts` now start with underscore
+
 ## 2.0.2 (2014-09-29)
 
 * `breadcrumbs` on the server is now an instance instead of the class. Long day.
