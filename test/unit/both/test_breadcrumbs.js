@@ -183,7 +183,7 @@ define([
       });
 
       it('removes " at " at start of breadcrumb', function() {
-        breadcrumbs._getStackTrace = sinon.stub().returns([' at blah']);
+        breadcrumbs._getStackTrace = sinon.stub().returns(['   at blah']);
         var actual = breadcrumbs._get();
         expect(actual).to.equal('**breadcrumb: blah\n');
       });
@@ -212,8 +212,8 @@ define([
       it('puts current file into stack', function() {
         var err = {
           stack: 'Error: something\n' +
-            '   at line 1\n' +
-            '   at line 2\n'
+            '  at line 1\n' +
+            '  at line 2\n'
         };
         breadcrumbs._insert(err);
 

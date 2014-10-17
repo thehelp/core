@@ -129,6 +129,8 @@ define(['util', './merge'], function(util, merge) {
   // Helper functions
   // ========
 
+  Breadcrumbs.prototype._at = '  at ';
+
   // What goes in front of all breadcrumbs added to the stack.
   Breadcrumbs.prototype._prefix = '**breadcrumb: ';
 
@@ -207,10 +209,10 @@ define(['util', './merge'], function(util, merge) {
       var updated = [lines[0], breadcrumb];
       updated = updated.concat(lines.slice(1));
 
-      err.stack = updated.join('  at ');
+      err.stack = updated.join(this._at);
     }
     else if (this.hasAts(stack)) {
-      err.stack = '  at ' + breadcrumb + err.stack;
+      err.stack = this._at + breadcrumb + err.stack;
     }
     else {
       err.stack = breadcrumb + err.stack;
@@ -219,7 +221,6 @@ define(['util', './merge'], function(util, merge) {
 
   // `_prepareStack` does some stack massage to make it more printable.
   Breadcrumbs.prototype._prepareStack = function _prepareStack(err) {
-    var prefix = '  at ';
     var stack = err.stack || '';
 
     // Remove any instances of working directory
@@ -232,7 +233,7 @@ define(['util', './merge'], function(util, merge) {
     if (this.startsWithError(stack)) {
       var lines = stack.split(/ +at /);
       if (lines && lines.length) {
-        stack = prefix + lines.slice(1).join(prefix);
+        stack = this._at + lines.slice(1).join(this._at);
       }
     }
 
