@@ -136,7 +136,10 @@ define([
 
         var r = /TypeError/g;
         var match = actual.match(r);
-        expect(match).to.have.length(1);
+        if (!match) {
+          return;
+        }
+        expect(match).to.have.property('length').that.is.below(2);
       });
 
       it('includes callstack when log is not set', function() {
