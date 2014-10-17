@@ -240,7 +240,7 @@ define(['util', './merge'], function(util, merge) {
   };
 
   Breadcrumbs.prototype.startsWithError = function(stack) {
-    var v8 = /^Error: /;
+    var v8 = /^[a-zA-z]+rror: /;
     return Boolean(v8.test(stack));
   };
 

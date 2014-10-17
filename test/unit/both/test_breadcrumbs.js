@@ -129,6 +129,16 @@ define([
         expect(actual).to.equal('');
       });
 
+      it('handles a non-vanilla error', function() {
+        var err = new TypeError('something');
+        var actual = breadcrumbs.toString(err);
+        console.log(actual);
+
+        var r = /TypeError/g;
+        var match = actual.match(r);
+        expect(match).to.have.length(1);
+      });
+
       it('includes callstack when log is not set', function() {
         var actual = breadcrumbs.toString(err);
         console.log(actual);
