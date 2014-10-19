@@ -13,12 +13,8 @@ try {
 catch (e) {}
 
 module.exports = {
-  // `timestamp` is a helper function used to ensure that winston timestamps aren't
-  // timezone-specific.
-  timestamp: function timestamp() {
-    var date = new Date();
-    return date.toISOString();
-  },
+  // Public methods
+  // ========
 
   /*
   `setupConsole` has no required parameters. Defaults provided to the `winston` console
@@ -43,7 +39,7 @@ module.exports = {
       options.colorize = true;
     }
 
-    options.timestamp = options.timestamp || this.timestamp;
+    options.timestamp = options.timestamp || this._timestamp;
 
     this._removeTransport(winston.transports.Console);
     var transport = new winston.transports.Console(options);
@@ -72,13 +68,23 @@ module.exports = {
     options.filename = options.filename || path;
     options.level = options.level || 'verbose';
     options.maxsize = options.maxsize || 50000000;
-    options.timestamp = options.timestamp || this.timestamp;
+    options.timestamp = options.timestamp || this._timestamp;
 
     this._removeTransport(winston.transports.File);
     var transport = new winston.transports.File(options);
     this._addTransport(transport);
 
     return transport;
+  },
+
+  // Helper methods
+  // ========
+
+  // `_timestamp` is a helper function used to ensure that winston timestamps aren't
+  // timezone-specific.
+  _timestamp: function _timestamp() {
+    var date = new Date();
+    return date.toISOString();
   },
 
   /*
