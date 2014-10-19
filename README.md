@@ -43,6 +43,8 @@ On the server, just require it and start using it!
 ```javascript
 var core = require('thehelp-core');
 core.env.merge();
+core.logs.setupConsole();
+core.logs.setupFile('./logs/server.log');
 ```
 
 On the client side, you'll just need to tell `requirejs` a few things:
@@ -77,7 +79,6 @@ define(['thehelp-core'], function(core) {
 
       return cb(null, result):
     });
-
   };
 
 });
