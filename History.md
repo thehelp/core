@@ -1,3 +1,7 @@
+## 2.1.0 (2014-10-19)
+
+* If `winston` is installed, `logs.setupConsole()` and `logs.setupFile()` will now set up those transports both for the default logger (`winston.info()`) and for the default collection (`winston.loggers.get()`).
+
 ## 2.0.3 (2014-10-17)
 
 * `breadcrumbs.toString()` no longer prints out error name and message twice for non-vanilla Error objects
