@@ -159,6 +159,22 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
           "type": "heading",
           "data": {
             "level": 2,
+            "title": "2.1.0 (2014-10-19)",
+            "slug": "210-2014-10-19"
+          },
+          "depth": 2
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
+            "title": "2.0.3 (2014-10-17)",
+            "slug": "203-2014-10-17"
+          },
+          "depth": 2
+        }, {
+          "type": "heading",
+          "data": {
+            "level": 2,
             "title": "2.0.2 (2014-09-29)",
             "slug": "202-2014-09-29"
           },
@@ -719,7 +735,25 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                 "title": "logs"
               },
               "depth": 3,
-              "outline": []
+              "outline": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Public methods",
+                    "slug": "public-methods"
+                  },
+                  "depth": 1
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 1,
+                    "title": "Helper methods",
+                    "slug": "helper-methods"
+                  },
+                  "depth": 1
+                }
+              ]
             }
           ]
         }

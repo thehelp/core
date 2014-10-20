@@ -2,47 +2,97 @@
 
 <p>Makes it a little quicker/easier to set up winston logging for a process.</p></div></div><div class="code"><div class="wrapper"><span class="s1">&#39;use strict&#39;</span><span class="p">;</span>
 
-<span class="kd">var</span> <span class="nx">winston</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;winston&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">winston</span><span class="p">;</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>Don't blow up if winston isn't installed</p></div></div><div class="code"><div class="wrapper"><span class="k">try</span> <span class="p">{</span>
+  <span class="nx">winston</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;winston&#39;</span><span class="p">);</span>
+  <span class="nx">winston</span><span class="p">.</span><span class="nx">stripColors</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{}</span>
 
-<span class="nx">winston</span><span class="p">.</span><span class="nx">stripColors</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="public-methods">Public methods</h1></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>setupConsole</code> has no required parameters. Defaults provided to the <code>winston</code> console
+transport:</p>
 
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>timestamp</code> is a helper function used to ensure that winston timestamps aren't
-timezone-specific.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">timestamp</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">timestamp</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
-    <span class="k">return</span> <span class="nx">date</span><span class="p">.</span><span class="nx">toISOString</span><span class="p">();</span>
-  <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>setupConsole</code> has just one optional options parameter. Default for <code>level</code> is
-'info', default for <code>colorize</code> is <code>true</code>.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">setupConsole</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">setupConsole</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+<ul>
+<li><code>level</code> - <code>'info'</code></li>
+<li><code>colorize</code> - <code>true</code></li>
+<li><code>timestamp</code> - ISO-format date: <code>2014-10-19T19:28:32.584Z</code></li>
+</ul></div></div><div class="code"><div class="wrapper">  <span class="nx">setupConsole</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">setupConsole</span><span class="p">(</span><span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">winston</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;warning: install winston node module to call logs.setupConsole()&#39;</span><span class="p">);</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
     <span class="nx">options</span> <span class="o">=</span> <span class="nx">options</span> <span class="o">||</span> <span class="p">{};</span>
+
     <span class="nx">options</span><span class="p">.</span><span class="nx">level</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">level</span> <span class="o">||</span> <span class="s1">&#39;info&#39;</span><span class="p">;</span>
+
     <span class="k">if</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">options</span><span class="p">.</span><span class="nx">colorize</span> <span class="o">===</span> <span class="s1">&#39;undefined&#39;</span><span class="p">)</span> <span class="p">{</span>
       <span class="nx">options</span><span class="p">.</span><span class="nx">colorize</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
     <span class="p">}</span>
 
-    <span class="nx">winston</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">winston</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">Console</span><span class="p">);</span>
-    <span class="nx">winston</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">winston</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">Console</span><span class="p">,</span> <span class="p">{</span>
-      <span class="nx">level</span><span class="o">:</span> <span class="nx">options</span><span class="p">.</span><span class="nx">level</span><span class="p">,</span>
-      <span class="nx">colorize</span><span class="o">:</span> <span class="nx">options</span><span class="p">.</span><span class="nx">colorize</span><span class="p">,</span>
-      <span class="nx">timestamp</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">timestamp</span>
-    <span class="p">});</span>
-  <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>setupFile</code> takes a required path and an options object. Default for <code>level</code> is
-'verbose', default <code>maxsize</code> (when file rolls over) is <code>50000000</code>.</p>
+    <span class="nx">options</span><span class="p">.</span><span class="nx">timestamp</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">timestamp</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">_timestamp</span><span class="p">;</span>
 
-<p><em>Note: assumes that no file setup has been done previously in this process.</em></p></div></div><div class="code"><div class="wrapper">  <span class="nx">setupFile</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">setupFile</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_removeTransport</span><span class="p">(</span><span class="nx">winston</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">Console</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">transport</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">winston</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">Console</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_addTransport</span><span class="p">(</span><span class="nx">transport</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="nx">transport</span><span class="p">;</span>
+  <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>setupFile</code> takes a required <code>path</code> and an <code>options</code> object. Defaults provided to
+the <code>winston</code> file transport:</p>
+
+<ul>
+<li><code>level</code> - <code>'verbose'</code></li>
+<li><code>maxsize</code> - <code>50000000</code> (when this limit is reached, the file rolls over)</li>
+<li><code>timestamp</code> - ISO-format date: <code>2014-10-19T19:28:32.584Z</code></li>
+</ul></div></div><div class="code"><div class="wrapper">  <span class="nx">setupFile</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">setupFile</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">winston</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;warning: install winston node module to call logs.setupFile()&#39;</span><span class="p">);</span>
+      <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
     <span class="nx">options</span> <span class="o">=</span> <span class="nx">options</span> <span class="o">||</span> <span class="p">{};</span>
+
+    <span class="nx">options</span><span class="p">.</span><span class="nx">filename</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">filename</span> <span class="o">||</span> <span class="nx">path</span><span class="p">;</span>
     <span class="nx">options</span><span class="p">.</span><span class="nx">level</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">level</span> <span class="o">||</span> <span class="s1">&#39;verbose&#39;</span><span class="p">;</span>
     <span class="nx">options</span><span class="p">.</span><span class="nx">maxsize</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">maxsize</span> <span class="o">||</span> <span class="mi">50000000</span><span class="p">;</span>
+    <span class="nx">options</span><span class="p">.</span><span class="nx">timestamp</span> <span class="o">=</span> <span class="nx">options</span><span class="p">.</span><span class="nx">timestamp</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">_timestamp</span><span class="p">;</span>
 
-    <span class="c1">//so we don&#39;t crash if File transport is already registered</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_removeTransport</span><span class="p">(</span><span class="nx">winston</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">File</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">transport</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">winston</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">File</span><span class="p">(</span><span class="nx">options</span><span class="p">);</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">_addTransport</span><span class="p">(</span><span class="nx">transport</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="nx">transport</span><span class="p">;</span>
+  <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="helper-methods">Helper methods</h1></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>_timestamp</code> is a helper function used to ensure that winston timestamps aren't
+timezone-specific.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">_timestamp</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">_timestamp</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nx">date</span><span class="p">.</span><span class="nx">toISOString</span><span class="p">();</span>
+  <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>_addTransport</code> adds a transport to both the default logger (top-level <code>winston.info()</code>
+calls) and all loggers created via the default collection (<code>winston.loggers.get()</code>).</p></div></div><div class="code"><div class="wrapper">  <span class="nx">_addTransport</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">_addTransport</span><span class="p">(</span><span class="nx">transport</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//for the default logger</span>
+    <span class="nx">winston</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">transport</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+
+    <span class="c1">//for the default collection</span>
+    <span class="kd">var</span> <span class="nx">defaultOptions</span> <span class="o">=</span> <span class="nx">winston</span><span class="p">.</span><span class="nx">loggers</span><span class="p">.</span><span class="nx">options</span><span class="p">;</span>
+    <span class="nx">defaultOptions</span><span class="p">.</span><span class="nx">transports</span> <span class="o">=</span> <span class="nx">defaultOptions</span><span class="p">.</span><span class="nx">transports</span> <span class="o">||</span> <span class="p">[];</span>
+    <span class="nx">defaultOptions</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">transport</span><span class="p">);</span>
+  <span class="p">},</span></div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p><code>_removeTransport</code> removes a transport from the default logger and from the default
+collection.</p></div></div><div class="code"><div class="wrapper">  <span class="nx">_removeTransport</span><span class="o">:</span> <span class="kd">function</span> <span class="nx">_removeTransport</span><span class="p">(</span><span class="nx">transportClass</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//for the default logger</span>
     <span class="k">try</span> <span class="p">{</span>
-      <span class="nx">winston</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">winston</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">File</span><span class="p">);</span>
+      <span class="nx">winston</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="nx">transportClass</span><span class="p">);</span>
     <span class="p">}</span>
     <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{}</span>
 
-    <span class="nx">winston</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">winston</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">File</span><span class="p">,</span> <span class="p">{</span>
-      <span class="nx">level</span><span class="o">:</span> <span class="nx">options</span><span class="p">.</span><span class="nx">level</span><span class="p">,</span>
-      <span class="nx">filename</span><span class="o">:</span> <span class="nx">path</span><span class="p">,</span>
-      <span class="nx">maxsize</span><span class="o">:</span> <span class="nx">options</span><span class="p">.</span><span class="nx">maxsize</span><span class="p">,</span>
-      <span class="nx">timestamp</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">timestamp</span>
-    <span class="p">});</span>
+    <span class="c1">//for the default collection</span>
+    <span class="kd">var</span> <span class="nx">defaultOptions</span> <span class="o">=</span> <span class="nx">winston</span><span class="p">.</span><span class="nx">loggers</span><span class="p">.</span><span class="nx">options</span><span class="p">;</span>
+    <span class="nx">defaultOptions</span><span class="p">.</span><span class="nx">transports</span> <span class="o">=</span> <span class="nx">defaultOptions</span><span class="p">.</span><span class="nx">transports</span> <span class="o">||</span> <span class="p">[];</span>
+
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">defaultOptions</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">max</span><span class="p">;</span> <span class="nx">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">var</span> <span class="nx">defaultTransport</span> <span class="o">=</span> <span class="nx">defaultOptions</span><span class="p">.</span><span class="nx">transports</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">defaultTransport</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">===</span> <span class="nx">transportClass</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">defaultOptions</span><span class="p">.</span><span class="nx">transports</span> <span class="o">=</span> <span class="nx">defaultOptions</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">i</span><span class="p">).</span><span class="nx">concat</span><span class="p">(</span>
+          <span class="nx">defaultOptions</span><span class="p">.</span><span class="nx">transports</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="nx">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
+        <span class="k">return</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">};</span></div></div></div></div></body></html>

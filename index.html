@@ -22,7 +22,7 @@
 <h4 id="server-only">Server-only:</h4>
 
 <ul>
-<li><code>logs.setupFile()/setupConsole()</code> for quick <code>winston</code> setup on the server</li>
+<li><code>logs.setupFile()/setupConsole()</code> for quick <code>winston</code> setup on the server (if <code>winston</code> is installed - if not, these methods do nothing. Tested with <code>winston@0.7.x</code> and <code>winston@0.8.x</code>)</li>
 <li><code>env.merge()</code> method to merge data from '&lt;CWD>/env.js' (or '&lt;CWD>/env.json', or a path you specify) with values already on <code>process.env</code></li>
 </ul>
 
@@ -47,6 +47,8 @@
 
 <pre><code class="javascript">var core = require('thehelp-core');
 core.env.merge();
+core.logs.setupConsole();
+core.logs.setupFile('./logs/server.log');
 </code></pre>
 
 <p>On the client side, you'll just need to tell <code>requirejs</code> a few things:</p>
@@ -79,7 +81,6 @@ define(['thehelp-core'], function(core) {
 
       return cb(null, result):
     });
-
   };
 
 });
