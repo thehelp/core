@@ -8,7 +8,6 @@
   },
   "devDependencies": {
     "winston": "0.8.3",
-    "blanket": "1.1.6",
     "grunt": "0.4.5",
     "thehelp-client-project": "0.4.0",
     "thehelp-project": "3.4.1",
@@ -17,13 +16,6 @@
 
   "scripts": {
     "test": "grunt"
-  },
-
-  "config": {
-    "blanket": {
-      "data-cover-only": "src",
-      "data-cover-never": "['lib/','node_modules/','test/','src/client']"
-    }
   },
 
   "description": "Basic logging, environment and error management functionality for javascript client/server applications.",
