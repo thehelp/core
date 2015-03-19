@@ -7,11 +7,11 @@
     "amdefine": "0.1.x"
   },
   "devDependencies": {
-    "winston": "0.8.1",
+    "winston": "0.8.3",
     "blanket": "1.1.6",
     "grunt": "0.4.5",
     "thehelp-client-project": "0.4.0",
-    "thehelp-project": "3.3.1",
+    "thehelp-project": "3.4.1",
     "thehelp-test": "3.3.0"
   },
 
