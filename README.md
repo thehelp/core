@@ -2,7 +2,7 @@
 
 # thehelp-core (deprecated)
 
-_I don't expect to make any more updates to this project, but by all means continue to use it if it helps you out! Also, let's talk if you'd like to jump in and help maintain it! https://blog.scottnonnenberg.com/the-state-of-thehelp/ _
+_I don't expect to make any more updates to this project, but by all means continue to use it if it helps you out! Also, let's talk if you'd like to jump in and help maintain it! https://blog.scottnonnenberg.com/the-state-of-thehelp/#thehelp-core_
 
 Basic logging, environment and error management functionality for javascript client/server applications.
 
